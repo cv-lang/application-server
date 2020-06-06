@@ -14,6 +14,8 @@
     <PackageProjectUrl>https://github.com/cv-lang/application-server</PackageProjectUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>C#, .net, application server</PackageTags>
+    <RootNamespace>Cvl.ApplicationServer</RootNamespace>
+    <AssemblyName>Cvl.ApplicationServer</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +27,14 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SharpSerializer" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Jobs\" />
   </ItemGroup>
 
 </Project>
