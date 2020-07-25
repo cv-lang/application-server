@@ -34,8 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Services\" />
     <Folder Include="Server\Node\" />
-    <Folder Include="Server\Host\" />
+    <Folder Include="Server\Hub\" />
   </ItemGroup>
 
 </Project>
