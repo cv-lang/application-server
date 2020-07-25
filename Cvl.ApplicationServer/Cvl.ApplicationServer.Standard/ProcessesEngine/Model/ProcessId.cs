@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cvl.ApplicationServer.ProcessEngine.Model
+namespace Cvl.ApplicationServer.ProcessesEngine.Model
 {
     public class ProcessId
     {
@@ -43,7 +43,7 @@ namespace Cvl.ApplicationServer.ProcessEngine.Model
                 currentNumber = currentNumber / radix;
             }
 
-            string result = new String(charArray, index + 1, BitsInLong - index - 1);
+            string result = new string(charArray, index + 1, BitsInLong - index - 1);
             if (decimalNumber < 0)
             {
                 result = "-" + result;
@@ -64,7 +64,7 @@ namespace Cvl.ApplicationServer.ProcessEngine.Model
             int radix = Digits.Length;
 
 
-            if (String.IsNullOrEmpty(number))
+            if (string.IsNullOrEmpty(number))
                 return 0;
 
             // Make sure the arbitrary numeral system number is in upper case

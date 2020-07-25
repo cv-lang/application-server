@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cvl.ApplicationServer.ProcessEngine.Model
+namespace Cvl.ApplicationServer.ProcessesEngine.Model
 {
     /// <summary>
     /// Proces bazowy dla innych procesów
@@ -12,7 +12,7 @@ namespace Cvl.ApplicationServer.ProcessEngine.Model
     public class BaseProcess
     {
         public int ProcessIdentificator { get; set; }
-        public ProcessId GetId()=> new ProcessId(ProcessIdentificator);
+        public ProcessId GetId() => new ProcessId(ProcessIdentificator);
         public EnumProcessStatus ProcessStatus { get; set; }
     }
 }

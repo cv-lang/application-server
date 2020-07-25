@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cvl.ApplicationServer.ProcessEngine.Model
+namespace Cvl.ApplicationServer.ProcessesEngine.Model
 {
     public enum EnumProcessStatus
     {
