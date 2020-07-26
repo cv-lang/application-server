@@ -11,6 +11,8 @@ namespace Cvl.ApplicationServer.Monitoring.Base.Enums
         Trace,
         BusinessError,
         Error,
-        End
+        End,
+        StartSubMethod,
+        EndSubMethod
     }
 }

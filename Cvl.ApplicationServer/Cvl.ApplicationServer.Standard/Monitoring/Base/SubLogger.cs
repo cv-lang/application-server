@@ -8,7 +8,7 @@ namespace Cvl.ApplicationServer.Monitoring.Base
     /// <summary>
     /// Logger zwracany dla subfunkcji
     /// </summary>
-    public class SubLogger : Logger
+    public class SubLogger : Logger 
     {
         private Logger logger;
 

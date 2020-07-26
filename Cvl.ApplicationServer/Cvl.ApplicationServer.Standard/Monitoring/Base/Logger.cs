@@ -14,7 +14,7 @@ namespace Cvl.ApplicationServer.Monitoring.Base
     /// powinien być tworzony per funkcja API lub funkcja kontrolera
     /// dzięki temu jedna instancja loggera jest historią wykonania jednego reqesta
     /// </summary>
-    public class Logger 
+    public class Logger : IDisposable
     {
         public Logger(ApplicationMonitor applicationMonitor)
         {
@@ -28,7 +28,7 @@ namespace Cvl.ApplicationServer.Monitoring.Base
         {
         }
 
-        private ApplicationMonitor applicationMonitor;
+        private ApplicationMonitor applicationMonitor;        
 
 
         /// <summary>
@@ -36,58 +36,71 @@ namespace Cvl.ApplicationServer.Monitoring.Base
         /// </summary>
         public List<LogModel> Logs { get; set; } = new List<LogModel>();
 
-        /// <summary>
-        /// Data utworzenie logera
-        /// </summary>
-        public DateTime TimeStamp { get; set; }
 
-        /// <summary>
-        /// Nazwa metody API, która utworzyła loggera
-        /// </summary>
-        public string MemberName { get; set; }
+        #region Pola logera
 
-        /// <summary>
-        /// ścieżka do pliku z kodem metody która utworzyła loggera
-        /// </summary>
-        public string SourceFilePath { get; set; }
-
-        /// <summary>
-        /// Linia kodu metody która utworzyła loggera
-        /// </summary>
-        public int SourceLineNumber { get; set; }
-
-        /// <summary>
-        /// Wiadomość przekazana podczas tworzenia loggera
-        /// </summary>
-        public string Message { get; set; }
+        public LogModel StartLog { get; set; }
 
         /// <summary>
         /// Zewnętrzny Id, po którym można łączyć wywałania między róznymi systemami
         /// przeważnie ApplicationId
         /// </summary>
         public string ExternalId { get; set; }
+        public string ClientAddress { get; set; }        
 
-        /// <summary>
-        /// Parametr 1 ogólnego przeznaczenia
-        /// </summary>
-        public string Parameter1 { get; set; }
-
-        /// <summary>
-        /// Parameter 2 ogólnego przeznaczenia
-        /// </summary>
-        public string Parameter2 { get; set; }
+        #region Pola aplikacji
 
         /// <summary>
         /// Nazwa aplikacji
         /// </summary>
         public string ApplicationName { get; set; }
 
+        internal void Start(string message, string externalId, string clientAddress, string memberName, string sourceFilePath, int sourceLineNumber)
+        {
+            ExternalId = externalId;
+            ClientAddress = clientAddress;
+            StartLog = addLog(LogTypeEnum.Start, memberName, sourceFilePath, sourceLineNumber, message);
+        }
+
+        internal void StartSubmethod(string message, string memberName, string sourceFilePath, int sourceLineNumber)
+        {
+            StartLog = addLog(LogTypeEnum.StartSubMethod, memberName, sourceFilePath, sourceLineNumber, message);
+        }
+
         /// <summary>
         /// Nazwa modułu/serwisu/kontrolera aplikacji(w zależności od rodzaju aplikacji)
         /// </summary>
         public string ApplicationModuleName { get; set; }
+
+        /// <summary>
+        /// lokalizacja aplikacji
+        /// </summary>
         public string ApplicationLocation { get; set; }
-        public string EnvironmentName { get; set; }
+
+        /// <summary>
+        /// Środowisko uruchomieniowe - test, preprod, prod
+        /// </summary>
+        public string RuntimeEnvironment { get; set; }
+
+        #endregion
+
+        #endregion
+
+        #region Obsługa parametrów fluent
+
+        public Logger AddParameter(object parameterValue, string parameterName = null)
+        {
+            StartLog.AddParameter(parameterValue, parameterName);
+            return this;
+        }
+
+        public Logger AddExpressionParameter(Expression<Func<object>> exp1)
+        {
+            StartLog.AddExpressionParameter(exp1);
+            return this;
+        }
+
+        #endregion
 
         /// <summary>
         /// Funkcja do śledzenia działania programu
@@ -97,17 +110,12 @@ namespace Cvl.ApplicationServer.Monitoring.Base
         /// <param name="memberName">automatycznie uzupełniany przez kompilator</param>
         /// <param name="sourceFilePath">automatycznie uzupełniany przez kompilator</param>
         /// <param name="sourceLineNumber">automatycznie uzupełniany przez kompilator</param>
-        public void Trace(string message = "",
-            object param1 = null,
-            object param2 = null,
-            object param3 = null,
-            object param4 = null,
-            object param5 = null,
+        public LogModel Trace(string message = "",
         [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
         [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
         [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
         {
-            addLog(LogTypeEnum.Trace, memberName, sourceFilePath, sourceLineNumber, message, param1, param2, param3, param4, param5);
+            return addLog(LogTypeEnum.Trace, memberName, sourceFilePath, sourceLineNumber, message);
         }
 
 
@@ -116,68 +124,35 @@ namespace Cvl.ApplicationServer.Monitoring.Base
         /// Dodawanie informacji do logów
         /// </summary>
         /// <param name="message">wiadomość informacji</param>
-        /// <param name="param1">opcjonalny parametr - obiekt który ma zostać zapisany w logach (jako xml)</param>
-        /// <param name="param2">opcjonalny parametr - obiekt który ma zostać zapisany w logach (jako xml)</param>
-        /// <param name="param3">opcjonalny parametr - obiekt który ma zostać zapisany w logach (jako xml)</param>
         /// <param name="memberName">automatycznie uzupełniany przez kompilator</param>
         /// <param name="sourceFilePath">automatycznie uzupełniany przez kompilator</param>
         /// <param name="sourceLineNumber">automatycznie uzupełniany przez kompilator</param>
-        public void Info(string message = "",
-            object param1 = null,
-            object param2 = null,
-            object param3 = null,
-            object param4 = null,
-            object param5 = null,
+        public LogModel Info(string message = "",
             [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
             [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
             [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
         {
-            addLog(LogTypeEnum.Info, memberName, sourceFilePath, sourceLineNumber, message, param1, param2, param3, param4, param5);
+            return addLog(LogTypeEnum.Info, memberName, sourceFilePath, sourceLineNumber, message);
         }
 
         /// <summary>
         /// Dodawanie informacji do błędów
         /// </summary>
         /// <param name="message">wiadomość informacji</param>
-        /// <param name="param1">opcjonalny parametr - obiekt który ma zostać zapisany w logach (jako xml)</param>
-        /// <param name="param2">opcjonalny parametr - obiekt który ma zostać zapisany w logach (jako xml)</param>
-        /// <param name="param3">opcjonalny parametr - obiekt który ma zostać zapisany w logach (jako xml)</param>
         /// <param name="memberName">automatycznie uzupełniany przez kompilator</param>
         /// <param name="sourceFilePath">automatycznie uzupełniany przez kompilator</param>
         /// <param name="sourceLineNumber">automatycznie uzupełniany przez kompilator</param>
-        public void Error(string message = "", object param1 = null, object param2 = null, object param3 = null,
+        public LogModel Error(Exception ex = null, string message = "",
         [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
         [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
         [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
         {
-            addLog(LogTypeEnum.Error, memberName, sourceFilePath, sourceLineNumber, message, param1, param2, param3);
-        }
+            var log= addLog(LogTypeEnum.Error, memberName, sourceFilePath, sourceLineNumber, message);
+            log.AddParameter(ex.ToString(), "Exception");
+            return log;
+        }        
 
-        public void Error(Exception ex,
-            [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
-            [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
-            [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
-        {
-            addLog(LogTypeEnum.Error, memberName, sourceFilePath, sourceLineNumber, ex.Message, ex.ToString());
-        }
-
-        /// <summary>
-        /// Loguje błąd biznesowy
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="param1"></param>
-        /// <param name="param2"></param>
-        /// <param name="param3"></param>
-        /// <param name="memberName"></param>
-        /// <param name="sourceFilePath"></param>
-        /// <param name="sourceLineNumber"></param>
-        public void BusinessError(string message = "", object param1 = null, object param2 = null, object param3 = null,
-        [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
-        [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
-        [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
-        {
-            addLog(LogTypeEnum.Error, memberName, sourceFilePath, sourceLineNumber, message, param1, param2, param3);
-        }
+        
 
         /// <summary>
         /// Kończy logowanie - robi flusha
@@ -186,14 +161,14 @@ namespace Cvl.ApplicationServer.Monitoring.Base
         /// <param name="memberName"></param>
         /// <param name="sourceFilePath"></param>
         /// <param name="sourceLineNumber"></param>
-        public void End(object ret = null,
+        public LogModel End(object ret = null,
             [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
             [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
             [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
         {
-            addLog(LogTypeEnum.End, memberName, sourceFilePath, sourceLineNumber, null, ret, null, null);
+            var log= addLog(LogTypeEnum.End, memberName, sourceFilePath, sourceLineNumber, null);
             FlushLogs();
-            return;
+            return log;
         }
 
         /// <summary>
@@ -211,8 +186,8 @@ namespace Cvl.ApplicationServer.Monitoring.Base
                 [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
                 [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
         {
-            addLog(LogTypeEnum.End, memberName, sourceFilePath, sourceLineNumber, param1: returnValue);
-
+            var log = addLog(LogTypeEnum.End, memberName, sourceFilePath, sourceLineNumber);
+            log.AddParameter(returnValue, "ReturnValue");
             FlushLogs();
 
             return returnValue;
@@ -221,80 +196,22 @@ namespace Cvl.ApplicationServer.Monitoring.Base
 
         #region tworzenie logów
 
-        private void addLog(LogTypeEnum logType, string memberName, string sourceFilePath,
-            int sourceLineNumber, string message = "",
-            object param1 = null,
-            object param2 = null,
-            object param3 = null,
-            object param4 = null,
-            object param5 = null)
+        private LogModel addLog(LogTypeEnum logType, string memberName, string sourceFilePath,
+            int sourceLineNumber, string message = "")
         {
             var log = new LogModel();
             log.TimeStamp = DateTime.Now;
-            log.MethodName = memberName;
+            log.MemberName = memberName;
             log.Message = message;
             log.SourceFilePath = sourceFilePath;
             log.SourceLineNumber = sourceLineNumber;
             log.LogType = logType;
 
-            if (param1 != null)
-            {
-                addLogParameter(param1, log);
-            }
-
-            if (param2 != null)
-            {
-                addLogParameter(param2, log);
-            }
-
-            if (param3 != null)
-            {
-                addLogParameter(param3, log);
-            }
-
-            if (param4 != null)
-            {
-                addLogParameter(param4, log);
-            }
-
-            if (param5 != null)
-            {
-                addLogParameter(param5, log);
-            }
-
             AddLogModel(log);
+
+            return log;
         }
-
-
-        private void addLogParameter(object parameter, LogModel log)
-        {
-            if (parameter != null)
-            {
-                var p = new LogParameter();
-                if (parameter is Expression<Func<object>> exp1)
-                {
-                    var compiledParam = exp1.Compile();
-                    var val = compiledParam();
-                    var body = exp1.Body as MemberExpression;
-                    if (body != null)
-                    {
-                        p.Name = body.Member.Name;
-                    }
-                    else
-                    {
-                        p.Name = exp1.ToString();
-                    }
-
-                    p.XmlValue = Serializer.SerializeObject(val);
-                }
-                else
-                {
-                    p.XmlValue = Serializer.SerializeObject(parameter);
-                }
-
-                log.Params.Add(p);
-            }
-        }
+                        
 
         #endregion
 
@@ -305,9 +222,14 @@ namespace Cvl.ApplicationServer.Monitoring.Base
             Logs.Add(log);
         }
 
+        private bool isFlushed = false;
         protected virtual void FlushLogs()
         {
-            applicationMonitor.FlushLogger(this);
+            if (isFlushed == false)
+            {
+                isFlushed = true;
+                applicationMonitor.FlushLogger(this);
+            }
         }
 
         #endregion
@@ -320,7 +242,7 @@ namespace Cvl.ApplicationServer.Monitoring.Base
                 var sbParams = new StringBuilder();
                 foreach (var logParameter in log.Params)
                 {
-                    sbParams.Append($"{logParameter.Name}: {logParameter.XmlValue}");
+                    sbParams.Append($"{logParameter.Name},");
                 }
 
                 sb.Append($"{log.LogType} {log.Message} param:{sbParams.ToString()} {Environment.NewLine}");
@@ -332,7 +254,12 @@ namespace Cvl.ApplicationServer.Monitoring.Base
 
         public override string ToString()
         {
-            return $"{TimeStamp} {ApplicationModuleName} {MemberName} {Message} logs:{GetLogsString()}";
+            return $"logs:{GetLogsString()}";
+        }
+
+        public void Dispose()
+        {
+            FlushLogs();
         }
     }
 }

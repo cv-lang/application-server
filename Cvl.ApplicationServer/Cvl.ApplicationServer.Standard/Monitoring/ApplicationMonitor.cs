@@ -29,54 +29,40 @@ namespace Cvl.ApplicationServer.Monitoring
         /// <param name="sourceFilePath">automatycznie uzupełniany przez kompilator</param>
         /// <param name="sourceLineNumber">automatycznie uzupełniany przez kompilator</param>
         /// <param name="parameters">parametry - będą zapisane w postacie serializowanej</param>
-        public Logger StartLogs(Expression<Func<object>> param1 = null,
-            Expression<Func<object>> param2 = null,
-            Expression<Func<object>> param3 = null,
-            object param4 = null,
-            object param5 = null,
+        public Logger StartLogs(string message, string externalId = null, string clientAddress = null,
             [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
             [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
-            [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0,
-            string message = "", string externalId = null)
+            [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
         {
             var logger = new Logger(this);
-            logger.TimeStamp = DateTime.Now;
-            logger.ExternalId = externalId;
-            logger.MemberName = memberName;
-            logger.SourceFilePath = sourceFilePath;
-            logger.SourceLineNumber = sourceLineNumber;
-            logger.Message = message;
-            //logger.ApplicationName = applicationContext.Configuration.ApplicationName;
-            logger.ApplicationModuleName = applicationModuleName;
-            //logger.ApplicationLocation = applicationContext.Configuration.ApplicationLocation;
-            //logger.EnvironmentName = applicationContext.Configuration.EnvironmentName.ToString();
-            logger.Parameter1 = param4?.ToString();
-            logger.Parameter2 = param5?.ToString();
-
-            logger.Trace($"Start metody - {memberName}", param1, param2, param3, param4, param5,
-                memberName, sourceFilePath, sourceLineNumber);
+            logger.Start(message, externalId, clientAddress,
+                memberName, sourceFilePath, sourceLineNumber);   
 
             //applicationContext.ApplicationMonitoring.AddStartLogging(logger);
             currentLogger = logger;
             return logger;
         }
 
-        public SubLogger GetLogger(Expression<Func<object>> param1 = null,
-            Expression<Func<object>> param2 = null,
-            Expression<Func<object>> param3 = null,
-            object param4 = null,
-            object param5 = null,
+        /// <summary>
+        /// Zwraca logera pod funkcji
+        /// </summary>
+        /// <param name="memberName"></param>
+        /// <param name="sourceFilePath"></param>
+        /// <param name="sourceLineNumber"></param>
+        /// <param name="message"></param>
+        /// <param name="externalId"></param>
+        /// <returns></returns>
+        public SubLogger GetSubLogger(
             [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
             [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
             [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0,
             string message = "", string externalId = null)
         {
-            var logger = currentLogger;
-
-            logger.Trace($"submetoda - {memberName}", param1, param2, param3, param4, param5,
-                memberName, sourceFilePath, sourceLineNumber);
+            var logger = currentLogger;            
 
             var sublogger = new SubLogger(logger);
+            sublogger.StartSubmethod($"submetoda - {memberName}",
+                memberName, sourceFilePath, sourceLineNumber);
 
             return sublogger;
         }
