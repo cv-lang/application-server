@@ -1,7 +1,10 @@
-﻿using Cvl.ApplicationServer.Monitoring;
+﻿using Cvl.ApplicationServer.Contexts.Application;
+using Cvl.ApplicationServer.Contexts.FrameworkAbstractions.Implementations.NetStandard20;
+using Cvl.ApplicationServer.Monitoring;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
 
 namespace Cvl.ApplicationServer.UnitTest.Monitoring
@@ -11,8 +14,10 @@ namespace Cvl.ApplicationServer.UnitTest.Monitoring
         [Test]
         public void TestLogowania()
         {
-            var monitor = new ApplicationMonitor(new Contexts.Application.ApplicationContext(), "");
-            using var loger = monitor.StartLogs("Strart metody TestLogowania")
+            ApplicationContext.Start(new FrameworkNetStandard20());
+
+            var monitor = ApplicationContext.Instance.GetApplicationMonitor();
+            using var logger = monitor.StartLogs("Strart metody TestLogowania")
                 .AddParameter(1, "parameter1")
                 .AddParameter("2","parameter2")
                 .AddExpressionParameter(() => monitor);
@@ -20,8 +25,18 @@ namespace Cvl.ApplicationServer.UnitTest.Monitoring
             using var loger2 = monitor.GetSubLogger()
                 .AddParameter(1,"testowyStałyParametr");
 
-            
-            
+            TestSublogow(1, "234", monitor);
+
+
+        }
+
+        private void TestSublogow(int param1, string stringParam2, ApplicationMonitor monitor)
+        {
+            using var logger = monitor.GetSubLogger()
+                .AddParameter(param1).AddParameter(stringParam2);
+
+            logger.Trace("Test");
+            logger.Info("Test");
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using Cvl.ApplicationServer.Monitoring.Base.Enums;
 using Cvl.ApplicationServer.Monitoring.Base.Model;
 using Cvl.ApplicationServer.Tools;
+using LiteDB;
 
 namespace Cvl.ApplicationServer.Monitoring.Base
 {
@@ -35,6 +36,11 @@ namespace Cvl.ApplicationServer.Monitoring.Base
         /// Lista logów 
         /// </summary>
         public List<LogModel> Logs { get; set; } = new List<LogModel>();
+
+        internal List<LogModel> GetLogs()
+        {
+            throw new NotImplementedException();
+        }
 
 
         #region Pola logera

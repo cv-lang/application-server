@@ -25,6 +25,7 @@ namespace Cvl.ApplicationServer.Monitoring.Base
         protected override void FlushLogs()
         {
             //w subfunkcja nie robię flusha, robiony jest w głównym loggerze
+            this.logger.Trace("EndSub").LogType = Enums.LogTypeEnum.EndSubMethod;
         }
     }
 }

@@ -70,7 +70,7 @@ namespace Cvl.ApplicationServer.Monitoring
         internal void FlushLogger(Logger logger)
         {
             //po zamykaniu głównego 
-            //applicationContext.ApplicationMonitoring.FlushLogger(logger);
+            applicationContext.FlushLogger(logger);
         }
 
         #endregion
