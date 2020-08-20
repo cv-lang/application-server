@@ -1,10 +1,7 @@
-﻿using Cvl.ApplicationServer.Contexts.FrameworkAbstractions.AbstractionElements;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
+﻿using System.Configuration;
+using Cvl.ApplicationServer.Contexts.Application.FrameworkAbstractions.AbstractionElements;
 
-namespace Cvl.ApplicationServer.Contexts.FrameworkAbstractions.Implementations.NetStandard20
+namespace Cvl.ApplicationServer.Contexts.Application.FrameworkAbstractions.Implementations.NetStandard20
 {
     public class ConfigurationNetStandard20 : IConfigurationAbstraction
     {

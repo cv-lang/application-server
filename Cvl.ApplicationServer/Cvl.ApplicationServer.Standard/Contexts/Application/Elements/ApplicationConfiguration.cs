@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Cvl.ApplicationServer.Contexts.Application
+﻿namespace Cvl.ApplicationServer.Contexts.Application.Elements
 {
     /// <summary>
     /// Konfiguracja aplikacji

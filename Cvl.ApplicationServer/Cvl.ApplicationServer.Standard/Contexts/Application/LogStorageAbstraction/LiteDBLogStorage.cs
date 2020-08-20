@@ -1,6 +1,4 @@
-﻿using Cvl.ApplicationServer.Contexts.Application.LogAbstraction;
-using Cvl.ApplicationServer.Contexts.FrameworkAbstractions;
-using Cvl.ApplicationServer.Monitoring.Base;
+﻿using Cvl.ApplicationServer.Monitoring.Base;
 using Cvl.ApplicationServer.Monitoring.Base.Model;
 using LiteDB;
 using System;

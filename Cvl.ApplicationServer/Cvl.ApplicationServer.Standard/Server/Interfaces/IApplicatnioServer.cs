@@ -1,9 +1,9 @@
-﻿using Cvl.ApplicationServer.Jobs.Model;
-using Cvl.ApplicationServer.ProcessesEngine.Model;
-using Cvl.ApplicationServer.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Cvl.ApplicationServer.Server.Node.Jobs.Model;
+using Cvl.ApplicationServer.Server.Node.Processes.Model;
+using Cvl.ApplicationServer.Server.Node.Services.Model;
 
 namespace Cvl.ApplicationServer.Server.Interfaces
 {

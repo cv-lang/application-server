@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Cvl.ApplicationServer.Jobs
+﻿namespace Cvl.ApplicationServer.Server.Node.Jobs
 {
     public interface IJob
     {

@@ -2,13 +2,13 @@
 using Cvl.ApplicationServer.Server.Node.Host;
 using System;
 
-namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
+namespace Cvl.ApplicationServer.Server.Node.Jobs.Logic
 {
-    public class ProcessLogic : BaseLogic
+    public class JobsLogic : BaseLogic
     {
         private ApplicationServerNodeHost applicationServerNodeHost;
 
-        public ProcessLogic(ApplicationServerNodeHost applicationServerNodeHost)
+        public JobsLogic(ApplicationServerNodeHost applicationServerNodeHost)
         {
             this.applicationServerNodeHost = applicationServerNodeHost;
         }

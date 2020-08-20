@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Cvl.ApplicationServer.Jobs.Model
+﻿namespace Cvl.ApplicationServer.Server.Node.Jobs.Model
 {
     /// <summary>
     /// Obiekt opisujący joba wykonywanego na serwerze

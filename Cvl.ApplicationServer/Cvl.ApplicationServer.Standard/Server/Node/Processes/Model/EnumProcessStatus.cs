@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Cvl.ApplicationServer.ProcessesEngine.Model
+﻿namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 {
     public enum EnumProcessStatus
     {

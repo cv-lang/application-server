@@ -1,9 +1,4 @@
-﻿using Cvl.ApplicationServer.Base.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Cvl.ApplicationServer.ProcessesEngine.Model
+﻿namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 {
     /// <summary>
     /// Proces bazowy dla innych procesów

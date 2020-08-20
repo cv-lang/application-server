@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Cvl.ApplicationServer.Services
+﻿namespace Cvl.ApplicationServer.Server.Node.Services.Model
 {
     public class ServiceDescription
     {

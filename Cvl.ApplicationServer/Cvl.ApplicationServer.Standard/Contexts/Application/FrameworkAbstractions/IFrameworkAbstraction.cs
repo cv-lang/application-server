@@ -1,10 +1,6 @@
 ﻿using Cvl.ApplicationServer.Contexts.Application.FrameworkAbstractions.AbstractionElements;
-using Cvl.ApplicationServer.Contexts.FrameworkAbstractions.AbstractionElements;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Cvl.ApplicationServer.Contexts.FrameworkAbstractions
+namespace Cvl.ApplicationServer.Contexts.Application.FrameworkAbstractions
 {
     /// <summary>
     /// Warstwa abstrakcyjna dla .Net Framework

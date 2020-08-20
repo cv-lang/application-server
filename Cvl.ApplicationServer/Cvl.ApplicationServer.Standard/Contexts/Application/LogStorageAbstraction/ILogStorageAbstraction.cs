@@ -1,9 +1,6 @@
 ﻿using Cvl.ApplicationServer.Monitoring.Base;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Cvl.ApplicationServer.Contexts.Application.LogAbstraction
+namespace Cvl.ApplicationServer.Contexts.Application.LogStorageAbstraction
 {
     public interface ILogStorageAbstraction
     {
