@@ -4,9 +4,9 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 {
     public class ProcessId
     {
-        private int id;
+        private long id;
 
-        public ProcessId(int id)
+        public ProcessId(long id)
         {
             this.id = id;
         }

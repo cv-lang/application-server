@@ -15,7 +15,6 @@ namespace Cvl.ApplicationServer.Server.Node.Jobs.Logic
 
         internal void Start()
         {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cvl.ApplicationServer.Standard\Cvl.ApplicationServer.Standard.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Cvl.NodeNetwork">
+      <HintPath>..\..\..\node-network\Cvl.NodeNetwork\Cvl.NodeNetwork.WebHub\bin\Debug\netcoreapp3.1\Cvl.NodeNetwork.dll</HintPath>
+    </Reference>
+    <Reference Include="Cvl.NodeNetwork.Server">
+      <HintPath>..\..\..\node-network\Cvl.NodeNetwork\Cvl.NodeNetwork.WebHub\bin\Debug\netcoreapp3.1\Cvl.NodeNetwork.Server.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+
+</Project>

@@ -10,16 +10,16 @@ namespace Cvl.ApplicationServer.Server.Node.Host
     /// <summary>
     /// Host węzła - odpowiada za całość systemu
     /// </summary>
-    public class ApplicationServerNodeHost
+    public class ApplicationServerNodeHost : IApplicationServerNodeHost
     {
         public ApplicationServerNodeHost()
         {
             JobsManager = new JobsLogic(this);
-            ProcessManager = new ProcessLogic(this);
+            ProcessManager = new ProcessEngine(this);
             ServiceManager = new ServiceLogic(this);
         }
         public JobsLogic JobsManager { get; set; }
-        public ProcessLogic ProcessManager { get; set; }
+        public ProcessEngine ProcessManager { get; set; }
         public ServiceLogic ServiceManager { get; set; }
 
 
@@ -28,6 +28,7 @@ namespace Cvl.ApplicationServer.Server.Node.Host
         /// </summary>
         public string ApplicationServerPath { get; set; }
 
+        public string ApplicationServerDataPath => ApplicationServerPath + "\\data";
 
         #region Metody hosta
 
@@ -36,7 +37,6 @@ namespace Cvl.ApplicationServer.Server.Node.Host
             ServiceManager.Start();
             JobsManager.Start();
             ProcessManager.Start();
-            
         }
 
         #endregion

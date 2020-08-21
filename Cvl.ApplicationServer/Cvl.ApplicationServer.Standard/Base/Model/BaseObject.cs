@@ -11,7 +11,7 @@ namespace Cvl.ApplicationServer.Base.Model
         
         [DataForm(GroupName = Bazowe, Order = 10000, Description = "Unikalny w całym systemie identyfikator obiektu"
         , IsReadOnly = true)]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [DataForm(GroupName = Bazowe, Order = 10001,
         Description = "Czy dany obiekt jest usunięty(archiwalny). W systemie wszystkie usuwane pliki zamieniane są na archwalne i dostępne są dla uprawnionych osób"

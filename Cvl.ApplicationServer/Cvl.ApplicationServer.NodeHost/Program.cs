@@ -11,6 +11,7 @@ namespace Cvl.ApplicationServer.NodeHost
             var applicationServer = new ApplicationServerNodeHost();
             applicationServer.ApplicationServerPath = applicationPath;
             applicationServer.Start();
+            applicationServer.ProcessManager.StartProcess("Cvl.ApplicationServer.Server.Node.Processes.TestProcess.TestProcess");
         }
     }
 }

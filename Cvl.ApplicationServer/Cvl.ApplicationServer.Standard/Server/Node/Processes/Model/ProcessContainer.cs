@@ -7,6 +7,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
     /// </summary>
     public class ProcessContainer : BaseObject
     {
-
+        public BaseProcess Process { get; internal set; }
+        public VirtualMachine.VirtualMachine VirtualMachine { get; internal set; }
     }
 }

@@ -11,6 +11,8 @@
             this.applicationContext = applicationContext;
         }
 
+        public string ApplicationDataPath { get; internal set; }
+
         public string GetAppSetting(string key, string defaultValue = null)
         {
             var val = applicationContext.Framework.Configuration.GetAppSetting(key);

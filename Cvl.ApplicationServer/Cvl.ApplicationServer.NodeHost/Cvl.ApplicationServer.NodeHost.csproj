@@ -9,4 +9,10 @@
     <ProjectReference Include="..\Cvl.ApplicationServer.Standard\Cvl.ApplicationServer.Standard.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Cvl.VirtualMachine">
+      <HintPath>..\..\..\virtual-machine\Cvl.VirtualMachine\Cvl.VirtualMachine.TestAppFramework\bin\Debug\Cvl.VirtualMachine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
