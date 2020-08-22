@@ -1,5 +1,6 @@
 ﻿using System;
 using Cvl.ApplicationServer.Server.Node.Processes.TestProcess;
+using Cvl.VirtualMachine.Core.Attributes;
 
 namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 {
@@ -13,20 +14,40 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         public ProcessId GetProcessIdentificator() => new ProcessId(Id);
         public EnumProcessStatus ProcessStatus { get; set; }
 
-        public void StartProcess(object inputParameter)
+        
+
+        [Interpret]
+        public object StartProcess(object inputParameter)
         {
             VirtualMachine.VirtualMachine.Hibernate();
-            Start(inputParameter);
+            return Start(inputParameter);
         }
-        public virtual object Start(object inputParameter)
+
+        [Interpret]
+        protected virtual object Start(object inputParameter)
         {
             return null;
         }
 
-        protected T ShowForm<T>(string formName,T formModel)
+
+        #region ShowForm
+
+        public FormData FormDataToShow { get; set; }
+        public FormData FormDataFromUser { get; set; }
+
+        [Interpret]
+        protected T ShowForm<T>(string formName, T formModel)
         {
+            FormDataToShow = new FormData(formName, formModel);
+
+            ProcessStatus = EnumProcessStatus.WaitingForUserData;
+            VirtualMachine.VirtualMachine.Hibernate();
+
             return formModel;
         }
+
+        #endregion
+
 
         protected void ThrowError(string throwError, object parameter = null)
         {

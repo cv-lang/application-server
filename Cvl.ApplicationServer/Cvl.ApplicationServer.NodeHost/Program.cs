@@ -1,5 +1,6 @@
 ﻿using System;
 using Cvl.ApplicationServer.Server.Node.Host;
+using Cvl.ApplicationServer.Server.Node.Processes.TestProcess;
 
 namespace Cvl.ApplicationServer.NodeHost
 {
@@ -11,7 +12,21 @@ namespace Cvl.ApplicationServer.NodeHost
             var applicationServer = new ApplicationServerNodeHost();
             applicationServer.ApplicationServerPath = applicationPath;
             applicationServer.Start();
-            applicationServer.ProcessManager.StartProcess("Cvl.ApplicationServer.Server.Node.Processes.TestProcess.TestProcess");
+            var procesId = applicationServer.ProcessManager.StartProcess("Cvl.ApplicationServer.Server.Node.Processes.TestProcess.TestProcess");
+            
+            applicationServer.ProcessManager.TestRunProcesses();
+            var data = applicationServer.ProcessManager.GetProcessFormData(procesId);
+            var s1 = data.FormDataModel as FirstStepData;
+            s1.Agreements.ForEach(x => x.Accepted = true);
+            applicationServer.ProcessManager.SetProcessFormData(procesId, data);
+
+            applicationServer.ProcessManager.TestRunProcesses();
+            data = applicationServer.ProcessManager.GetProcessFormData(procesId);
+            var s2 = data.FormDataModel as Cvl.ApplicationServer.Server.Node.Processes.TestProcess.Steps.SmsValidationData;
+            s2.ValidationCodeFromUser = s2.ValidationCode;
+            applicationServer.ProcessManager.SetProcessFormData(procesId, data);
+
+            applicationServer.ProcessManager.TestRunProcesses();
         }
     }
 }

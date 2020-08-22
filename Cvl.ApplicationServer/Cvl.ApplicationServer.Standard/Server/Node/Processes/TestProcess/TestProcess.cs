@@ -22,7 +22,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
         /// </summary>
         /// <param name="inputParameter"></param>
         /// <returns></returns>
-        public override object Start(object inputParameter)
+        protected override object Start(object inputParameter)
         {
 
             Log("wyświetlam pierwszą formatkę procesu");
@@ -44,7 +44,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
             validateSmsVeryfication(smsValidationResponse);
 
             
-            return null;
+            return code.ValidationCode;
         }
 
         private void validateSmsVeryfication(SmsValidationData smsValidationResponse)
