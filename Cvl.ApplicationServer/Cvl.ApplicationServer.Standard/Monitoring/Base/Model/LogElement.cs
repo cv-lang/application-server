@@ -54,6 +54,15 @@ namespace Cvl.ApplicationServer.Monitoring.Base.Model
 
         public LogModel AddParameter(object parameterValue, string parameterName = null)
         {
+
+            if (parameterValue is object[] arr)
+            {
+                if (arr.Length == 0)
+                {
+                    return this;
+                }
+            }
+
             var logParam = new LogParameter() 
             { 
                 Name = parameterName, 

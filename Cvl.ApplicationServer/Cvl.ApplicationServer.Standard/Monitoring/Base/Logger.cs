@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using Cvl.ApplicationServer.Monitoring.Base.Enums;
@@ -36,12 +37,7 @@ namespace Cvl.ApplicationServer.Monitoring.Base
         /// Lista logów 
         /// </summary>
         public List<LogModel> Logs { get; set; } = new List<LogModel>();
-
-        internal List<LogModel> GetLogs()
-        {
-            throw new NotImplementedException();
-        }
-
+        
 
         #region Pola logera
 
@@ -234,7 +230,7 @@ namespace Cvl.ApplicationServer.Monitoring.Base
             if (isFlushed == false)
             {
                 isFlushed = true;
-                applicationMonitor.FlushLogger(this);
+                applicationMonitor?.FlushLogger(this);
             }
         }
 
@@ -243,7 +239,7 @@ namespace Cvl.ApplicationServer.Monitoring.Base
         public string GetLogsString()
         {
             var sb = new StringBuilder();
-            foreach (var log in Logs)
+            foreach (var log in Logs.OrderByDescending(x=>x.TimeStamp).Take(10))
             {
                 var sbParams = new StringBuilder();
                 foreach (var logParameter in log.Params)

@@ -15,6 +15,7 @@ using Cvl.ApplicationServer.Server.Node.Processes.Interfaces;
 using Cvl.ApplicationServer.WpfConsole.ViewModels;
 using Cvl.NodeNetwork.Client;
 using Cvl.NodeNetwork.Test;
+using Telerik.Windows.Controls;
 
 
 //using Cvl.NodeNetwork.Client;
@@ -28,21 +29,22 @@ namespace Cvl.ApplicationServer.WpfConsole
     {
         public MainWindow()
         {
+            StyleManager.ApplicationTheme = new VisualStudio2013Theme();
+
             InitializeComponent();
 
-            ViewModel = new ConsoleVM();
+            ViewModel = new ConsoleViewModel();
+            DataContext = ViewModel;
         }
 
-        public ConsoleVM ViewModel { get; set; }
+        public ConsoleViewModel ViewModel { get; set; }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var endpoint = "https://localhost:44398";
-            using (var mychannelFactory = new ChannelFactory<IProcessEngine>(endpoint))
-            {
-                var serviceProxy = mychannelFactory.CreateChannel();
-                var ret = serviceProxy.GetProcessData(2);
-            }
+            ViewModel.Load();
+
+
+            
         }
     }
 }

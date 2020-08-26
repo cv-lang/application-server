@@ -1,7 +1,7 @@
-﻿using Cvl.ApplicationServer.UI.Attributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Cvl.ApplicationServer.UI.Attributes;
 
 namespace Cvl.ApplicationServer.Base.Model
 {

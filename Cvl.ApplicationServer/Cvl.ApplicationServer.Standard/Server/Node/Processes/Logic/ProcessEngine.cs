@@ -63,6 +63,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
 
             foreach (var processContainer in processes)
             {
+                processContainer.Process.ModifiedDate = DateTime.Now;
                 var result = processContainer.VirtualMachine.Resume<object>();
             }
         }
@@ -175,10 +176,15 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
             var type = Type.GetType(typeDescription.AssemblyQualifiedName);
 
             var process = Activator.CreateInstance(type) as BaseProcess;
+            process.CreatedDate = DateTime.Now;
+            process.ModifiedDate = DateTime.Now;
+            process.ReadedDate = DateTime.Now;
             
             var container = new ProcessContainer();
             container.Process = process;
             var vm = new VirtualMachine.VirtualMachine();
+            vm.LogMonitor = new LogMonitor(process); 
+            
             container.VirtualMachine = vm;
             var result = vm.Start<object>("StartProcess",  process, inputData);
 
@@ -190,10 +196,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
         {
             var proc=getProcess(processId);
 
-            var desc = new ProcessDescription();
-            desc.ProcessStatus = proc.Process.ProcessStatus;
-            desc.ProcessTypeFullName = proc.Process.GetType().FullName;
-            desc.FormData = proc.Process.FormDataToShow;
+            var desc = new ProcessDescription(proc);
 
             return desc;
         }
@@ -219,6 +222,18 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
             //process.Process.ProcessStatus == EnumProcessStatus.WaitingForUserData;
             process.Process.FormDataFromUser = formData;
             process.Process.ProcessStatus = EnumProcessStatus.WaitingForExecution;
+        }
+
+        public List<ProcessDescription> GetAllProcessesDescriptions()
+        {
+            var list = processesList.Select(x => new ProcessDescription(x)).ToList();
+            return list;
+        }
+
+        public BaseProcess GetProcess(long id)
+        {
+            var process = processesList.FirstOrDefault(x => x.Id == id);
+            return process.Process;
         }
     }
 }

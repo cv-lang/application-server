@@ -10,5 +10,9 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Interfaces
         long StartProcess(string processName, object inputData = null);
         ProcessDescription GetProcessData(long processId);
         void SetProcessData(BaseModel userDataBaseModel);
+
+        List<ProcessDescription> GetAllProcessesDescriptions();
+
+        BaseProcess GetProcess(long id);
     }
 }

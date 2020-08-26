@@ -354,9 +354,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\Processes\ViewModels\ProcessDescritpionViewModel.cs" />
+    <Compile Include="Controls\Processes\ViewModels\ProcessesListViewModel.cs" />
+    <Compile Include="Controls\Processes\ViewModels\ProcessViewModel.cs" />
+    <Compile Include="Controls\Processes\Views\ProcessesListView.xaml.cs">
+      <DependentUpon>ProcessesListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Logics\ProcessEngineClient.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
     <Compile Include="ViewModels\Base\ViewModelBase.cs" />
-    <Compile Include="ViewModels\ConsoleVM.cs" />
+    <Compile Include="ViewModels\ConsoleViewModel.cs" />
+    <Page Include="Controls\Processes\Views\ProcessesListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -397,6 +408,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cvl.ApplicationServer.Base.Model;
+using Cvl.ApplicationServer.Monitoring.Base;
+using Cvl.ApplicationServer.Monitoring.Base.Model;
 using Cvl.ApplicationServer.Server.Node.Processes.TestProcess;
+using Cvl.ApplicationServer.UI.Attributes;
 using Cvl.VirtualMachine.Core.Attributes;
 
 namespace Cvl.ApplicationServer.Server.Node.Processes.Model
@@ -9,13 +13,38 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
     /// Proces bazowy dla innych procesów
     /// udostępnia szereg przydatnych funkcjonalności
     /// </summary>
-    public class BaseProcess
+    public class BaseProcess : BaseObject
     {
-        public long Id { get; set; }
-        public long ParentId { get; set; }
+        private const string gm = "Proces bazowy";
+
+        [DataForm(GroupName = gm, Description = "Id procesu rodzica - jesli proces jest potmkiem")]
+        public long? ParentId { get; set; }
+
         public ProcessId GetProcessIdentificator() => new ProcessId(Id);
+
+        [DataForm(GroupName = gm, Description = "Status procesu")]
         public EnumProcessStatus ProcessStatus { get; set; }
+
+        [DataForm(GroupName = gm, Description = "Ścieżka do folderu widoków - dodawana jest do nazwy widoku")]
         public string BaseViewPath { get; set; }
+
+        [DataForm(GroupName = gm, Description = "Nazwa layoutu widoku")]
+        public string ViewLayout { get; set; } = "_Layout";
+
+        #region Steps data
+
+        [DataForm(GroupName = gm, Description = "Krok w którym znajduje się proces")]
+        public string ProcessStep { get; set; }
+        [DataForm(GroupName = gm, Description = "Opis kroku w którym znajduje się proces")]
+        public string ProcessStepDescription { get; set; }
+
+        protected void SetStepData(string step, string stepDescription=null)
+        {
+            ProcessStep = step;
+            ProcessStepDescription = stepDescription;
+        }
+
+        #endregion
 
 
         [Interpret]
@@ -36,7 +65,10 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 
         #region ShowForm
 
+        [DataForm(GroupName = gm, Description = "Dane które są wyświetlane użytkownikowi")]
         public FormData FormDataToShow { get; set; }
+
+        [DataForm(GroupName = gm, Description = "Pobrane dane od użytkownika")]
         public FormData FormDataFromUser { get; set; }
 
         [Interpret]
@@ -44,7 +76,11 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         where T : BaseModel
         {
             formModel.ProcessId = Id;
+            formModel.Layout = ViewLayout;
             FormDataToShow = new FormData(BaseViewPath+formName, formModel);
+
+            Log($"Wyświetlam: {FormDataToShow.FormName}")
+                .AddParameter(formModel, "formModel");
 
             ProcessStatus = EnumProcessStatus.WaitingForUserData;
             VirtualMachine.VirtualMachine.Hibernate();
@@ -55,7 +91,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         #endregion
 
         #region Child processes
-
+        [DataForm(GroupName = gm, Description = "Lista identyfikatorów procesów potomnych")]
         public HashSet<long> ChildProcesses { get; set; } = new HashSet<long>();
         
         protected void CreateNewChildProcess<T>()
@@ -67,6 +103,12 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
             VirtualMachine.VirtualMachine.Hibernate(childProcess);
         }
 
+
+        #endregion
+
+        #region Logs
+
+        public Logger Logger { get; set; } = new Logger();
 
         #endregion
 
@@ -93,9 +135,9 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
             EndProcess("GeneralView", new GeneralViewModel(header, content){AutoRefresh = false});
         }
 
-        protected void Log(string log)
+        protected LogModel Log(string log)
         {
-
+            return Logger.Info(log);
         }
     }
 }
