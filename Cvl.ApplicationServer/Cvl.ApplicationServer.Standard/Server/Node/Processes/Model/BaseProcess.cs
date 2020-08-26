@@ -49,7 +49,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
             ProcessStatus = EnumProcessStatus.WaitingForUserData;
             VirtualMachine.VirtualMachine.Hibernate();
 
-            return formModel;
+            return (T)FormDataFromUser.FormDataModel;
         }
 
         #endregion
@@ -66,14 +66,31 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
             ProcessStatus = EnumProcessStatus.WaitingForHost;
             VirtualMachine.VirtualMachine.Hibernate(childProcess);
         }
-        
+
 
         #endregion
 
-
-        protected void ThrowError(string throwError, object parameter = null)
+        [Interpret]
+        protected void EndProcess(string formName, BaseModel formModel)
         {
-            throw new NotImplementedException();
+            formModel.ProcessId = Id;
+
+            if (string.IsNullOrEmpty(formName) == false)
+            {
+                FormDataToShow = new FormData(formName, formModel);
+            }
+            else
+            {
+                FormDataToShow = null;
+            }
+
+            ProcessStatus = EnumProcessStatus.Executed;
+            VirtualMachine.VirtualMachine.Hibernate();
+        }
+
+        protected void EndProcess(string header, string content)
+        {
+            EndProcess("GeneralView", new GeneralViewModel(header, content){AutoRefresh = false});
         }
 
         protected void Log(string log)

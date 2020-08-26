@@ -11,6 +11,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cvl.ApplicationServer.Server.Node.Processes.Interfaces;
+using Cvl.ApplicationServer.WpfConsole.ViewModels;
+using Cvl.NodeNetwork.Client;
+using Cvl.NodeNetwork.Test;
+
+
+//using Cvl.NodeNetwork.Client;
 
 namespace Cvl.ApplicationServer.WpfConsole
 {
@@ -22,6 +29,20 @@ namespace Cvl.ApplicationServer.WpfConsole
         public MainWindow()
         {
             InitializeComponent();
+
+            ViewModel = new ConsoleVM();
+        }
+
+        public ConsoleVM ViewModel { get; set; }
+
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var endpoint = "https://localhost:44398";
+            using (var mychannelFactory = new ChannelFactory<IProcessEngine>(endpoint))
+            {
+                var serviceProxy = mychannelFactory.CreateChannel();
+                var ret = serviceProxy.GetProcessData(2);
+            }
         }
     }
 }

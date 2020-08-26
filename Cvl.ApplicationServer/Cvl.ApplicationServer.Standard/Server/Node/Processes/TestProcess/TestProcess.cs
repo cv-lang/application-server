@@ -51,7 +51,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
         {
             if (smsValidationResponse.ValidationCodeFromUser != smsValidationResponse.ValidationCode)
             {
-                ThrowError("Błędny kod weryfikacyjny");
+                EndProcess("Błędny kod weryfikacyjny", "Podano błędny kod weryfikacyjny");
             }
         }
 
@@ -59,7 +59,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
         {
             if (firstStepResponse.Agreements.All(x => x.Accepted) == false)
             {
-                ThrowError("Brak zatwierdzeń w Agrements", firstStepResponse);
+                EndProcess("Brak zatwierdzeń w Agrements", firstStepResponse);
             }
         }
 
