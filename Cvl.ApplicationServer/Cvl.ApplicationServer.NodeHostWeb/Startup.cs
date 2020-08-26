@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cvl.ApplicationServer.Server.Node.Processes.Interfaces;
+using Cvl.ApplicationServer.Server.Node.Processes.Logic;
 using Cvl.NodeNetwork.Server.Extensions;
+using Cvl.NodeNetwork.ServiceHost;
+using Cvl.NodeNetwork.Test;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -55,7 +59,12 @@ namespace Cvl.ApplicationServer.NodeHostWeb
                 endpoints.MapControllers();
             });
 
+
+            //sieæ wêz³owa
+            NodeNetworkServiceHost.RegisterService<ProcessEngine, IProcessEngine>();
+
             app.UseNodeNetwork();
+
         }
     }
 }

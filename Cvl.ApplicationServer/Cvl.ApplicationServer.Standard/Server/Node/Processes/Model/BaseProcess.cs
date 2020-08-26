@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cvl.ApplicationServer.Server.Node.Processes.TestProcess;
 using Cvl.VirtualMachine.Core.Attributes;
 
@@ -11,16 +12,19 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
     public class BaseProcess
     {
         public long Id { get; set; }
+        public long ParentId { get; set; }
         public ProcessId GetProcessIdentificator() => new ProcessId(Id);
         public EnumProcessStatus ProcessStatus { get; set; }
+        public string BaseViewPath { get; set; }
 
-        
 
         [Interpret]
         public object StartProcess(object inputParameter)
         {
             VirtualMachine.VirtualMachine.Hibernate();
-            return Start(inputParameter);
+            var ret= Start(inputParameter);
+            ProcessStatus = EnumProcessStatus.Executed;
+            return ret;
         }
 
         [Interpret]
@@ -37,14 +41,32 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 
         [Interpret]
         protected T ShowForm<T>(string formName, T formModel)
+        where T : BaseModel
         {
-            FormDataToShow = new FormData(formName, formModel);
+            formModel.ProcessId = Id;
+            FormDataToShow = new FormData(BaseViewPath+formName, formModel);
 
             ProcessStatus = EnumProcessStatus.WaitingForUserData;
             VirtualMachine.VirtualMachine.Hibernate();
 
             return formModel;
         }
+
+        #endregion
+
+        #region Child processes
+
+        public HashSet<long> ChildProcesses { get; set; } = new HashSet<long>();
+        
+        protected void CreateNewChildProcess<T>()
+            where T : BaseProcess, new()
+        {
+            var childProcess = new T();
+            childProcess.ParentId = Id;
+            ProcessStatus = EnumProcessStatus.WaitingForHost;
+            VirtualMachine.VirtualMachine.Hibernate(childProcess);
+        }
+        
 
         #endregion
 

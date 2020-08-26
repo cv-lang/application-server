@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Cvl.ApplicationServer.Server.Node.Processes.Model;
 
 namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
 {
-    public class StepAgreement
+    public class StepAgreement : BaseModel
     {
         public string Content { get; set; }
         public bool Accepted { get; set; }
         public DateTime AcceptanceDate { get; set; }
     }
 
-    public class FirstStepData
+    public class FirstStepData : BaseModel
     {
         public string PhoneNumber { get; set; }
         public string Email { get; set; }

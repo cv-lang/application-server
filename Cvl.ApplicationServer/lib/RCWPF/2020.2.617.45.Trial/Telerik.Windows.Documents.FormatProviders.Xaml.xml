@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Telerik.Windows.Documents.FormatProviders.Xaml</name>
+    </assembly>
+    <members>
+        <member name="T:Telerik.Windows.Documents.FormatProviders.Xaml.XamlDataProvider">
+            <summary>
+            Represents a wrapper of <see cref="T:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider"/> allowing the latter to be used in data binding scenarios.
+            </summary>
+            <seealso cref="T:Telerik.Windows.Documents.FormatProviders.DataProviderBase"/>
+        </member>
+        <member name="M:Telerik.Windows.Documents.FormatProviders.Xaml.XamlDataProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Documents.FormatProviders.Xaml.XamlDataProvider"/> class.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Documents.FormatProviders.Xaml.XamlDataProvider.XamlProperty">
+            <summary>
+            The xaml property.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Documents.FormatProviders.Xaml.XamlDataProvider.SourceProperty">
+            <summary>
+            The source property.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Documents.FormatProviders.Xaml.XamlDataProvider.SetSource(System.Windows.DependencyObject,System.String)">
+            <summary>
+            Sets the source.
+            </summary>
+            <param name="dependencyObject">The dependency object.</param>
+            <param name="sourceValue">The source value.</param>
+        </member>
+        <member name="M:Telerik.Windows.Documents.FormatProviders.Xaml.XamlDataProvider.GetSource(System.Windows.DependencyObject)">
+            <summary>
+            Gets the source.
+            </summary>
+            <param name="dependencyObject">The dependency object.</param>
+            <returns>The source represented as a string.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Documents.FormatProviders.Xaml.XamlDataProvider.GetAttachedDataProvider(System.Windows.DependencyObject)">
+            <summary>
+            Gets the attached data provider.
+            </summary>
+            <param name="dependencyObject">The dependency object.</param>
+            <returns>The data provider.</returns>
+        </member>
+        <member name="P:Telerik.Windows.Documents.FormatProviders.Xaml.XamlDataProvider.Xaml">
+            <summary>
+            Gets or sets the current document as XAML.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider">
+            <summary>
+            Represents a format provider that can import and export XAML documents from a <see cref="T:Telerik.Windows.Documents.Model.RadDocument"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.Import(System.IO.Stream)">
+            <summary>
+            Imports the specified <see cref="T:System.IO.Stream" /> into a <see cref="T:Telerik.Windows.Documents.Model.RadDocument" /> instance.
+            </summary>
+            <param name="input">The <see cref="T:System.IO.Stream" /> containing the XAML document.</param>
+            <returns>
+            The generated <see cref="T:Telerik.Windows.Documents.Model.RadDocument" /> instance.
+            </returns>
+        </member>
+        <member name="M:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.Export(Telerik.Windows.Documents.Model.RadDocument,System.IO.Stream)">
+            <summary>
+            Exports the specified <see cref="T:Telerik.Windows.Documents.Model.RadDocument" /> instance to XAML.
+            </summary>
+            <param name="document">The document.</param>
+            <param name="output">The <see cref="T:System.IO.Stream" /> the document should be saved into.</param>
+        </member>
+        <member name="M:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.Import(System.String)">
+            <summary>
+            Imports the specified XAML <see cref="T:System.String" />.
+            </summary>
+            <param name="input">The string containing the XAML document.</param>
+            <returns>
+            The generated <see cref="T:Telerik.Windows.Documents.Model.RadDocument" /> instance.
+            </returns>
+        </member>
+        <member name="M:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.Export(Telerik.Windows.Documents.Model.RadDocument)">
+            <summary>
+            Exports the specified document to a <see cref="T:System.String" />.
+            </summary>
+            <param name="document">The document.</param>
+            <returns>
+            A <see cref="T:System.String" /> containing the document.
+            </returns>
+        </member>
+        <member name="M:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.LoadStylesheet(System.IO.Stream)">
+            <summary>
+            Loads a predefined stylesheet.
+            </summary>
+            <param name="input">The stream containing the stylesheet.</param>
+            <returns>The loaded object.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.SaveStylesheet(Telerik.Windows.Documents.Model.Styles.Stylesheet,System.IO.Stream)">
+            <summary>
+            Saves a stylesheet.
+            </summary>
+            <param name="stylesheet">The stylesheet.</param>
+            <param name="output">The output stream.</param>
+        </member>
+        <member name="P:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.Name">
+            <summary>
+            Gets the name of the specific format provider.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.SupportedExtensions">
+            <summary>
+            Gets the extensions supported by this format provider.
+            </summary>
+            <value>
+            The supported extensions.
+            </value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.CanImport">
+            <summary>
+            Gets a value indicating whether this instance can import.
+            </summary>
+            <value>
+            <c>true</c> if this instance can import; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.CanExport">
+            <summary>
+            Gets a value indicating whether this instance can export.
+            </summary>
+            <value>
+            <c>true</c> if this instance can export; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.Version">
+            <summary>
+            Gets the version.
+            </summary>
+            <value>
+            The version.
+            </value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.ExportSettings">
+            <summary>
+            Gets or sets the settings used while exporting.
+            </summary>
+            <value>
+            The export settings.
+            </value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.FormatProviders.Xaml.XamlFormatProvider.ImportSettings">
+            <summary>
+            Gets or sets the settings used while importing.
+            </summary>
+            <value>
+            The import settings.
+            </value>
+        </member>
+    </members>
+</doc>

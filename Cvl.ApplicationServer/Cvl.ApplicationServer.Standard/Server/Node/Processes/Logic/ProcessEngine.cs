@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Cvl.ApplicationServer.Base;
 using Cvl.ApplicationServer.Server.Node.Host;
+using Cvl.ApplicationServer.Server.Node.Processes.Interfaces;
 using Cvl.ApplicationServer.Server.Node.Processes.Model;
 using Cvl.ApplicationServer.Tools;
 
@@ -13,7 +16,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
     /// <summary>
     /// Silnik procesów - wykonujący procesy (instancje procesów)
     /// </summary>
-    public class ProcessEngine : BaseLogic
+    public class ProcessEngine : BaseLogic , IProcessEngine
     {
         private ApplicationServerNodeHost applicationServerNodeHost;
         private string processesDataPath => applicationServerNodeHost.ApplicationServerDataPath + "\\processes";
@@ -21,6 +24,8 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
         private ProcessesConfiguration configuration;
 
         private List<ProcessContainer> processesList ;
+
+        private BackgroundWorker timer;
 
         public ProcessEngine(ApplicationServerNodeHost applicationServerNodeHost)
         {
@@ -31,7 +36,25 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
         {
             LoadAndSyncConfiguration();
             LoadProcesses();
+            SaveProcesses();
+
+            timer = new BackgroundWorker();
+            timer.DoWork += Timer_DoWork;
+            timer.RunWorkerAsync();
+
+            //.DoWork += EngineBackgroundWorker_DoWork;
         }
+
+        private void Timer_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (true)
+            {
+                TestRunProcesses();
+                Thread.Sleep(100);
+            }
+        }
+
+        
 
         public void TestRunProcesses()
         {
@@ -68,7 +91,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
                     //niemamy takiego procesu dodajemy go
                     var pt = new ProcessTypeDescription();
                     pt.ProcessTypeFullName = process.FullName;
-                    pt.AssemblyFullName = process.Assembly.FullName;
+                    pt.AssemblyQualifiedName = process.AssemblyQualifiedName;
                     configuration.Processes.Add(pt);
                 }
             }
@@ -149,7 +172,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
             var typeDescription = configuration.Processes
                 .FirstOrDefault(x => x.ProcessTypeFullName== processName);
 
-            var type = Type.GetType(typeDescription.ProcessTypeFullName);
+            var type = Type.GetType(typeDescription.AssemblyQualifiedName);
 
             var process = Activator.CreateInstance(type) as BaseProcess;
             
@@ -161,6 +184,25 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
 
             addProcess(container);
             return container.Id;
+        }
+
+        public ProcessDescription GetProcessData(long processId)
+        {
+            var proc=getProcess(processId);
+
+            var desc = new ProcessDescription();
+            desc.ProcessStatus = proc.Process.ProcessStatus;
+            desc.ProcessTypeFullName = proc.Process.GetType().FullName;
+            desc.FormData = proc.Process.FormDataToShow;
+
+            return desc;
+        }
+
+        public void SetProcessData(BaseModel userDataBaseModel)
+        {
+            var proc = getProcess(userDataBaseModel.ProcessId);
+            proc.Process.FormDataFromUser = new FormData("", userDataBaseModel);
+            proc.Process.ProcessStatus = EnumProcessStatus.WaitingForExecution;
         }
 
 

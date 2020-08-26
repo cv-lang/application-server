@@ -8,6 +8,9 @@
         Running,
         //proces oczekuje na dane od użytkownika
         WaitingForUserData,
+
+        //Proes poprosił hosta/silnik procesów o jakieś dane - np. informację o statusie wykonania innego procesu
+        WaitingForHost,
         //proces został wykonany
         Executed,
         //wystąpił błąd w trakcie wykonywania procesu
