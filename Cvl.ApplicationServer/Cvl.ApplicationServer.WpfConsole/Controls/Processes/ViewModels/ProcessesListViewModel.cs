@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Monitoring.Base.Model;
+using Cvl.ApplicationServer.Server.Node.Processes.Model.ProcessLogs;
 using Cvl.ApplicationServer.WpfConsole.Logics;
 using Cvl.ApplicationServer.WpfConsole.ViewModels;
 using Cvl.ApplicationServer.WpfConsole.ViewModels.Base;
@@ -37,7 +38,7 @@ namespace Cvl.ApplicationServer.WpfConsole.Controls.Processes.ViewModels
                 {
                     SelectedProcess = processEngineClient.GetProcess(selectedProcessDescription.ProcessDescription.Id);
                     Logs.Clear();
-                    Logs.AddRange(SelectedProcess.Process.Logger.Logs);
+                    Logs.AddRange(SelectedProcess.Process.ProcessLog.Logger.Logs);
                 }
 
                 OnPropertyChanged();
@@ -57,6 +58,16 @@ namespace Cvl.ApplicationServer.WpfConsole.Controls.Processes.ViewModels
             get { return selectedProces; }
         }
 
+        private ShownForm selectedShownForm;
+        public ShownForm SelectedShownForm
+        {
+            set
+            {
+                selectedShownForm = value;
+                OnPropertyChanged();
+            }
+            get { return selectedShownForm; }
+        }
 
         #region Logs
 

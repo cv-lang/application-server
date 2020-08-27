@@ -37,14 +37,14 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
                 para += p + ", ";
             }
 
-            Process.Logger.Trace($"{n.ToString()} {method.Name}")
+            Process.ProcessLog.Logger.Trace($"{n.ToString()} {method.Name}")
                 .AddParameter(callLevel,"callLevel")
                 .AddParameter(iterationNumber,"iterationNumber");
         }
 
         public void EventRet(object ret, long iterationNumber)
         {
-            Process.Logger.Trace($"Powrót z metody")
+            Process.ProcessLog.Logger.Trace($"Powrót z metody")
                 .AddParameter(ret, "zwrócona wartość")
                 .AddParameter(iterationNumber, "iterationNumber");
         }

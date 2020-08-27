@@ -75,7 +75,7 @@
                         </DataTemplate>
                     </telerik:GridViewColumn.ToolTipTemplate>
                 </telerik:GridViewDataColumn>
-                <telerik:GridViewDataColumn Header="CreatedDate" DataMemberBinding="{Binding Path=ProcessDescription.CreatedDate}"></telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="CreatedDate" DataMemberBinding="{Binding Path=ProcessDescription.CreatedDate}" DataFormatString="dd.MM.yyyy HH:mm:ss"></telerik:GridViewDataColumn>
 
                 <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Path=ProcessDescription.ProcessStatus}"></telerik:GridViewDataColumn>
                 <telerik:GridViewDataColumn Header="Rodzic" DataMemberBinding="{Binding Path=ProcessDescription.ParentId}"></telerik:GridViewDataColumn>
@@ -108,6 +108,52 @@
                 <!--<TextBlock Text="Dane zaznaczonego procesu"></TextBlock>-->
             </Grid>
             <telerik:RadTabControl Grid.Row="1" >
+                <telerik:RadTabItem Header="Kroki">
+                    <Grid>
+                        <telerik:RadGridView ItemsSource="{Binding Path=SelectedProcess.Process.ProcessLog.StepsData}"  AutoGenerateColumns="False" >
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewDataColumn Header="Data" DataMemberBinding="{Binding CreatedDate}" DataFormatString="dd.MM.yyyy HH:mm:ss" Width="120"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn Header="Krok" DataMemberBinding="{Binding StepName}"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn Header="Opis" DataMemberBinding="{Binding StepDescription}"></telerik:GridViewDataColumn>                                
+                            </telerik:RadGridView.Columns>
+                        </telerik:RadGridView>
+                    </Grid>
+                </telerik:RadTabItem>
+
+                <telerik:RadTabItem Header="Widoki i dane">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <telerik:RadGridView SelectedItem="{Binding SelectedShownForm}" ItemsSource="{Binding Path=SelectedProcess.Process.ProcessLog.ShownForms}"  AutoGenerateColumns="False" >
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewDataColumn Header="Data" DataMemberBinding="{Binding CreatedDate}" DataFormatString="dd.MM.yyyy HH:mm:ss" Width="120"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn Header="Typ" DataMemberBinding="{Binding ShownFormType}"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn Header="Widok" DataMemberBinding="{Binding FormModel.FormName}"></telerik:GridViewDataColumn>
+                            </telerik:RadGridView.Columns>
+                        </telerik:RadGridView>
+
+                        <telerik:RadPropertyGrid Grid.Column="1" AutoGeneratingPropertyDefinition="RadPropertyGrid_OnAutoGeneratingPropertyDefinition" NestedPropertiesVisibility="Visible"
+                                                 Item="{Binding Path=SelectedShownForm.FormModel.FormDataModel}"></telerik:RadPropertyGrid>
+                    </Grid>
+                </telerik:RadTabItem>
+
+                <telerik:RadTabItem Header="Komunikacja zewnętrzna">
+                    <Grid>
+                        <telerik:RadGridView ItemsSource="{Binding Path=SelectedProcess.Process.ProcessLog.ExternalCommunications}"  AutoGenerateColumns="False" >
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewDataColumn Header="Data" DataMemberBinding="{Binding CreatedDate}" DataFormatString="dd.MM.yyyy HH:mm:ss" Width="120"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn Header="Typ" DataMemberBinding="{Binding Type}"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn Header="Header" DataMemberBinding="{Binding Header}"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn Header="Content" DataMemberBinding="{Binding Content}"></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn Header="Parameters" DataMemberBinding="{Binding Parameters}"></telerik:GridViewDataColumn>
+
+                            </telerik:RadGridView.Columns>
+                        </telerik:RadGridView>
+                    </Grid>
+                </telerik:RadTabItem>
+
                 <telerik:RadTabItem Header="Logi">
                     <Grid>
                         <Grid.ColumnDefinitions>
