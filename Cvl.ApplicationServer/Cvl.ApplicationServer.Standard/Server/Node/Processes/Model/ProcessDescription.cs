@@ -22,6 +22,10 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
             CreatedDate = proc.Process.CreatedDate;
             ParentId = proc.Process.ParentId;
             IterationNuber = proc.VirtualMachine.HardwareContext.NumerIteracji;
+            ProcessInstanceDescription = proc.Process.ProcessInstanceDescription;
+            ProcessInstanceFullDescription = proc.Process.ProcessInstanceFullDescription;
+            ProcessParameter = proc.Process.ProcessParameter;
+            ProcessParameter2 = proc.Process.ProcessParameter2;
         }
 
 
@@ -36,5 +40,9 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         public DateTime CreatedDate { get;  set; }
         public long? ParentId { get;  set; }
         public long IterationNuber { get; set; }
+        public string ProcessInstanceDescription { get; set; }
+        public string ProcessInstanceFullDescription { get; set; }
+        public string ProcessParameter { get; set; }
+        public string ProcessParameter2 { get; set; }
     }
 }

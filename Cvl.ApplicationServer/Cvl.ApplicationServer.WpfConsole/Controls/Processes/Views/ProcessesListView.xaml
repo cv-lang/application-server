@@ -74,11 +74,25 @@
                             </StackPanel>
                         </DataTemplate>
                     </telerik:GridViewColumn.ToolTipTemplate>
-</telerik:GridViewDataColumn>
+                </telerik:GridViewDataColumn>
                 <telerik:GridViewDataColumn Header="CreatedDate" DataMemberBinding="{Binding Path=ProcessDescription.CreatedDate}"></telerik:GridViewDataColumn>
+
+                <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Path=ProcessDescription.ProcessStatus}"></telerik:GridViewDataColumn>
                 <telerik:GridViewDataColumn Header="Rodzic" DataMemberBinding="{Binding Path=ProcessDescription.ParentId}"></telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="Param1" DataMemberBinding="{Binding Path=ProcessDescription.ProcessParameter}"></telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="Param2" DataMemberBinding="{Binding Path=ProcessDescription.ProcessParameter2}"></telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="Klient" DataMemberBinding="{Binding Path=ProcessDescription.ProcessInstanceDescription}">
+                    <telerik:GridViewColumn.ToolTipTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=ProcessDescription.ProcessInstanceDescription}" Foreground="Gray" />
+                                <TextBlock Text=" - " />
+                                <TextBlock Text="{Binding Path=ProcessDescription.ProcessInstanceFullDescription}" Foreground="Blue" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.ToolTipTemplate>
+                </telerik:GridViewDataColumn>
                 <telerik:GridViewDataColumn Header="Iteracje" DataMemberBinding="{Binding Path=ProcessDescription.IterationNuber}"></telerik:GridViewDataColumn>
-                <telerik:GridViewDataColumn Header="Parametr 2" DataMemberBinding="{Binding Path=ProcessDescription.IterationNuber}"></telerik:GridViewDataColumn>
             </telerik:RadGridView.Columns>
 
         </telerik:RadGridView>
@@ -91,7 +105,7 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <TextBlock Text="Dane zaznaczonego procesu"></TextBlock>
+                <!--<TextBlock Text="Dane zaznaczonego procesu"></TextBlock>-->
             </Grid>
             <telerik:RadTabControl Grid.Row="1" >
                 <telerik:RadTabItem Header="Logi">

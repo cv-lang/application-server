@@ -66,7 +66,39 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
                 processContainer.Process.ModifiedDate = DateTime.Now;
                 var result = processContainer.VirtualMachine.Resume<object>();
             }
+
+            //przechodze procesy wymajające uwagi Hosta
+            processes = processesList
+                .Where(x => x.Process.ProcessStatus == EnumProcessStatus.WaitingForHost).ToList();
+
+            foreach (var processContainer in processes)
+            {
+                processContainer.Process.ModifiedDate = DateTime.Now;
+                var parameters = processContainer.VirtualMachine.GetHibernateParams();
+                var typ = (EnumHostCommand)parameters[0];
+
+                object resumeParameter = null;
+                switch(typ)
+                {
+                    case EnumHostCommand.CreateChildProcess:
+                        var childProcess = (BaseProcess)parameters[1];
+                        addProcess(childProcess);
+                        resumeParameter = childProcess.Id;
+                        processContainer.VirtualMachine.Resume<object>(resumeParameter);
+                        break;
+                    case EnumHostCommand.WaitForAllChildrenEnd:
+                        var areExecuted = processesList.Where(x => x.Process.ParentId == processContainer.Id)
+                            .All(x => x.Process.ProcessStatus == EnumProcessStatus.Executed);
+                        if(areExecuted)
+                        {
+                            processContainer.VirtualMachine.Resume<object>(resumeParameter);
+                        } 
+                        break;
+                }                
+            }
         }
+
+        
 
         #region Configuration
         public void LoadAndSyncConfiguration()
@@ -159,6 +191,12 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
             processesList.Add(container);
         }
 
+        private void addProcess(BaseProcess childProcess)
+        {
+            var container = createProcessContainer(null, childProcess);
+            addProcess(container);
+        }
+
         private ProcessContainer getProcess(long procesId)
         {
             var process= processesList.Single(x => x.Id == procesId);
@@ -171,25 +209,31 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
         public long StartProcess(string processName, object inputData = null)
         {
             var typeDescription = configuration.Processes
-                .FirstOrDefault(x => x.ProcessTypeFullName== processName);
+                .FirstOrDefault(x => x.ProcessTypeFullName == processName);
 
             var type = Type.GetType(typeDescription.AssemblyQualifiedName);
 
             var process = Activator.CreateInstance(type) as BaseProcess;
-            process.CreatedDate = DateTime.Now;
-            process.ModifiedDate = DateTime.Now;
-            process.ReadedDate = DateTime.Now;
-            
-            var container = new ProcessContainer();
-            container.Process = process;
-            var vm = new VirtualMachine.VirtualMachine();
-            vm.LogMonitor = new LogMonitor(process); 
-            
-            container.VirtualMachine = vm;
-            var result = vm.Start<object>("StartProcess",  process, inputData);
+            ProcessContainer container = createProcessContainer(inputData, process);
 
             addProcess(container);
             return container.Id;
+        }
+
+        private static ProcessContainer createProcessContainer(object inputData, BaseProcess process)
+        {
+            process.CreatedDate = DateTime.Now;
+            process.ModifiedDate = DateTime.Now;
+            process.ReadedDate = DateTime.Now;
+
+            var container = new ProcessContainer();
+            container.Process = process;
+            var vm = new VirtualMachine.VirtualMachine();
+            vm.LogMonitor = new LogMonitor(process);
+
+            container.VirtualMachine = vm;
+            var result = vm.Start<object>("StartProcess", process, inputData);
+            return container;
         }
 
         public ProcessDescription GetProcessData(long processId)

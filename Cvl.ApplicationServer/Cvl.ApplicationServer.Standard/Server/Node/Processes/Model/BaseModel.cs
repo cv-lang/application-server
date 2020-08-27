@@ -10,6 +10,9 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         public long ProcessId { get; set; }
 
         [Description("Nazwa layoutu widoku")]
-        public string Layout { get; set; }
+        public string Layout { get; set; } = "_Layout";
+
+        [Description("Adres IP Klienta")]
+        public string ClientIpAddress { get; set; }
     }
 }
