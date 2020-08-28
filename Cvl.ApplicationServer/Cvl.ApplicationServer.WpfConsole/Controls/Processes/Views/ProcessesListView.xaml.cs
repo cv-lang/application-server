@@ -49,5 +49,26 @@ namespace Cvl.ApplicationServer.WpfConsole.Controls.Processes.Views
                 e.PropertyDefinition.Description = e.PropertyDefinition.PropertyDescriptor.Description;
             }
         }
+
+        private void gvLogi_Loaded(object sender, RoutedEventArgs e)
+        {
+            Telerik.Windows.Controls.GridViewColumn countryColumn = this.gvLogi.Columns["LogType"];
+            Telerik.Windows.Controls.GridView.IColumnFilterDescriptor countryFilter = countryColumn.ColumnFilterDescriptor;
+
+            // Suspend the notifications to avoid multiple data engine updates 
+            countryFilter.SuspendNotifications();
+
+            // This is the same as the end user selecting a distinct value through the UI. 
+            countryFilter.DistinctFilter.AddDistinctValue("Info");
+            //countryFilter.DistinctFilter.AddDistinctValue("Trace");            
+
+            //// This is the same as the end user configuring the upper field filter. 
+            //countryFilter.FieldFilter.Filter1.Operator = Telerik.Windows.Data.FilterOperator.IsEqualTo;
+            //countryFilter.FieldFilter.Filter1.Value = "Info";
+            //countryFilter.FieldFilter.Filter1.IsCaseSensitive = true;
+
+            // Resume the notifications to force the data engine to update the filter. 
+            countryFilter.ResumeNotifications();
+        }
     }
 }

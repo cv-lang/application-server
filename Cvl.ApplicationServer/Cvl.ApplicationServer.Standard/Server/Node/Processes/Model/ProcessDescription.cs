@@ -16,16 +16,16 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
             ProcessTypeFullName = proc.Process.GetType().FullName;
             ProcessTypeName = proc.Process.GetType().Name;
             ProcessTypeDescription = proc.Process.GetType().GetClassDescription();
-            FormData = proc.Process.FormDataToShow;
+            FormData = proc.Process.ProcessUI.FormDataToShow;
             ProcessStep = proc.Process.ProcessStep;
             ProcessStepDescription = proc.Process.ProcessStepDescription;
             CreatedDate = proc.Process.CreatedDate;
             ParentId = proc.Process.ParentId;
             IterationNuber = proc.VirtualMachine.HardwareContext.NumerIteracji;
-            ProcessInstanceDescription = proc.Process.ProcessInstanceDescription;
-            ProcessInstanceFullDescription = proc.Process.ProcessInstanceFullDescription;
-            ProcessParameter = proc.Process.ProcessParameter;
-            ProcessParameter2 = proc.Process.ProcessParameter2;
+            ProcessInstanceDescription = proc.Process.ProcessData.ProcessInstanceDescription;
+            ProcessInstanceFullDescription = proc.Process.ProcessData.ProcessInstanceFullDescription;
+            ProcessParameter = proc.Process.ProcessData.ProcessParameter;
+            ProcessParameter2 = proc.Process.ProcessData.ProcessParameter2;
             ExecutionDate=proc.Process.ExecutionDate;
         }
 

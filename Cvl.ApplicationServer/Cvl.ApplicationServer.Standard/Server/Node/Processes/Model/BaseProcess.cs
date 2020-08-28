@@ -29,29 +29,10 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         [DataForm(GroupName = gm, Description = "Data kiedy proces ma zostać wykonany - przed tą datą oczekuje na wykonanie")]
         public DateTime ExecutionDate { get; set; } = DateTime.Now;
 
-        [DataForm(GroupName = gm, Description = "Ścieżka do folderu widoków - dodawana jest do nazwy widoku")]
-        public string BaseViewPath { get; set; }
+        [DataForm(GroupName = gm, Description = "Dane związane z wyświetlaniem i pobieraniem danych do/od użytkownika")]
+        public ProcessUI ProcessUI { get; set; } = new ProcessUI();
 
-        [DataForm(GroupName = gm, Description = "Nazwa layoutu widoku")]
-        public string ViewLayout { get; set; } = "_Layout";
-
-        
-
-        #region External ID
-
-        [DataForm(GroupName = gm, Description = "Dane instancji procesu, różne per instancja procesu(proces)")]
-        public string ProcessInstanceDescription { get; set; }
-
-        [DataForm(GroupName = gm, Description = "Dane instancji procesu, różne per instancja procesu(proces)")]
-        public string ProcessInstanceFullDescription { get; set; }
-
-        [DataForm(GroupName = gm, Description = "Parametr procesu (np. external id, email, NIP, PESEL...)")]
-        public string ProcessParameter { get; set; }
-
-        [DataForm(GroupName = gm, Description = "Parametr2 procesu (np. external id, NIP, PESEL...)")]
-        public string ProcessParameter2 { get; set; }
-
-        #endregion
+        public ProcessData ProcessData { get; set; } = new ProcessData();       
 
         #endregion
 
@@ -79,11 +60,11 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 
             if (string.IsNullOrEmpty(formName) == false)
             {
-                FormDataToShow = new FormData(formName, formModel);
+                ProcessUI.FormDataToShow = new FormData(formName, formModel);
             }
             else
             {
-                FormDataToShow = null;
+                ProcessUI.FormDataToShow = null;
             }
 
             ProcessStatus = EnumProcessStatus.Executed;
@@ -100,32 +81,28 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 
         #region ShowForm
 
-        [DataForm(GroupName = gm, Description = "Dane które są wyświetlane użytkownikowi")]
-        public FormData FormDataToShow { get; set; }
-
-        [DataForm(GroupName = gm, Description = "Pobrane dane od użytkownika")]
-        public FormData FormDataFromUser { get; set; }
+        
 
         [Interpret]
         protected T ShowForm<T>(string formName, T formModel, string waitingFormName = "WaitingView")
         where T : BaseModel
         {
             formModel.ProcessId = Id;
-            formModel.Layout = ViewLayout;
-            FormDataToShow = new FormData(BaseViewPath+formName, formModel);
-            FormDataToShow.WaitingFormName = BaseViewPath + formName;
+            formModel.Layout = ProcessUI.ViewLayout;
+            ProcessUI.FormDataToShow = new FormData(ProcessUI.BaseViewPath +formName, formModel);
+            ProcessUI.FormDataToShow.WaitingFormName = ProcessUI.BaseViewPath + formName;
 
-            Log($"Wyświetlam: {FormDataToShow.FormName}")
+            Log($"Wyświetlam: {ProcessUI.FormDataToShow.FormName}")
                 .AddParameter(formModel, "formModel");
 
-            ProcessLog.AddShowForm(FormDataToShow, ShownFormType.ShownToUser);
+            ProcessLog.AddShowForm(ProcessUI.FormDataToShow, ShownFormType.ShownToUser);
 
             ProcessStatus = EnumProcessStatus.WaitingForUserData;
             VirtualMachine.VirtualMachine.Hibernate();
 
-            ProcessLog.AddShowForm(FormDataFromUser, ShownFormType.FromUser);
+            ProcessLog.AddShowForm(ProcessUI.FormDataFromUser, ShownFormType.FromUser);
 
-            return (T)FormDataFromUser.FormDataModel;
+            return (T)ProcessUI.FormDataFromUser.FormDataModel;
         }
 
         #endregion

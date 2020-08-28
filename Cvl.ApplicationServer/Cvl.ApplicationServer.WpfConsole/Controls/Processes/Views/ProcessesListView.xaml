@@ -161,7 +161,7 @@
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
-                        <telerik:RadGridView SelectedItem="{Binding SelectedLog}" ItemsSource="{Binding Path=Logs}"  AutoGenerateColumns="False" >
+                        <telerik:RadGridView x:Name="gvLogi" Loaded="gvLogi_Loaded" SelectedItem="{Binding SelectedLog}" ItemsSource="{Binding Path=Logs}"  AutoGenerateColumns="False" >
                             <telerik:RadGridView.Columns>
                                 <telerik:GridViewDataColumn Header="Data" DataMemberBinding="{Binding TimeStamp}" DataFormatString="dd.MM.yyyy HH:mm:ss" Width="120"></telerik:GridViewDataColumn>
                                 <telerik:GridViewDataColumn Header="Metoda" DataMemberBinding="{Binding MemberName}"></telerik:GridViewDataColumn>
