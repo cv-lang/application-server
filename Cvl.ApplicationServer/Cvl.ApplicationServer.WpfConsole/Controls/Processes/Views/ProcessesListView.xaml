@@ -75,7 +75,8 @@
                         </DataTemplate>
                     </telerik:GridViewColumn.ToolTipTemplate>
                 </telerik:GridViewDataColumn>
-                <telerik:GridViewDataColumn Header="CreatedDate" DataMemberBinding="{Binding Path=ProcessDescription.CreatedDate}" DataFormatString="dd.MM.yyyy HH:mm:ss"></telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="Data utworzenia" DataMemberBinding="{Binding Path=ProcessDescription.CreatedDate}" DataFormatString="dd.MM.yyyy HH:mm:ss"></telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="Data wykonywania" DataMemberBinding="{Binding Path=ProcessDescription.ExecutionDate}" DataFormatString="dd.MM.yyyy HH:mm:ss"></telerik:GridViewDataColumn>
 
                 <telerik:GridViewDataColumn Header="Status" DataMemberBinding="{Binding Path=ProcessDescription.ProcessStatus}"></telerik:GridViewDataColumn>
                 <telerik:GridViewDataColumn Header="Rodzic" DataMemberBinding="{Binding Path=ProcessDescription.ParentId}"></telerik:GridViewDataColumn>
@@ -141,7 +142,7 @@
 
                 <telerik:RadTabItem Header="Komunikacja zewnętrzna">
                     <Grid>
-                        <telerik:RadGridView ItemsSource="{Binding Path=SelectedProcess.Process.ProcessLog.ExternalCommunications}"  AutoGenerateColumns="False" >
+                        <telerik:RadGridView IsReadOnly="False" ItemsSource="{Binding Path=SelectedProcess.Process.ProcessLog.ExternalCommunications}"  AutoGenerateColumns="False" >
                             <telerik:RadGridView.Columns>
                                 <telerik:GridViewDataColumn Header="Data" DataMemberBinding="{Binding CreatedDate}" DataFormatString="dd.MM.yyyy HH:mm:ss" Width="120"></telerik:GridViewDataColumn>
                                 <telerik:GridViewDataColumn Header="Typ" DataMemberBinding="{Binding Type}"></telerik:GridViewDataColumn>

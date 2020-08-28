@@ -23,10 +23,11 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         [DataForm(GroupName = gm, Description = "Id procesu rodzica - jesli proces jest potmkiem")]
         public long? ParentId { get; set; }
 
-        public ProcessId GetProcessIdentificator() => new ProcessId(Id);
-
         [DataForm(GroupName = gm, Description = "Status procesu")]
         public EnumProcessStatus ProcessStatus { get; set; }
+
+        [DataForm(GroupName = gm, Description = "Data kiedy proces ma zostać wykonany - przed tą datą oczekuje na wykonanie")]
+        public DateTime ExecutionDate { get; set; } = DateTime.Now;
 
         [DataForm(GroupName = gm, Description = "Ścieżka do folderu widoków - dodawana jest do nazwy widoku")]
         public string BaseViewPath { get; set; }
@@ -106,12 +107,13 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         public FormData FormDataFromUser { get; set; }
 
         [Interpret]
-        protected T ShowForm<T>(string formName, T formModel)
+        protected T ShowForm<T>(string formName, T formModel, string waitingFormName = "WaitingView")
         where T : BaseModel
         {
             formModel.ProcessId = Id;
             formModel.Layout = ViewLayout;
             FormDataToShow = new FormData(BaseViewPath+formName, formModel);
+            FormDataToShow.WaitingFormName = BaseViewPath + formName;
 
             Log($"Wyświetlam: {FormDataToShow.FormName}")
                 .AddParameter(formModel, "formModel");

@@ -26,6 +26,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
             ProcessInstanceFullDescription = proc.Process.ProcessInstanceFullDescription;
             ProcessParameter = proc.Process.ProcessParameter;
             ProcessParameter2 = proc.Process.ProcessParameter2;
+            ExecutionDate=proc.Process.ExecutionDate;
         }
 
 
@@ -44,5 +45,6 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         public string ProcessInstanceFullDescription { get; set; }
         public string ProcessParameter { get; set; }
         public string ProcessParameter2 { get; set; }
+        public DateTime ExecutionDate { get;  set; }
     }
 }

@@ -59,7 +59,8 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
         public void TestRunProcesses()
         {
             var processes=processesList
-                .Where(x => x.Process.ProcessStatus == EnumProcessStatus.WaitingForExecution);
+                .Where(x => x.Process.ProcessStatus == EnumProcessStatus.WaitingForExecution &&
+                x.Process.ExecutionDate < DateTime.Now);
 
             foreach (var processContainer in processes)
             {
@@ -217,6 +218,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
             ProcessContainer container = createProcessContainer(inputData, process);
 
             addProcess(container);
+            //container.VirtualMachine.Resume<object>();
             return container.Id;
         }
 

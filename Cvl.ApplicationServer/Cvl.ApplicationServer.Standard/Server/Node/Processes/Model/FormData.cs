@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Cvl.ApplicationServer.Server.Node.Processes.Model
@@ -13,7 +14,13 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
             this.FormDataModel = formModel;
         }
 
+        [Description("Nazwa widoku")]
         public string FormName { get; set; }
+
+        [Description("Model widoku")]
         public BaseModel FormDataModel { get; set; }
+
+        [Description("Nazwa widoku oczekiwania na wykonanie")]
+        public string WaitingFormName { get; set; }
     }
 }
