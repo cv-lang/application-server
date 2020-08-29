@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Cvl.ApplicationServer.Base.Model;
 using Cvl.ApplicationServer.Monitoring.Base;
 using Cvl.ApplicationServer.Monitoring.Base.Model;
@@ -23,6 +24,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         [DataForm(GroupName = gm, Description = "Id procesu rodzica - jesli proces jest potmkiem")]
         public long? ParentId { get; set; }
 
+        [Required(ErrorMessage = "Poprawny Email jest wymagany")]
         [DataForm(GroupName = gm, Description = "Status procesu")]
         public EnumProcessStatus ProcessStatus { get; set; }
 
@@ -79,22 +81,20 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 
         #endregion        
 
-        #region ShowForm
-
-        
+        #region ShowForm               
 
         [Interpret]
-        protected T ShowForm<T>(string formName, T formModel, string waitingFormName = "WaitingView")
+        protected T ShowForm<T>(string formName, T formModel)
         where T : BaseModel
         {
             formModel.ProcessId = Id;
             formModel.Layout = ProcessUI.ViewLayout;
             ProcessUI.FormDataToShow = new FormData(ProcessUI.BaseViewPath +formName, formModel);
-            ProcessUI.FormDataToShow.WaitingFormName = ProcessUI.BaseViewPath + formName;
+            
+            //Log($"Wyświetlam: {ProcessUI.FormDataToShow.FormName}")
+              //  .AddParameter(formModel, "formModel");
 
-            Log($"Wyświetlam: {ProcessUI.FormDataToShow.FormName}")
-                .AddParameter(formModel, "formModel");
-
+            
             ProcessLog.AddShowForm(ProcessUI.FormDataToShow, ShownFormType.ShownToUser);
 
             ProcessStatus = EnumProcessStatus.WaitingForUserData;

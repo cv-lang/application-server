@@ -44,6 +44,13 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
 
         public void EventRet(object ret, long iterationNumber)
         {
+            if( ret is Cvl.ApplicationServer.Server.Node.Processes.Model.ProcessLogs.ProcessLog)
+            {
+                Process.ProcessLog.Logger.Trace($"Powrót z metody")
+                    .AddParameter("referencja usunięta", "ProcessLog");
+                return;
+            }
+
             Process.ProcessLog.Logger.Trace($"Powrót z metody")
                 .AddParameter(ret, "zwrócona wartość")
                 .AddParameter(iterationNumber, "iterationNumber");

@@ -19,8 +19,6 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 
         [Description("Model widoku")]
         public BaseModel FormDataModel { get; set; }
-
-        [Description("Nazwa widoku oczekiwania na wykonanie")]
-        public string WaitingFormName { get; set; }
+        
     }
 }

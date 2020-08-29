@@ -232,7 +232,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
             container.Process = process;
             var vm = new VirtualMachine.VirtualMachine();
             vm.LogMonitor = new LogMonitor(process);
-
+            
             container.VirtualMachine = vm;
             var result = vm.Start<object>("StartProcess", process, inputData);
             return container;

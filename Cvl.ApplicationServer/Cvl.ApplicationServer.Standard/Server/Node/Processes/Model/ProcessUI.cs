@@ -10,6 +10,21 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
     /// </summary>
     public class ProcessUI
     {
+        public ProcessUI()
+        {
+            WaitingForm = new FormData();
+            WaitingForm.FormName = "WaitingView";
+            WaitingForm.FormDataModel = new GeneralViewModel();
+            WaitingForm.FormDataModel.Layout = ViewLayout;
+        }
+
+        public void SetBaseViewPath(string path)
+        {
+            BaseViewPath = path;
+            WaitingForm.FormName = BaseViewPath + "WaitingView";
+            WaitingForm.FormDataModel.Layout = ViewLayout;
+        }
+
         private const string gm = "Proces UI";
 
         [DataForm(GroupName = gm, Description = "Ścieżka do folderu widoków - dodawana jest do nazwy widoku")]
@@ -24,5 +39,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 
         [DataForm(GroupName = gm, Description = "Pobrane dane od użytkownika")]
         public FormData FormDataFromUser { get; set; }
+
+        public FormData WaitingForm { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
             ProcessTypeName = proc.Process.GetType().Name;
             ProcessTypeDescription = proc.Process.GetType().GetClassDescription();
             FormData = proc.Process.ProcessUI.FormDataToShow;
+            WaitingFormData = proc.Process.ProcessUI.WaitingForm;
             ProcessStep = proc.Process.ProcessStep;
             ProcessStepDescription = proc.Process.ProcessStepDescription;
             CreatedDate = proc.Process.CreatedDate;
@@ -36,6 +37,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         public string ProcessTypeName { get; set; }
         public string ProcessTypeDescription { get;  set; }
         public FormData FormData { get;  set; }
+        public FormData WaitingFormData { get; set; }
         public string ProcessStep { get; set; }
         public string ProcessStepDescription { get; set; }
         public DateTime CreatedDate { get;  set; }

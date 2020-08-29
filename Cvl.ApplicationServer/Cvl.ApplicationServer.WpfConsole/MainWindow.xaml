@@ -3,7 +3,7 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
                 xmlns:views="clr-namespace:Cvl.ApplicationServer.WpfConsole.Controls.Processes.Views"
-                Title="MainWindow" Height="350" Width="525" Loaded="MainWindow_OnLoaded">
+                Title="System console" WindowState="Maximized"  Height="350" Width="525" Loaded="MainWindow_OnLoaded">
     <Window.Resources>
         
         <SolidColorBrush x:Key="LightGrayBrush" Color="#FFEFEFF2" />
