@@ -361,6 +361,10 @@
     <Compile Include="Controls\Jobs\Views\JobsView.xaml.cs">
       <DependentUpon>JobsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\OfflineProcesses\ViewModels\OfflineProcessViewModel.cs" />
+    <Compile Include="Controls\OfflineProcesses\Views\OfflineProcessView.xaml.cs">
+      <DependentUpon>OfflineProcessView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Processes\ViewModels\ProcessDescritpionViewModel.cs" />
     <Compile Include="Controls\Processes\ViewModels\ProcessesListViewModel.cs" />
     <Compile Include="Controls\Processes\ViewModels\ProcessViewModel.cs" />
@@ -375,6 +379,10 @@
     <Compile Include="ViewModels\Base\ViewModelBase.cs" />
     <Compile Include="ViewModels\ConsoleViewModel.cs" />
     <Page Include="Controls\Jobs\Views\JobsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OfflineProcesses\Views\OfflineProcessView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

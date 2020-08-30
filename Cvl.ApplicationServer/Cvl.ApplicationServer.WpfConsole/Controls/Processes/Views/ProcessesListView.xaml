@@ -67,10 +67,19 @@
                 <telerik:GridViewDataColumn Header="Krok" DataMemberBinding="{Binding Path=ProcessDescription.ProcessStep}">
                     <telerik:GridViewColumn.ToolTipTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{Binding Path=ProcessDescription.ProcessStep}" Foreground="Gray" />
-                                <TextBlock Text=" - " />
                                 <TextBlock Text="{Binding Path=ProcessDescription.ProcessStepDescription}" Foreground="Blue" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.ToolTipTemplate>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="Klient" DataMemberBinding="{Binding Path=ProcessDescription.ProcessInstanceDescription}">
+                    <telerik:GridViewColumn.ToolTipTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Path=ProcessDescription.ProcessInstanceDescription}" Foreground="Gray" />
+                                <TextBlock Text="{Binding Path=ProcessDescription.ProcessInstanceFullDescription}" Foreground="Blue" />
                             </StackPanel>
                         </DataTemplate>
                     </telerik:GridViewColumn.ToolTipTemplate>
@@ -82,17 +91,7 @@
                 <telerik:GridViewDataColumn Header="Rodzic" DataMemberBinding="{Binding Path=ProcessDescription.ParentId}"></telerik:GridViewDataColumn>
                 <telerik:GridViewDataColumn Header="Param1" DataMemberBinding="{Binding Path=ProcessDescription.ProcessParameter}"></telerik:GridViewDataColumn>
                 <telerik:GridViewDataColumn Header="Param2" DataMemberBinding="{Binding Path=ProcessDescription.ProcessParameter2}"></telerik:GridViewDataColumn>
-                <telerik:GridViewDataColumn Header="Klient" DataMemberBinding="{Binding Path=ProcessDescription.ProcessInstanceDescription}">
-                    <telerik:GridViewColumn.ToolTipTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Path=ProcessDescription.ProcessInstanceDescription}" Foreground="Gray" />
-                                <TextBlock Text=" - " />
-                                <TextBlock Text="{Binding Path=ProcessDescription.ProcessInstanceFullDescription}" Foreground="Blue" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </telerik:GridViewColumn.ToolTipTemplate>
-                </telerik:GridViewDataColumn>
+                
                 <telerik:GridViewDataColumn Header="Iteracje" DataMemberBinding="{Binding Path=ProcessDescription.IterationNuber}"></telerik:GridViewDataColumn>
             </telerik:RadGridView.Columns>
 

@@ -5,6 +5,7 @@
                 xmlns:views="clr-namespace:Cvl.ApplicationServer.WpfConsole.Controls.Processes.Views"
         xmlns:views1="clr-namespace:Cvl.ApplicationServer.WpfConsole.Controls.Jobs.Views"
         xmlns:views2="clr-namespace:Cvl.ApplicationServer.WpfConsole.Controls.Services.Views"
+        xmlns:offlineprocesses="clr-namespace:Cvl.ApplicationServer.WpfConsole.Controls.OfflineProcesses"
         Title="System console" WindowState="Maximized"  Height="350" Width="525" Loaded="MainWindow_OnLoaded">
     <Window.Resources>
         
@@ -93,6 +94,11 @@
                         <telerik:RadDocumentPane Title="Serwisy">
                             <telerik:RadDocumentPane.Content>
                                 <views2:ServicesView></views2:ServicesView>
+                            </telerik:RadDocumentPane.Content>
+                        </telerik:RadDocumentPane>
+                        <telerik:RadDocumentPane Title="Proces offline">
+                            <telerik:RadDocumentPane.Content>
+                                <offlineprocesses:OfflineProcessView DataContext="{Binding OfflineProcess}"></offlineprocesses:OfflineProcessView>
                             </telerik:RadDocumentPane.Content>
                         </telerik:RadDocumentPane>
                     </telerik:RadPaneGroup>

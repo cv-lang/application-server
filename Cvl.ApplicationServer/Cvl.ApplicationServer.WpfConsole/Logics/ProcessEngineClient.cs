@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Server.Node.Processes.Interfaces;
+using Cvl.ApplicationServer.Server.Node.Processes.Model;
 using Cvl.ApplicationServer.WpfConsole.Controls.Processes.ViewModels;
 using Cvl.NodeNetwork.Client;
 
@@ -31,6 +32,15 @@ namespace Cvl.ApplicationServer.WpfConsole.Logics
                 var serviceProxy = factory.CreateChannel();
                 var process = serviceProxy.GetProcess(id);
                 return new ProcessViewModel(process);
+            }
+        }
+
+        internal void SetProcessData(BaseModel formModel)
+        {
+            using (var factory = new ChannelFactory<IProcessEngine>(endpoint))
+            {
+                var serviceProxy = factory.CreateChannel();
+                serviceProxy.SetProcessData(formModel);
             }
         }
     }
