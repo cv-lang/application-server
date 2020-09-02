@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cvl.ApplicationServer.TestB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cvl.ApplicationServer.WpfConsole", "Cvl.ApplicationServer.WpfConsole\Cvl.ApplicationServer.WpfConsole.csproj", "{CC259653-AAD8-4B12-BF26-769F5B9BB2D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cvl.ApplicationServer.Server", "Cvl.ApplicationServer.Server\Cvl.ApplicationServer.Server.csproj", "{EC730A0A-A4AC-4599-BAB0-4F63B6EE243A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,14 @@ Global
 		{CC259653-AAD8-4B12-BF26-769F5B9BB2D9}.Release|Any CPU.ActiveCfg = Release|x86
 		{CC259653-AAD8-4B12-BF26-769F5B9BB2D9}.Release|x86.ActiveCfg = Release|x86
 		{CC259653-AAD8-4B12-BF26-769F5B9BB2D9}.Release|x86.Build.0 = Release|x86
+		{EC730A0A-A4AC-4599-BAB0-4F63B6EE243A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC730A0A-A4AC-4599-BAB0-4F63B6EE243A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC730A0A-A4AC-4599-BAB0-4F63B6EE243A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC730A0A-A4AC-4599-BAB0-4F63B6EE243A}.Debug|x86.Build.0 = Debug|Any CPU
+		{EC730A0A-A4AC-4599-BAB0-4F63B6EE243A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC730A0A-A4AC-4599-BAB0-4F63B6EE243A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC730A0A-A4AC-4599-BAB0-4F63B6EE243A}.Release|x86.ActiveCfg = Release|Any CPU
+		{EC730A0A-A4AC-4599-BAB0-4F63B6EE243A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
