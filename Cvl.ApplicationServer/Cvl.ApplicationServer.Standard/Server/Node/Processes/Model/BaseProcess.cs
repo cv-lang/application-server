@@ -56,8 +56,9 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         }
 
         [Interpret]
-        protected void EndProcess(string formName, BaseModel formModel)
+        protected void EndProcess(string formName, BaseModel model)
         {
+            var formModel = new FormModel();
             formModel.ProcessId = Id;
 
             if (string.IsNullOrEmpty(formName) == false)
@@ -84,11 +85,14 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         #region ShowForm               
 
         [Interpret]
-        protected T ShowForm<T>(string formName, T formModel)
-        where T : BaseModel
+        protected T ShowForm<T>(string formName, T model)
+        where T : new()
         {
+            var formModel = new FormModel<T>();
             formModel.ProcessId = Id;
             formModel.Layout = ProcessUI.ViewLayout;
+            formModel.SetModel(model);
+
             ProcessUI.FormDataToShow = new FormData(ProcessUI.BaseViewPath +formName, formModel);
             
             //Log($"Wyświetlam: {ProcessUI.FormDataToShow.FormName}")
@@ -102,7 +106,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 
             ProcessLog.AddShowForm(ProcessUI.FormDataFromUser, ShownFormType.FromUser);
 
-            return (T)ProcessUI.FormDataFromUser.FormDataModel;
+            return (T)ProcessUI.FormDataFromUser.FormModel.GetModel();
         }
 
         #endregion

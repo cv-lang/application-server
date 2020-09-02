@@ -59,8 +59,8 @@ namespace Cvl.ApplicationServer.WpfConsole.Controls.OfflineProcesses.ViewModels
             get { return formVisiblity; }
         }
 
-        private BaseModel formModel;
-        public BaseModel FormModel
+        private FormModel formModel;
+        public FormModel FormModel
         {
             set
             {
@@ -78,7 +78,7 @@ namespace Cvl.ApplicationServer.WpfConsole.Controls.OfflineProcesses.ViewModels
             {
                 WaitingVisiblity = Visibility.Collapsed;
                 FormVisiblity = Visibility.Visible;
-                FormModel = processData.Process.ProcessUI.FormDataToShow.FormDataModel;
+                FormModel = processData.Process.ProcessUI.FormDataToShow.FormModel;
                 timer.Stop();
             }
             else

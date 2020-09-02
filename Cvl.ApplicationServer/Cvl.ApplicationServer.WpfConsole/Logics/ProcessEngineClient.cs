@@ -35,7 +35,7 @@ namespace Cvl.ApplicationServer.WpfConsole.Logics
             }
         }
 
-        internal void SetProcessData(BaseModel formModel)
+        internal void SetProcessData(FormModel formModel)
         {
             using (var factory = new ChannelFactory<IProcessEngine>(endpoint))
             {

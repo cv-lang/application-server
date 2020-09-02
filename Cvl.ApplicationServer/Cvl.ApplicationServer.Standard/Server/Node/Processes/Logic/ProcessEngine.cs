@@ -247,10 +247,10 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
             return desc;
         }
 
-        public void SetProcessData(BaseModel userDataBaseModel)
+        public void SetProcessData(FormModel userFormModel)
         {
-            var proc = getProcess(userDataBaseModel.ProcessId);
-            proc.Process.ProcessUI.FormDataFromUser = new FormData("", userDataBaseModel);
+            var proc = getProcess(userFormModel.ProcessId);
+            proc.Process.ProcessUI.FormDataFromUser = new FormData("", userFormModel);
             proc.Process.ProcessStatus = EnumProcessStatus.WaitingForExecution;
         }
 

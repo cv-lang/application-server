@@ -6,7 +6,7 @@ using System.Text;
 namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 {
     /// <summary>
-    /// Dane związane z wyświetlaniem 
+    /// Dane procesu związane z wyświetlaniem 
     /// </summary>
     public class ProcessUI
     {
@@ -14,15 +14,16 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         {
             WaitingForm = new FormData();
             WaitingForm.FormName = "WaitingView";
-            WaitingForm.FormDataModel = new GeneralViewModel();
-            WaitingForm.FormDataModel.Layout = ViewLayout;
+            WaitingForm.FormModel = new FormModel();
+            WaitingForm.FormModel.SetModel( new GeneralViewModel());
+            WaitingForm.FormModel.Layout = ViewLayout;
         }
 
         public void SetBaseViewPath(string path)
         {
             BaseViewPath = path;
             WaitingForm.FormName = BaseViewPath + "WaitingView";
-            WaitingForm.FormDataModel.Layout = ViewLayout;
+            WaitingForm.FormModel.Layout = ViewLayout;
         }
 
         private const string gm = "Proces UI";

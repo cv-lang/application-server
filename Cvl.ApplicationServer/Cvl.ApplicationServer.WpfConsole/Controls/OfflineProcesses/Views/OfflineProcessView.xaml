@@ -24,7 +24,7 @@
         </Grid>
 
         <Grid Grid.Row="1" Visibility="{Binding FormVisiblity}">
-            <telerik:RadPropertyGrid Item="{Binding FormModel}" Margin="100,10"></telerik:RadPropertyGrid>
+            <telerik:RadPropertyGrid Item="{Binding FormModel.Model}" Margin="100,10"></telerik:RadPropertyGrid>
         </Grid>
 
     </Grid>

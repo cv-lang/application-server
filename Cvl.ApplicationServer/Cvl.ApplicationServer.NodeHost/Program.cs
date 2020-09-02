@@ -16,13 +16,13 @@ namespace Cvl.ApplicationServer.NodeHost
             
             applicationServer.ProcessManager.TestRunProcesses();
             var data = applicationServer.ProcessManager.GetProcessFormData(procesId);
-            var s1 = data.FormDataModel as FirstStepData;
+            var s1 = data.FormModel.GetModel() as FirstStepData;
             s1.Agreements.ForEach(x => x.Accepted = true);
             applicationServer.ProcessManager.SetProcessFormData(procesId, data);
 
             applicationServer.ProcessManager.TestRunProcesses();
             data = applicationServer.ProcessManager.GetProcessFormData(procesId);
-            var s2 = data.FormDataModel as Cvl.ApplicationServer.Server.Node.Processes.TestProcess.Steps.SmsValidationData;
+            var s2 = data.FormModel.GetModel() as Cvl.ApplicationServer.Server.Node.Processes.TestProcess.Steps.SmsValidationData;
             s2.ValidationCodeFromUser = s2.ValidationCode;
             applicationServer.ProcessManager.SetProcessFormData(procesId, data);
 
