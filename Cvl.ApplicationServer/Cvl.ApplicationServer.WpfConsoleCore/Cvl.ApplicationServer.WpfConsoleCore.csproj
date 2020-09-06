@@ -1,0 +1,88 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Cvl.ApplicationServer.WpfConsoleCore</RootNamespace>
+    <EnableDefaultItems>False</EnableDefaultItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.4.1" />
+    <PackageReference Include="Telerik.UI.for.Wpf.NetCore.Xaml.Trial" Version="2020.2.617" />
+  </ItemGroup>
+  
+  <ItemGroup>
+  <ApplicationDefinition Include="App.xaml">
+    <Generator>MSBuild:Compile</Generator>
+    <SubType>Designer</SubType>
+  </ApplicationDefinition>
+  <Page Include="Controls\Jobs\Views\JobsView.xaml">
+    <SubType>Designer</SubType>
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Controls\OfflineProcesses\Views\OfflineProcessView.xaml">
+    <SubType>Designer</SubType>
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Controls\Processes\Views\ProcessesListView.xaml">
+    <SubType>Designer</SubType>
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="Controls\Services\Views\ServicesView.xaml">
+    <SubType>Designer</SubType>
+    <Generator>MSBuild:Compile</Generator>
+  </Page>
+  <Page Include="MainWindow.xaml">
+    <Generator>MSBuild:Compile</Generator>
+    <SubType>Designer</SubType>
+  </Page>
+  <Compile Include="App.xaml.cs">
+    <DependentUpon>App.xaml</DependentUpon>
+    <SubType>Code</SubType>
+  </Compile>
+  <Compile Include="Controls\Jobs\Views\JobsView.xaml.cs">
+    <DependentUpon>JobsView.xaml</DependentUpon>
+  </Compile>
+  <Compile Include="Controls\OfflineProcesses\ViewModels\OfflineProcessViewModel.cs" />
+  <Compile Include="Controls\OfflineProcesses\Views\OfflineProcessView.xaml.cs">
+    <DependentUpon>OfflineProcessView.xaml</DependentUpon>
+  </Compile>
+  <Compile Include="Controls\Processes\ViewModels\ProcessDescritpionViewModel.cs" />
+  <Compile Include="Controls\Processes\ViewModels\ProcessesListViewModel.cs" />
+  <Compile Include="Controls\Processes\ViewModels\ProcessViewModel.cs" />
+  <Compile Include="Controls\Processes\Views\ProcessesListView.xaml.cs">
+    <DependentUpon>ProcessesListView.xaml</DependentUpon>
+  </Compile>
+  <Compile Include="Controls\Services\Views\ServicesView.xaml.cs">
+    <DependentUpon>ServicesView.xaml</DependentUpon>
+  </Compile>
+  <Compile Include="Logics\ProcessEngineClient.cs" />
+  <Compile Include="MainWindow.xaml.cs">
+    <DependentUpon>MainWindow.xaml</DependentUpon>
+    <SubType>Code</SubType>
+  </Compile>
+  <Compile Include="ViewModels\Base\RelayCommand.cs" />
+  <Compile Include="ViewModels\Base\ViewModelBase.cs" />
+  <Compile Include="ViewModels\ConsoleViewModel.cs" />
+</ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Controls\Jobs\ViewModels\" />
+    <Folder Include="Controls\Services\ViewModels\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Cvl.ApplicationServer.Standard\Cvl.ApplicationServer.Standard.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="Cvl.NodeNetwork">
+      <HintPath>..\Cvl.ApplicationServer.Server\bin\Debug\netcoreapp3.1\Cvl.NodeNetwork.dll</HintPath>
+    </Reference>
+    <Reference Include="Cvl.VirtualMachine">
+      <HintPath>..\Cvl.ApplicationServer.Server\bin\Debug\netcoreapp3.1\Cvl.VirtualMachine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

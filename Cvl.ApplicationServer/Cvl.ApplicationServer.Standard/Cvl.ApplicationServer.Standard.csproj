@@ -32,6 +32,7 @@
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="5.0.8" />
     <PackageReference Include="SharpSerializer" Version="3.0.1" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
 
@@ -42,9 +43,6 @@
   <ItemGroup>
     <Reference Include="Cvl.VirtualMachine">
       <HintPath>..\..\..\virtual-machine\Cvl.VirtualMachine\Cvl.VirtualMachine.TestAppFramework\bin\Debug\Cvl.VirtualMachine.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.DataAnnotations">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.ComponentModel.DataAnnotations.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -20,7 +20,7 @@ namespace Cvl.ApplicationServer.Server.Controllers
             }
         }
 
-
+        [HttpPost("process/{id}")]
         [HttpGet("process/{id}")]
         public IActionResult Index(int id)
         {
@@ -76,7 +76,8 @@ namespace Cvl.ApplicationServer.Server.Controllers
         }
 
 
-
+        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> SetProcessData(long ProcessId)
         {
             var process = ProcessController.ProcessEngine.GetProcessData(ProcessId);
