@@ -135,7 +135,7 @@
                         </telerik:RadGridView>
 
                         <telerik:RadPropertyGrid Grid.Column="1" AutoGeneratingPropertyDefinition="RadPropertyGrid_OnAutoGeneratingPropertyDefinition" NestedPropertiesVisibility="Visible"
-                                                 Item="{Binding Path=SelectedShownForm.FormModel.FormDataModel}"></telerik:RadPropertyGrid>
+                                                 Item="{Binding Path=SelectedShownForm.FormModel.FormModel}"></telerik:RadPropertyGrid>
                     </Grid>
                 </telerik:RadTabItem>
 

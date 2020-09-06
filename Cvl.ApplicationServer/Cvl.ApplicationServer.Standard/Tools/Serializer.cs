@@ -31,9 +31,10 @@ namespace Cvl.ApplicationServer.Tools
             //return JsonConvert.SerializeObject(obj);
 
             var settings = new SharpSerializerXmlSettings();
-            settings.IncludeAssemblyVersionInTypeName = false;
-            settings.IncludeCultureInTypeName = false;
+            settings.IncludeAssemblyVersionInTypeName = true;
+            settings.IncludeCultureInTypeName = true;
             settings.IncludePublicKeyTokenInTypeName = false;
+            
 
             var serializer = new SharpSerializer(settings);
             serializer.PropertyProvider.AttributesToIgnore.Clear();
@@ -83,8 +84,8 @@ namespace Cvl.ApplicationServer.Tools
 
 
             var settings = new SharpSerializerXmlSettings();
-            settings.IncludeAssemblyVersionInTypeName = false;
-            settings.IncludeCultureInTypeName = false;
+            settings.IncludeAssemblyVersionInTypeName = true;
+            settings.IncludeCultureInTypeName = true;
             settings.IncludePublicKeyTokenInTypeName = false;
 
             var serializer = new SharpSerializer(settings);

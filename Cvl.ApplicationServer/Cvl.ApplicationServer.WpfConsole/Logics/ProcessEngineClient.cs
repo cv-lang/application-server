@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Server.Node.Processes.Interfaces;
@@ -15,6 +16,10 @@ namespace Cvl.ApplicationServer.WpfConsole.Logics
         private string endpoint = "https://localhost:44361";
         public List<ProcessDescritpionViewModel> GetAllProcesses()
         {
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            //currentDomain.AssemblyLoad += new AssemblyLoadEventHandler(MyAssemblyLoadEventHandler);
+            //currentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
             using (var factory = new ChannelFactory<IProcessEngine>(endpoint))
             {
                 var serviceProxy = factory.CreateChannel();
@@ -23,6 +28,25 @@ namespace Cvl.ApplicationServer.WpfConsole.Logics
                     .Select(x => new ProcessDescritpionViewModel(x))
                     .ToList();
             }
+        }
+
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            try
+            {
+                var path = AppDomain.CurrentDomain.BaseDirectory;
+                var t = args.Name.Split(',').First();
+                var assemblyPath = $"{path}{t}.dll";
+                var a = Assembly.LoadFile(assemblyPath);
+                return a;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Assembly.LoadFrom(args.Name);
+
+
         }
 
         internal ProcessViewModel GetProcess(long id)

@@ -67,10 +67,6 @@ namespace Cvl.ApplicationServer.Server.Controllers
 
         public IActionResult StartProcess(string processType)
         {
-            if (string.IsNullOrEmpty(processType))
-            {
-                processType = "Smeo.BusinessProcesses.Jdg.JdgProcess";
-            }
             var id = ProcessEngine.StartProcess(processType);
             return Redirect($"{id}");
         }
