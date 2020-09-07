@@ -5,12 +5,17 @@
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
+    <Version>0.9.0</Version>
+    <Description>.Net Application Server</Description>
+    <Authors>Cvlang Organization</Authors>
+    <Company>Cvlang Organization</Company>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cvl.ApplicationServer.NodeHostWeb\Cvl.ApplicationServer.NodeHostWeb.csproj" />
-    <ProjectReference Include="..\Cvl.ApplicationServer.NodeHost\Cvl.ApplicationServer.NodeHost.csproj" />
-    <ProjectReference Include="..\Cvl.ApplicationServer.Standard\Cvl.ApplicationServer.Standard.csproj" />
+    <PackageReference Include="Cvl.ApplicationServer" Version="0.9.0" />
   </ItemGroup>
 
   <ItemGroup>

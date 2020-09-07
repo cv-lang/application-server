@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.1" />
+    <PackageReference Include="Cvl.ApplicationServer" Version="0.9.0" />
+    <PackageReference Include="Cvl.NodeNetwork" Version="0.9.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
     <PackageReference Include="Telerik.UI.for.Wpf.NetCore.Xaml.Trial" Version="2020.2.617" />
   </ItemGroup>
@@ -75,15 +77,6 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Cvl.ApplicationServer.Standard\Cvl.ApplicationServer.Standard.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Include="Cvl.NodeNetwork">
-      <HintPath>..\Cvl.ApplicationServer.Server\bin\Debug\netcoreapp3.1\Cvl.NodeNetwork.dll</HintPath>
-    </Reference>
-    <Reference Include="Cvl.VirtualMachine">
-      <HintPath>..\Cvl.ApplicationServer.Server\bin\Debug\netcoreapp3.1\Cvl.VirtualMachine.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
