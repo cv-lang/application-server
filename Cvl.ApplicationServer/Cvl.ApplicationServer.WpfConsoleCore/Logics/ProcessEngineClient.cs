@@ -13,7 +13,7 @@ namespace Cvl.ApplicationServer.WpfConsole.Logics
 {
     public class ProcessEngineClient
     {
-        private string endpoint = "https://localhost:44361";
+        private string endpoint = "https://localhost:44369";
         public List<ProcessDescritpionViewModel> GetAllProcesses()
         {
             AppDomain currentDomain = AppDomain.CurrentDomain;

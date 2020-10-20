@@ -72,16 +72,14 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
                 SolePropietorshipPath();
             }
 
-            Log("Make an application");
+            Log("Step 11 - Accept application");
+            ApplicationAccept();
+
+            Log("Step 12 - Make an application");
             MakeApplication();
 
-            Log("wysyłam sms z weyfikacją");
-            var code = generateAndSendValidationSms(ClientPhoneNumber);
-            var smsValidationResponse = ShowForm("SmsVeryfication", code);
-            validateSmsVeryfication(smsValidationResponse);
-
-            
-            return code.ValidationCode;
+            SetStepData("success-end");            
+            return null;
         }               
 
         #region Registration
@@ -253,6 +251,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
                 "The main process waits for child processes to complete successfully.");
 
             WaitToEndAllChildProcesses();
+            SetStepData("LLC-AllMembersAccepts");
         }
 
         #endregion
@@ -260,17 +259,24 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
 
         protected void SolePropietorshipPath()
         {
-            var applicationAcceptData = new ApplicationAcceptData();
-            var response = ShowForm("SolePropietorshipApplicationAccept", applicationAcceptData);
+            Log("Solepropietorship path");
 
         }
 
+        #endregion
+        #region Application accept
+        [Interpret]
+        protected void ApplicationAccept()
+        {
+            var applicationAcceptData = new ApplicationAcceptData();
+            var response = ShowForm("ApplicationAccept", applicationAcceptData);
+        }
         #endregion
         #region Make an application
         [Interpret]
         protected void MakeApplication()
         {
-            throw new NotImplementedException();
+            // send application to external system            
         }
         #endregion
 

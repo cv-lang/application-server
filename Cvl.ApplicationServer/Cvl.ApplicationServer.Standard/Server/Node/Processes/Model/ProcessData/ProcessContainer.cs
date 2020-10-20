@@ -9,5 +9,10 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
     {
         public BaseProcess Process { get; internal set; }
         public VirtualMachine.VirtualMachine VirtualMachine { get; internal set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Process.Id}, {VirtualMachine.HardwareContext.Status}, {Process.ProcessStatus}, {Process.ToString()}";
+        }
     }
 }

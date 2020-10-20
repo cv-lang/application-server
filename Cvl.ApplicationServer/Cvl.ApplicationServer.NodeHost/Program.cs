@@ -1,6 +1,7 @@
 ﻿using System;
 using Cvl.ApplicationServer.Server.Node.Host;
 using Cvl.ApplicationServer.Server.Node.Processes.TestProcess;
+using Cvl.ApplicationServer.Server.Node.Processes.TestProcess.Steps;
 
 namespace Cvl.ApplicationServer.NodeHost
 {
@@ -54,13 +55,52 @@ namespace Cvl.ApplicationServer.NodeHost
             s5.CompanyCity = "NYC";
             applicationServer.ProcessManager.SetProcessFormData(procesId, data);
 
-            //test for LLC path
+            //test for LLC path - in test mode, all function needet attention from the host-
+            //hibernate the process
+            applicationServer.ProcessManager.TestRunProcesses(); //create 1-st subproces
+            applicationServer.ProcessManager.TestRunProcesses(); //create 2-nd subprocess
+            applicationServer.ProcessManager.TestRunProcesses();
+
+            #region Child process execution id:3 ,4
+
+            //process 3 - 1-st person
+            var childProcessData1 = applicationServer.ProcessManager.GetProcessFormData(3);
+            var c1s1 = childProcessData1.FormModel.GetModel() as PersonData;
+            c1s1.Name = "Person 1 Name";
+            c1s1.PersonIdentificator = "3";
+            applicationServer.ProcessManager.SetProcessFormData(3, childProcessData1);
+            applicationServer.ProcessManager.TestRunProcesses();
+
+            childProcessData1 = applicationServer.ProcessManager.GetProcessFormData(3);
+            var c1s2 = childProcessData1.FormModel.GetModel() as ApplicationAcceptData;
+            c1s2.AcceptAsPerson = true;
+            applicationServer.ProcessManager.SetProcessFormData(3, childProcessData1);
+            applicationServer.ProcessManager.TestRunProcesses();
+
+
+
+            //process 3 - 2-nd person
+            var childProcessData2 = applicationServer.ProcessManager.GetProcessFormData(4);
+            var c2s1 = childProcessData2.FormModel.GetModel() as PersonData;
+            c2s1.Name = "Person 1 Name";
+            c2s1.PersonIdentificator = "3";
+            applicationServer.ProcessManager.SetProcessFormData(4, childProcessData2);
+            applicationServer.ProcessManager.TestRunProcesses();
+
+            childProcessData2 = applicationServer.ProcessManager.GetProcessFormData(4);
+            var c2s2 = childProcessData2.FormModel.GetModel() as ApplicationAcceptData;
+            c2s2.AcceptAsPerson = true;
+            applicationServer.ProcessManager.SetProcessFormData(4, childProcessData2);
+            applicationServer.ProcessManager.TestRunProcesses();
+
+            #endregion
+
             applicationServer.ProcessManager.TestRunProcesses();
             data = applicationServer.ProcessManager.GetProcessFormData(procesId);
-            var s9 = data.FormModel.GetModel() as Cvl.ApplicationServer.Server.Node.Processes.TestProcess.Steps.CompanyData;
-            s9.CompanyName = "Example company name";
-            s9.CompanyCity = "NYC";
+            var s9 = data.FormModel.GetModel() as ApplicationAcceptData;
+            s9.AcceptAsCompany = true;
             applicationServer.ProcessManager.SetProcessFormData(procesId, data);
+            applicationServer.ProcessManager.TestRunProcesses();
         }
     }
 }
