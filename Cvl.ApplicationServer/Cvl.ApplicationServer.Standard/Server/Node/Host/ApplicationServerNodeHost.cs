@@ -32,11 +32,11 @@ namespace Cvl.ApplicationServer.Server.Node.Host
 
         #region Metody hosta
 
-        public void Start()
+        public void Start(bool startBackgroundProcessThread = true)
         {
             ServiceManager.Start();
             JobsManager.Start();
-            ProcessManager.Start();
+            ProcessManager.Start(startBackgroundProcessThread);
         }
 
         #endregion

@@ -32,15 +32,18 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
             this.applicationServerNodeHost = applicationServerNodeHost;
         }
 
-        internal void Start()
+        internal void Start(bool startBackgroundProcessThread)
         {
             LoadAndSyncConfiguration();
             LoadProcesses();
             SaveProcesses();
 
-            timer = new BackgroundWorker();
-            timer.DoWork += Timer_DoWork;
-            timer.RunWorkerAsync();
+            if (startBackgroundProcessThread)
+            {
+                timer = new BackgroundWorker();
+                timer.DoWork += Timer_DoWork;
+                timer.RunWorkerAsync();
+            }
 
             //.DoWork += EngineBackgroundWorker_DoWork;
         }
@@ -60,7 +63,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
         {
             var processes=processesList
                 .Where(x => x.Process.ProcessStatus == EnumProcessStatus.WaitingForExecution &&
-                x.Process.ExecutionDate < DateTime.Now);
+                x.Process.ExecutionDate < DateTime.Now).ToList();
 
             foreach (var processContainer in processes)
             {

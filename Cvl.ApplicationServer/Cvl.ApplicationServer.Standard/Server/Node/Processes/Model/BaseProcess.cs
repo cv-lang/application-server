@@ -24,6 +24,9 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         [DataForm(GroupName = gm, Description = "Id procesu rodzica - jesli proces jest potmkiem")]
         public long? ParentId { get; set; }
 
+        [DataForm(GroupName = gm, Description = "Parametr procesu przekazywany z zewnątrz - np. przez rodzica lub hosta")]
+        public object ProcessParameter { get; set; }
+
         [Required(ErrorMessage = "Poprawny Email jest wymagany")]
         [DataForm(GroupName = gm, Description = "Status procesu")]
         public EnumProcessStatus ProcessStatus { get; set; }
@@ -34,6 +37,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         [DataForm(GroupName = gm, Description = "Dane związane z wyświetlaniem i pobieraniem danych do/od użytkownika")]
         public ProcessUI ProcessUI { get; set; } = new ProcessUI();
 
+        [DataForm(GroupName = gm, Description = "Dane statystyczne i indeksowe procesu")]
         public ProcessData ProcessData { get; set; } = new ProcessData();       
 
         #endregion
@@ -132,11 +136,12 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         public HashSet<long> ChildProcesses { get; set; } = new HashSet<long>();
 
         [Interpret]
-        protected long CreateNewChildProcess<T>()
+        protected long CreateNewChildProcess<T>(object childProcessParameter = null)
             where T : BaseProcess, new()
         {
             var childProcess = new T();
-            childProcess.ParentId = Id;            
+            childProcess.ParentId = Id;
+            childProcess.ProcessParameter = childProcessParameter;
 
             ProcessStatus = EnumProcessStatus.WaitingForHost;
             var ret = VirtualMachine.VirtualMachine.Hibernate(EnumHostCommand.CreateChildProcess, childProcess);

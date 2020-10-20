@@ -12,7 +12,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
         public DateTime AcceptanceDate { get; set; }
     }
 
-    public class FirstStepData : BaseModel
+    public class RegistrationStepData : BaseModel
     {
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
