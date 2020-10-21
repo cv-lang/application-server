@@ -4,9 +4,10 @@ Application Server for .Net
 
 Allows you to:
 - automatic structured logs
-- hibernating the executed code
+- hibernation of C # / .NET execution code
 - execution long run business processes
 - application checkpointing
+- 100% testable business processes
 
 
 # Solution description
