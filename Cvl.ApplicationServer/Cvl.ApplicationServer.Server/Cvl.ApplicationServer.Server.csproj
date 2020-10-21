@@ -5,8 +5,8 @@
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
-    <Version>0.9.0</Version>
-    <Description>.Net Application Server</Description>
+    <Version>0.9.1</Version>
+    <Description>.Net Application Server - .net 3.1</Description>
     <Authors>Cvlang Organization</Authors>
     <Company>Cvlang Organization</Company>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -15,16 +15,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cvl.ApplicationServer" Version="0.9.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Cvl.NodeNetwork">
-      <HintPath>..\..\..\node-network\Cvl.NodeNetwork\Cvl.NodeNetwork.Server\bin\Debug\netcoreapp3.1\Cvl.NodeNetwork.dll</HintPath>
-    </Reference>
-    <Reference Include="Cvl.NodeNetwork.Server">
-      <HintPath>..\..\..\node-network\Cvl.NodeNetwork\Cvl.NodeNetwork.Server\bin\Debug\netcoreapp3.1\Cvl.NodeNetwork.Server.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Cvl.ApplicationServer" Version="0.9.1" />
+    <PackageReference Include="Cvl.NodeNetwork.Server" Version="0.9.1" />
   </ItemGroup>
   
 </Project>

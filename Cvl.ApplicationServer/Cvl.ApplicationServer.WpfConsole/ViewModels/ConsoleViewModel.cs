@@ -31,7 +31,11 @@ namespace Cvl.ApplicationServer.WpfConsole.ViewModels
 
         internal void Load()
         {
-            ProcessesList.Load();
+            try
+            {
+                ProcessesList.Load();
+            }
+            catch { }
         }
     }
 }
