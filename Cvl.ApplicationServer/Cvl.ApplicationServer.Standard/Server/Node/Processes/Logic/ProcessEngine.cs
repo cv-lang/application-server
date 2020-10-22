@@ -273,9 +273,16 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
             process.Process.ProcessStatus = EnumProcessStatus.WaitingForExecution;
         }
 
+        //
         public List<ProcessDescription> GetAllProcessesDescriptions()
         {
-            var list = processesList.Select(x => new ProcessDescription(x)).ToList();
+            var list = processesList.Select(x=> new ProcessDescription(x)).ToList();
+            return list;
+        }
+
+        public List<ProcessTypeDescription> GetAllProcessesTypesDescriptions()
+        {
+            var list = configuration.Processes;
             return list;
         }
 

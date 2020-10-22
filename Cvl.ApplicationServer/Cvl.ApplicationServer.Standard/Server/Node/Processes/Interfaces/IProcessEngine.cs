@@ -13,6 +13,8 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Interfaces
 
         List<ProcessDescription> GetAllProcessesDescriptions();
 
+        List<ProcessTypeDescription> GetAllProcessesTypesDescriptions();
+
         BaseProcess GetProcess(long id);
     }
 }

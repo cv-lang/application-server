@@ -1,0 +1,49 @@
+﻿<h3>Registration</h3>
+
+
+<h1>sd</h1>
+<div class="row">
+    <div class="col-lg-6 p-3">
+        <h1 class="pb-5">How to get loan?</h1>
+        <ul class="">
+            <li class="p-2">
+                Make an application
+            </li>            
+        </ul>
+    </div>
+    <div class="col-lg-6 p-3">
+        <h1>
+            Make an application
+        </h1>        
+        <form action="SetProcessData" method="post">            
+            <div class="form-group">
+                <label asp-for="Model.Emial" class="control-label"></label>
+                <input asp-for="Model.Emial" class="form-control" />
+                <span asp-validation-for="Model.Emial" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Model.Password" class="control-label">Password</label>
+                <input asp-for="Model.Password" class="form-control" type="password" />
+                <span asp-validation-for="Model.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block mt-2" type="submit"> Sign up</button>
+            </div>
+
+            <div class="approval-row">
+                <div class="m-2">
+                    <input id="cbAgreementAll" name="cbAgreementAll" type="checkbox" />
+                    <label class="ml-2" for="cbAgreementAll">Select all Terms of Service and Privacy Statement</label>
+                </div>
+            </div>
+
+            
+            <div class="primary"></div>
+        </form>
+    </div>
+</div>
+
+
+@code {
+
+}

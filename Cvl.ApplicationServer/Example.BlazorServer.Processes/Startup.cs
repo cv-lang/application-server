@@ -2,15 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cvl.ApplicationServer.Server.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Example.BlazorServer.Processes.Data;
+using Cvl.ApplicationServer.Server.Extensions;
+using Cvl.ApplicationServer.Server.Node.Processes.TestProcess;
 
-namespace Cvl.ApplicationServer.NodeHostWeb
+namespace Example.BlazorServer.Processes
 {
     public class Startup
     {
@@ -22,11 +25,13 @@ namespace Cvl.ApplicationServer.NodeHostWeb
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSignalR();
+            services.AddSingleton<WeatherForecastService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,20 +53,16 @@ namespace Cvl.ApplicationServer.NodeHostWeb
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapBlazorHub();
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/_Host");
             });
 
-
-            ////sieæ wêz³owa
-            //NodeNetworkServiceHost.RegisterService<ProcessEngine, IProcessEngine>();
-
-            //app.UseNodeNetwork();
+            //registerProcess
+            var proces = new Cvl.ApplicationServer.Server.Node.Processes.TestProcess.BankLoanTestProcess();
             app.UseApplicationServer();
         }
     }

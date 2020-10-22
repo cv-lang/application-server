@@ -20,8 +20,8 @@ namespace Cvl.ApplicationServer.Server.Controllers
             }
         }
 
-        [HttpPost("process/{id}")]
-        [HttpGet("process/{id}")]
+        [HttpPost("process-view/{id}")]
+        [HttpGet("process-view/{id}")]
         public IActionResult Index(int id)
         {
             //var id = 2;
@@ -65,10 +65,25 @@ namespace Cvl.ApplicationServer.Server.Controllers
         }
 
 
+        [HttpGet("process-start/{processType}")]
         public IActionResult StartProcess(string processType)
         {
             var id = ProcessEngine.StartProcess(processType);
-            return Redirect($"{id}");
+            return Redirect($"/process-view/{id}");
+        }
+
+        [HttpGet("process-types")]
+        public IActionResult ProcessesTypes(string processType)
+        {
+            var processesTypes = ProcessEngine.GetAllProcessesTypesDescriptions();
+            return Json(processesTypes);
+        }
+
+        [HttpGet("process-list")]
+        public IActionResult ProcessesList(string processType)
+        {
+            var processesTypes = ProcessEngine.GetAllProcessesDescriptions();
+            return Json(processesTypes);
         }
 
 
@@ -93,7 +108,7 @@ namespace Cvl.ApplicationServer.Server.Controllers
             model.ClientIpAddress = clientIP;
 
             ProcessController.ProcessEngine.SetProcessData(model);
-            return Redirect($"/Process/{model.ProcessId}");
+            return Redirect($"/process-view/{model.ProcessId}");
         }
     }
 }

@@ -15,12 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Cvl.ApplicationServer" Version="0.9.1" />
     <PackageReference Include="Cvl.NodeNetwork.Server" Version="0.9.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="3.2.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cvl.ApplicationServer.Standard\Cvl.ApplicationServer.Standard.csproj" />
+    <Folder Include="Pages\" />
   </ItemGroup>
   
 </Project>
