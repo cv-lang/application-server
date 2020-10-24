@@ -86,9 +86,8 @@ namespace Cvl.ApplicationServer.Server.Controllers
             return Json(processesTypes);
         }
 
-
-        [HttpGet]
-        [HttpPost]
+        
+        [HttpPost("process-setdata")]
         public async Task<IActionResult> SetProcessData(long ProcessId)
         {
             var process = ProcessController.ProcessEngine.GetProcessData(ProcessId);

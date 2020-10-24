@@ -1,0 +1,37 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "RegistrationConfirmationView";
+    Layout = Model.Layout;
+}
+
+@model Cvl.ApplicationServer.Server.Node.Processes.Model.FormModel<Cvl.ApplicationServer.Server.Node.Processes.TestProcess.Steps.EmailValidationData>
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <h1 class="pt-5 pb-3">Confirm e-mail</h1>
+
+        <p>
+            To apply for a loan, you must first confirm your e-mail.
+            An e-mail with a verification Code and link was sent to the address @Model.Model.Email
+
+            <br />
+
+            Look for it in your inbox and click on the link in it or enter Verification Code form email.
+
+        </p>
+        <form action="/process-setdata" method="post">
+            @Html.HiddenFor(x => x.ProcessId)
+            <div class="form-group mt-5">
+                <h3>Verification Code</h3>
+            </div>
+            <div class="form-group">
+                <input asp-for="Model.ValidationCodeFromUser" placeholder="Enter verification code" class="form-control" />
+            </div>
+            <button class="btn btn-primary btn-block mt-2" type="submit"> Confirm </button>
+
+        </form>
+
+            <h2 class="py-3">Check your inbox:</h2>
+            <h3>@Model.Model.Email</h3>
+    </div>
+</div>
+

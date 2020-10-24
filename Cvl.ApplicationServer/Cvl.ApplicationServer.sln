@@ -21,11 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cvl.ApplicationServer.WpfCo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExampleApp", "ExampleApp", "{C9E07928-71A3-41AE-8C94-0560851466AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.BlazorServer.Processes", "Example.BlazorServer.Processes\Example.BlazorServer.Processes.csproj", "{A07B5D1A-2FC1-496F-836B-3E21A3B30C90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.BlazorServer.Processes", "Example.BlazorServer.Processes\Example.BlazorServer.Processes.csproj", "{A07B5D1A-2FC1-496F-836B-3E21A3B30C90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.BlazorWasm.Processes", "Example.BlazorWasm.Processes\Example.BlazorWasm.Processes.csproj", "{1B04D5C0-B86B-4FC6-A3E4-5F9378BCC050}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.BlazorWasm.Processes", "Example.BlazorWasm.Processes\Example.BlazorWasm.Processes.csproj", "{1B04D5C0-B86B-4FC6-A3E4-5F9378BCC050}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.BlazorLibrary.Processes", "Example.BlazorLibrary.Processes\Example.BlazorLibrary.Processes.csproj", "{391BCA2A-BEAB-454B-912E-5B78110A6423}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.BlazorLibrary.Processes", "Example.BlazorLibrary.Processes\Example.BlazorLibrary.Processes.csproj", "{391BCA2A-BEAB-454B-912E-5B78110A6423}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

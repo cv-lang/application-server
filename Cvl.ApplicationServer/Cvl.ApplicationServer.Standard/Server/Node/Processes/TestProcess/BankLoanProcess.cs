@@ -11,8 +11,13 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
 {
     [Description("Test buisness process - " +
         "responsible for obtaining an online loan by the customer company")]
-    public class BankLoanTestProcess : BaseProcess
+    public class BankLoanProcess : BaseProcess
     {
+        public BankLoanProcess()
+        {
+            ProcessUI.SetBaseViewPath("BankLoanProcess/");
+            ProcessUI.ViewLayout = "_Layout";
+        }
         #region Process state-property
 
         public string SelectedProduct { get; set; }
@@ -27,7 +32,6 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
         public List<PersonData> CompanyMembers { get; set; } = new List<PersonData>();
 
         #endregion
-
         /// <summary>
         /// Start procesu
         /// </summary>
@@ -36,25 +40,18 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
         protected override object Start(object inputParameter)
         {
             SetStepData("Start proces");
-
             Log("Step 1 - show registratio");
             Registration();
-
             Log("Step 2 - email validation");
             EmailVerification();
-
             Log("Step 3 - sms validation");
             SmsVerification();
-
             Log("Step 4 - get company Id");
             GetCompanyId();
-
             Log("Step 5 - get company data");
             GetCompanyData();
-
             Log("Step 6 - get company legal form");
             GetCompanyLegalForm();
-
             Log("Step 7 - chceck company legalForm");
             if(LegalForm == LegalForm.Corporation)
             {
@@ -71,24 +68,21 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
                 Log("Step 10 - accept");
                 SolePropietorshipPath();
             }
-
             Log("Step 11 - Accept application");
             ApplicationAccept();
-
             Log("Step 12 - Make an application");
             MakeApplication();
 
             SetStepData("success-end");            
             return null;
         }               
-
         #region Registration
         [Interpret]
         protected void Registration()
         {
             SetStepData("Registration", "Get email, phone number and agreements from Custromer");
             var registration = getRegistrationStepModel();
-            var registrationResponse = ShowForm("registration", registration);
+            var registrationResponse = ShowForm("Registration", registration);
 
             SetStepData("Registration-response", "Custromer put contact data");
             Log("check, just in case, whether approved consents");

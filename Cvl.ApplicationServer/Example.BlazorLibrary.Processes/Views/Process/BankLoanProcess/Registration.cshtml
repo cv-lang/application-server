@@ -1,4 +1,12 @@
-﻿<h3>Registration</h3>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "registration";
+    Layout = Model.Layout;
+}
+
+@model Cvl.ApplicationServer.Server.Node.Processes.Model.FormModel<Cvl.ApplicationServer.Server.Node.Processes.TestProcess.RegistrationStepData>
+
+<h3>Registration</h3>
 
 
 <h1>sd</h1>
@@ -8,23 +16,19 @@
         <ul class="">
             <li class="p-2">
                 Make an application
-            </li>            
+            </li>
         </ul>
     </div>
     <div class="col-lg-6 p-3">
         <h1>
             Make an application
-        </h1>        
-        <form action="SetProcessData" method="post">            
+        </h1>
+        <form action="/process-setdata" method="post">
+            @Html.HiddenFor(x => x.ProcessId)
             <div class="form-group">
-                <label asp-for="Model.Emial" class="control-label"></label>
-                <input asp-for="Model.Emial" class="form-control" />
-                <span asp-validation-for="Model.Emial" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Model.Password" class="control-label">Password</label>
-                <input asp-for="Model.Password" class="form-control" type="password" />
-                <span asp-validation-for="Model.Password" class="text-danger"></span>
+                <label asp-for="Model.Email" class="control-label">Email</label>
+                <input asp-for="Model.Email" class="form-control" />
+                <span asp-validation-for="Model.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary btn-block mt-2" type="submit"> Sign up</button>
@@ -37,13 +41,9 @@
                 </div>
             </div>
 
-            
+
             <div class="primary"></div>
         </form>
     </div>
 </div>
 
-
-@code {
-
-}

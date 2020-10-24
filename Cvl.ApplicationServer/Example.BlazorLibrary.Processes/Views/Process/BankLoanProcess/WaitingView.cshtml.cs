@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Example.BlazorLibrary.Processes.Areas.MyFeature.Pages
+namespace Example.BlazorLibrary.Processes.Views.BankLoanTestProcess
 {
-    public class Test2Model : PageModel
+    public class WaitingViewModel : PageModel
     {
         public void OnGet()
         {

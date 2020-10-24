@@ -9,5 +9,9 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Cvl.ApplicationServer.Standard\Cvl.ApplicationServer.Standard.csproj" />
+  </ItemGroup>
+
 
 </Project>

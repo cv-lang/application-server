@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Example.BlazorServer.Processes.Data;
 using Cvl.ApplicationServer.Server.Extensions;
 using Cvl.ApplicationServer.Server.Node.Processes.TestProcess;
+using System.Net.Http;
 
 namespace Example.BlazorServer.Processes
 {
@@ -28,10 +29,10 @@ namespace Example.BlazorServer.Processes
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddViewComponentsAsServices();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<WeatherForecastService>();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +63,7 @@ namespace Example.BlazorServer.Processes
             });
 
             //registerProcess
-            var proces = new Cvl.ApplicationServer.Server.Node.Processes.TestProcess.BankLoanTestProcess();
+            var proces = new Cvl.ApplicationServer.Server.Node.Processes.TestProcess.BankLoanProcess();
             app.UseApplicationServer();
         }
     }

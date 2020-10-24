@@ -1,0 +1,86 @@
+﻿@page "/Registration"
+@inject NavigationManager Navigation
+
+<div class="row">
+    <div class="col-lg-6 p-3">
+        <h1 class="pb-5">How to get a bank loan?</h1>
+        <ul class="">
+            <li class="p-2">
+                Make an application.
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-6 p-3">
+        <h1>
+            Make an application
+        </h1>
+        <EditForm Model="@ModelTypowany" OnValidSubmit="@Test">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group">
+                <label asp-for="Model.Emial" class="control-label">Email</label>
+                <InputText class="form-control" @bind-Value="ModelTypowany.Email" />
+                <span asp-validation-for="Model.Emial" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Model.Password" class="control-label">Password</label>
+                <InputText class="form-control" type="password" @bind-Value="ModelTypowany.PhoneNumber" />
+                <span asp-validation-for="Model.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block mt-2" type="submit"> Sign up</button>
+            </div>
+
+            <div class="approval-row">
+                <div class="m-2">
+                    <input id="cbAgreementAll" name="cbAgreementAll" type="checkbox" />
+                    <label class="ml-2" for="cbAgreementAll">Select all Terms of Service and Privacy Statement</label>
+                </div>
+            </div>
+
+
+            <div class="primary"></div>
+        </EditForm>
+
+        <button @onclick="Test"></button>
+    </div>
+
+
+</div>
+
+
+@code {
+    [Parameter]
+    public object Model { get; set; }
+
+    [Parameter]
+    public Cvl.ApplicationServer.Server.Node.Processes.Interfaces.IProcessEngine ProcessEngine { get; set; }
+
+    [Parameter]
+    public long ProcessId { get; set; }
+
+    public Cvl.ApplicationServer.Server.Node.Processes.TestProcess.RegistrationStepData ModelTypowany =>
+        (Cvl.ApplicationServer.Server.Node.Processes.TestProcess.RegistrationStepData)Model;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    public void Test()
+    {
+        var processDescription = ProcessEngine.GetProcessData(ProcessId);
+        processDescription.FormData.FormModel.SetModel(Model);
+        ProcessEngine.SetProcessData(processDescription.FormData.FormModel);
+        Navigation.NavigateTo($"/process-blazor/{ProcessId}", true);
+    }
+
+    public void OnPost()
+    {
+        //Message = "sdfsdf";
+        //if (ModelState.IsValid)
+        //{
+        //    Message = $"{Greeting} from {State}, {Country}"; // <-- Updated
+        //}
+    }
+}

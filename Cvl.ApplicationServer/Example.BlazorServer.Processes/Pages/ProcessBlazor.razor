@@ -1,9 +1,50 @@
-﻿@page "/processblazor"
+﻿@page "/process-blazor/{Id}"
 
-<h3>ProcessBlazor</h3>
+<div>
+    @switch (ProcessName)
+    {
+        case "BankLoanProcess":
+            <Example.BlazorLibrary.Processes.Pages.BankLoanProcess.ProcessComponent 
+                 ProcessId="@ProcessId" ProcessViewName="@ProcessViewName" Model="@Model" ProcessEngine="@ProcessEngine">
+            </Example.BlazorLibrary.Processes.Pages.BankLoanProcess.ProcessComponent>
+            break;        
+    }
+</div>
 
 
 
-@code {
+    @code {
 
-}
+        public static Cvl.ApplicationServer.Server.Node.Processes.Interfaces.IProcessEngine ProcessEngineStatic
+        {
+            get
+            {
+                return Cvl.ApplicationServer.Server.Extensions.ApplicationServerExtensions.ApplicationServerNodeHost.ProcessManager;
+            }
+        }
+
+
+        [Parameter]
+        public string Id { get; set; }
+
+        public long ProcessId { get; set; }
+
+        public string ProcessName { get; set; }
+        public string ProcessViewName { get; set; }
+        public object Model { get; set; }
+
+        public Cvl.ApplicationServer.Server.Node.Processes.Interfaces.IProcessEngine ProcessEngine { get; set; }
+
+
+        protected override void OnInitialized()
+        {
+            ProcessEngine = ProcessEngineStatic;
+            ProcessId = long.Parse(Id);
+            var desc = ProcessEngine.GetProcessData(ProcessId);
+            var formName = desc.FormData.FormName;
+            var names = formName.Split('/');
+            ProcessName = names[0];
+            ProcessViewName = names[1];
+            Model = desc.FormData.FormModel.GetModel();
+        }
+    }
