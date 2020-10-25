@@ -92,7 +92,7 @@ namespace Cvl.ApplicationServer.Server.Controllers
         {
             var process = ProcessController.ProcessEngine.GetProcessData(ProcessId);
             var modelType = process.FormData.FormModel.GetType();
-            var model = (FormModel)Activator.CreateInstance(modelType);
+            var model = (FormViewModel)Activator.CreateInstance(modelType);
             //var model = new RegistrationModel();
 
 

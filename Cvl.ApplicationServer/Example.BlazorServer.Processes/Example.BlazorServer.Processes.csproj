@@ -142,6 +142,7 @@
     <ProjectReference Include="..\Cvl.ApplicationServer.Server\Cvl.ApplicationServer.Server.csproj" />
     <ProjectReference Include="..\Cvl.ApplicationServer.Standard\Cvl.ApplicationServer.Standard.csproj" />
     <ProjectReference Include="..\Example.BlazorLibrary.Processes\Example.BlazorLibrary.Processes.csproj" />
+    <ProjectReference Include="..\Example.BlazorWasm.Processes\Example.BlazorWasm.Processes.csproj" />
   </ItemGroup>
 
 </Project>

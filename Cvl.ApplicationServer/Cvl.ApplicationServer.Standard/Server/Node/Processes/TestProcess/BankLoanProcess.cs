@@ -55,7 +55,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
             Log("Step 7 - chceck company legalForm");
             if(LegalForm == LegalForm.Corporation)
             {
-                Log("Step 8 - termainate - corporation not suportet");
+                Log("Step 8 - termainate - corporation not supported");
                 CorporationPath();
             } 
             else if( LegalForm == LegalForm.LimitedLiabilityCompany)
@@ -105,7 +105,6 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
             step.Agreements.Add(new StepAgreement() { Content = "Consent to email contact" });
             return step;
         }
-
         private void validateRegistrationStepResponse(RegistrationStepData firstStepResponse)
         {
             if (firstStepResponse.Agreements.All(x => x.Accepted) == false)
@@ -113,7 +112,6 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
                 EndProcess("No approvals in consents", firstStepResponse);
             }
         }
-
         #endregion
         #region Email verification
 

@@ -62,7 +62,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         [Interpret]
         protected void EndProcess(string formName, BaseModel model)
         {
-            var formModel = new FormModel();
+            var formModel = new FormViewModel();
             formModel.ProcessId = Id;
 
             if (string.IsNullOrEmpty(formName) == false)
@@ -156,6 +156,17 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         {
             ProcessStatus = EnumProcessStatus.WaitingForHost;
             VirtualMachine.VirtualMachine.Hibernate(EnumHostCommand.WaitForAllChildrenEnd);
+        }
+
+        #endregion
+
+        #region Waiting method
+
+        protected void Sleep(TimeSpan timeToSleep)
+        {
+            ExecutionDate = DateTime.Now.Add(timeToSleep);
+            ProcessStatus = EnumProcessStatus.WaitingForHost;
+            VirtualMachine.VirtualMachine.Hibernate(EnumHostCommand.SleepProcess);
         }
 
         #endregion

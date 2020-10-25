@@ -7,6 +7,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
     public enum EnumHostCommand
     {
         CreateChildProcess,
-        WaitForAllChildrenEnd
+        WaitForAllChildrenEnd,
+        SleepProcess
     }
 }

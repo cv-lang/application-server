@@ -9,7 +9,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Interfaces
     {
         long StartProcess(string processName, object inputData = null);
         ProcessDescription GetProcessData(long processId);
-        void SetProcessData(FormModel formModel);
+        void SetProcessData(FormViewModel formModel);
 
         List<ProcessDescription> GetAllProcessesDescriptions();
 

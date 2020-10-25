@@ -14,7 +14,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         {
             WaitingForm = new FormData();
             WaitingForm.FormName = "WaitingView";
-            WaitingForm.FormModel = new FormModel();
+            WaitingForm.FormModel = new FormViewModel();
             WaitingForm.FormModel.SetModel( new GeneralViewModel());
             WaitingForm.FormModel.Layout = ViewLayout;
         }

@@ -59,8 +59,8 @@ namespace Cvl.ApplicationServer.WpfConsole.Controls.OfflineProcesses.ViewModels
             get { return formVisiblity; }
         }
 
-        private FormModel formModel;
-        public FormModel FormModel
+        private FormViewModel formModel;
+        public FormViewModel FormModel
         {
             set
             {

@@ -10,7 +10,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
     /// Zawiera propercje Model w której jest fizyczny obiekt z danymi.
     /// Obiekt przekazywany do formatki.
     /// </summary>
-    public class FormModel
+    public class FormViewModel
     {
         private const string gm = "Dane bazowe";
 
@@ -34,7 +34,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         public string ClientIpAddress { get; set; }
     }
 
-    public class FormModel<T> : FormModel
+    public class FormModel<T> : FormViewModel
         where T: new()        
     {
         private const string gm = "Dane bazowe";

@@ -12,7 +12,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
     public class FormData
     {
         public FormData(){}
-        public FormData(string formName, FormModel formModel)
+        public FormData(string formName, FormViewModel formModel)
         {
             FormName = formName;
             this.FormModel = formModel;
@@ -25,7 +25,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         //public BaseModel FormDataModel { get; set; }
 
         [Description("Model widoku")]
-        public FormModel FormModel { get; set; }
+        public FormViewModel FormModel { get; set; }
         
     }
 }
