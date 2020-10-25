@@ -82,10 +82,10 @@ This diagram is drawn in the Business Process Model Notation (BPMN - https://en.
 Actions and steps are represented by a rounded rectangle and performed in the direction of the arrow. So first we have "Registration and approvals ...", then "Send verification code by e-mail ..." and so on. 
 These kinds of diagrams do not show all the details. They are used to show high-level functionality. The BPMN diagram is then "converted" by the developer to the native workflow / business process shown in Diagram 2.
 
-<img width="75%" src="https://raw.githubusercontent.com/cv-lang/application-server/master/wiki/loanProcessDiagram.png" alt=".net application server"/>
+<img width="65%" src="https://raw.githubusercontent.com/cv-lang/application-server/master/wiki/loanProcessDiagram.png" alt=".net application server"/>
 Diagram 1 - BPMN Bank loan process
 
-<img width="75%" src="https://raw.githubusercontent.com/cv-lang/application-server/master/wiki/loanProcessNativeWorkflow.png" alt=".net application server"/>
+<img width="65%" src="https://raw.githubusercontent.com/cv-lang/application-server/master/wiki/loanProcessNativeWorkflow.png" alt=".net application server"/>
 Diagram 2 - Native workflow in C#
 
 # Advantages and disadvantages of Native workflow
