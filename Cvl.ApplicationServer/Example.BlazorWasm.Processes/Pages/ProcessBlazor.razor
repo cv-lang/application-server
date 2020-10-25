@@ -1,0 +1,62 @@
+﻿@page "/process-blazor/{Id}"
+@using Cvl.ApplicationServer.Server.Node.Host
+@using Cvl.ApplicationServer.Server.Node.Processes.Interfaces
+
+@inject IProcessEngine ProcessEngine
+
+<div>
+    @switch (ProcessName)
+    {
+        case "BankLoanProcess":
+            <Example.BlazorWasm.Processes.Pages.BankLoanProcess.ProcessComponent ProcessId="@ProcessId" ProcessViewName="@ProcessViewName" Model="@Model" ProcessEngine="@ProcessEngine">
+            </Example.BlazorWasm.Processes.Pages.BankLoanProcess.ProcessComponent>
+            break;
+    }
+</div>
+
+
+
+@code {        
+
+    [Parameter]
+    public string Id { get; set; }
+
+    public long ProcessId { get; set; } = 2;
+
+    public string ProcessName { get; set; }
+    public string ProcessViewName { get; set; }
+    public object Model { get; set; }
+
+    //public IProcessEngine ProcessEngine => ApplicationServer?.ProcessManager;
+
+    private object applicatnioLock = new object();
+    public static ApplicationServerNodeHost ApplicationServer = null;
+
+    protected override void OnInitialized()
+    {
+        lock (applicatnioLock)
+        {
+            if (ApplicationServer == null)
+            {
+                ApplicationServer = new ApplicationServerNodeHost();
+                ApplicationServer.UseConfiguration = false;
+                ApplicationServer.Start(startBackgroundProcessThread: true);
+
+                var procesId = ApplicationServer.ProcessManager.StartProcess("Cvl.ApplicationServer.Server.Node.Processes.TestProcess.BankLoanProcess");
+
+                var desc2 = ProcessEngine.GetProcessData(ProcessId);                
+            }
+        }
+
+        //ProcessId = long.Parse(Id);
+        var desc = ProcessEngine.GetProcessData(ProcessId);
+        if (desc.ProcessStatus == Cvl.ApplicationServer.Server.Node.Processes.Model.EnumProcessStatus.WaitingForUserData)
+        {
+            var formName = desc.FormData.FormName;
+            var names = formName.Split('/');
+            ProcessName = names[0];
+            ProcessViewName = names[1];
+            Model = desc.FormData.FormModel.GetModel();
+        }
+    }
+}

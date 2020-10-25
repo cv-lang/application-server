@@ -28,6 +28,8 @@ namespace Cvl.ApplicationServer.Server.Node.Host
         /// </summary>
         public string ApplicationServerPath { get; set; }
 
+        public bool UseConfiguration { get; set; } = true;
+
         public string ApplicationServerDataPath => ApplicationServerPath + "\\data";
 
         #region Metody hosta

@@ -9,15 +9,17 @@ namespace Cvl.ApplicationServer.NodeHost
     {
         static void Main(string[] args)
         {
+            
             //inicialize application-server
             var applicationPath = @"D:\cvl\application-server";
             var applicationServer = new ApplicationServerNodeHost();
+            applicationServer.UseConfiguration = false;
             applicationServer.ApplicationServerPath = applicationPath;
             applicationServer.Start(startBackgroundProcessThread:false);
 
 
             //Process test
-            var procesId = applicationServer.ProcessManager.StartProcess("Cvl.ApplicationServer.Server.Node.Processes.TestProcess.BankLoanTestProcess");
+            var procesId = applicationServer.ProcessManager.StartProcess("Cvl.ApplicationServer.Server.Node.Processes.TestProcess.BankLoanProcess");
 
             var test = new BankLoanProcessUnitTest();
             test.Test(applicationServer, procesId);

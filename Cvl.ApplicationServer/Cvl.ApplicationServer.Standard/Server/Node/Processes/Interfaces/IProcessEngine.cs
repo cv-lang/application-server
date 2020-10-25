@@ -16,5 +16,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Interfaces
         List<ProcessTypeDescription> GetAllProcessesTypesDescriptions();
 
         BaseProcess GetProcess(long id);
+
+        DateTime CreateTime { get; set; }
     }
 }

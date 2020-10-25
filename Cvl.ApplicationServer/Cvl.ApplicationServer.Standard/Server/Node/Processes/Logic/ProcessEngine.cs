@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Timers;
 using Cvl.ApplicationServer.Base;
 using Cvl.ApplicationServer.Server.Node.Host;
 using Cvl.ApplicationServer.Server.Node.Processes.Interfaces;
@@ -18,18 +19,23 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
     /// </summary>
     public class ProcessEngine : BaseLogic , IProcessEngine
     {
+        public DateTime CreateTime { get; set; } 
+
         private ApplicationServerNodeHost applicationServerNodeHost;
         private string processesDataPath => applicationServerNodeHost.ApplicationServerDataPath + "\\processes";
 
+        
         private ProcessesConfiguration configuration;
 
         private List<ProcessContainer> processesList ;
 
-        private BackgroundWorker timer;
+        //private BackgroundWorker timer;
+        static System.Timers.Timer aTimer;
 
         public ProcessEngine(ApplicationServerNodeHost applicationServerNodeHost)
         {
             this.applicationServerNodeHost = applicationServerNodeHost;
+            CreateTime = DateTime.Now;
         }
 
         internal void Start(bool startBackgroundProcessThread)
@@ -40,12 +46,24 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
 
             if (startBackgroundProcessThread)
             {
-                timer = new BackgroundWorker();
-                timer.DoWork += Timer_DoWork;
-                timer.RunWorkerAsync();
+                //timer = new BackgroundWorker();
+                //timer.DoWork += Timer_DoWork;
+                //timer.RunWorkerAsync();
+
+                // Create a timer with a two second interval.
+                aTimer = new System.Timers.Timer(8000);
+                // Hook up the Elapsed event for the timer. 
+                aTimer.Elapsed += OnTimedEvent;
+                aTimer.AutoReset = true;
+                aTimer.Enabled = true;
             }
 
             //.DoWork += EngineBackgroundWorker_DoWork;
+        }
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            TestRunProcesses();
         }
 
         private void Timer_DoWork(object sender, DoWorkEventArgs e)
@@ -53,7 +71,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
             while (true)
             {
                 TestRunProcesses();
-                Thread.Sleep(100);
+                Thread.Sleep(200);
             }
         }
 
@@ -108,15 +126,25 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
         public void LoadAndSyncConfiguration()
         {
             var configFile = processesDataPath + "\\processes.config";
-            if (File.Exists(configFile))
+
+            if (applicationServerNodeHost.UseConfiguration)
             {
-                var xml = File.ReadAllText(configFile);
-                configuration = Serializer.DeserializeObject<ProcessesConfiguration>(xml);
+                if (File.Exists(configFile))
+                {
+                    var xml = File.ReadAllText(configFile);
+                    configuration = Serializer.DeserializeObject<ProcessesConfiguration>(xml);
+                }
+                else
+                {
+                    configuration = new ProcessesConfiguration();
+                }
             }
             else
             {
                 configuration = new ProcessesConfiguration();
             }
+
+
 
 
 
@@ -133,8 +161,11 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
                 }
             }
 
-            var xml2 = Serializer.SerializeObject(configuration);
-            File.WriteAllText(configFile, xml2);
+            if (applicationServerNodeHost.UseConfiguration)
+            {
+                var xml2 = Serializer.SerializeObject(configuration);
+                File.WriteAllText(configFile, xml2);
+            }
         }
 
         public IEnumerable<Type> GetLoadedProcessesType()
@@ -158,11 +189,18 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
         private long currentProcessId;
         public void LoadProcesses()
         {
-            var filePath = processesDataPath + "\\processesInstances.xml";
-            if (File.Exists(filePath))
+            if (applicationServerNodeHost.UseConfiguration)
             {
-                var xml = File.ReadAllText(filePath);
-                processesList = Serializer.DeserializeObject<List<ProcessContainer>>(xml);
+                var filePath = processesDataPath + "\\processesInstances.xml";
+                if (File.Exists(filePath))
+                {
+                    var xml = File.ReadAllText(filePath);
+                    processesList = Serializer.DeserializeObject<List<ProcessContainer>>(xml);
+                }
+                else
+                {
+                    processesList = new List<ProcessContainer>();
+                }
             }
             else
             {
@@ -181,9 +219,12 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
 
         public void SaveProcesses()
         {
-            var filePath = processesDataPath + "\\processesInstances.xml";
-            var xml = Serializer.SerializeObject(processesList);
-            File.WriteAllText(filePath, xml);
+            if (applicationServerNodeHost.UseConfiguration)
+            {
+                var filePath = processesDataPath + "\\processesInstances.xml";
+                var xml = Serializer.SerializeObject(processesList);
+                File.WriteAllText(filePath, xml);
+            }
         }
 
         private void addProcess(ProcessContainer container)

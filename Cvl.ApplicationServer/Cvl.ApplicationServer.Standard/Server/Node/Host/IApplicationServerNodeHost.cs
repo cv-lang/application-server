@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cvl.ApplicationServer.Server.Node.Processes.Logic;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,5 +10,6 @@ namespace Cvl.ApplicationServer.Server.Node.Host
     /// </summary>
     public interface IApplicationServerNodeHost
     {
+        ProcessEngine ProcessManager { get; set; }
     }
 }
