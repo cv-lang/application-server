@@ -17,68 +17,62 @@ After the process is hibernated it can be restored on another machine.
 
 # Example of a simple native workflow
 ```csharp
-using Cvl.ApplicationServer.Server.Node.Processes.Model;
-using System;
+public class SimpleTestProcess : BaseProcess
+{
+    protected override object Start(object inputParameter)
+    {            
+        //prepare model to show in MVC frontend
+        var model = new HelloWorlsModel();  //code below
+        model.MessageToTheWorld = "Hello World";
+        model.AnotherMessage = "Message from process";
+        model.DateTimeFromProcess = DateTime.Now;
 
-namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
-{   
-    public class SimpleTestProcess : BaseProcess
-    {
-        #region Process properties
-        public string UserEmail { get; set; }
-        public string UserMessage { get; set; }
-        #endregion
+        //show MVC view HelloWorldView with model
+        var response = ShowForm("HelloWorldView", model); //we show form and waiting for user to submit form
 
-        protected override object Start(object inputParameter)
-        {            
-            //prepare model to show in MVC frontend
-            var model = new HelloWorlsModel();  //code below
-            model.MessageToTheWorld = "Hello World";
-            model.AnotherMessage = "Message from process";
-            model.DateTimeFromProcess = DateTime.Now;
+        //after user submit form, save to property user data 
+        UserEmail = response.UserEmail;
+        UserMessage = response.MessageFromUser;
 
-            //show MVC view HelloWorldView with model
-            var response = ShowForm("HelloWorldView", model); //we show form and waiting for user to submit form
-            
-            //after user submit form, save to property user data 
-            UserEmail = response.UserEmail;
-            UserMessage = response.MessageFromUser;
+        //go to deep sleep - 2 years
+        Sleep(TimeSpan.FromDays(365 * 2));
 
-            //go to deep sleep - 2 years
-            Sleep(TimeSpan.FromDays(365 * 2));
-
-            //after wakeup if it's  Sunday
-            if ( DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
-            {
-                //go to sleep for a day
-                Sleep(TimeSpan.FromDays(1));
-            }
-
-            //after 2 year sleeping, send email to user with notification
-            sendEmail();
-
-            //end process
-            return null;
-        }
-
-        private void sendEmail()
+        //after wakeup if it's  Sunday
+        if ( DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
         {
-            Log($"Sending email to user {UserEmail}, {UserMessage}");
-
-            //you should do real sending ...
-            //var emailService = new EmailService();
-            //emialService.SendEmail(UserEmail,UserMessage);
+            //go to sleep for a day
+            Sleep(TimeSpan.FromDays(1));
         }
+
+        //after 2 year sleeping, send email to user with notification
+        sendEmail();
+
+        //end process
+        return null;
     }
-    
-    public class HelloWorlsModel
+
+    private void sendEmail()
     {
-        public string MessageToTheWorld { get; set; }
-        public string AnotherMessage { get; set; }
-        public DateTime DateTimeFromProcess { get; set; }
-        public string UserEmail { get; set; }
-        public string MessageFromUser { get; set; }
+        Log($"Sending email to user {UserEmail}, {UserMessage}");
+
+        //you should do real sending ...
+        //var emailService = new EmailService();
+        //emialService.SendEmail(UserEmail,UserMessage);
     }
+
+    #region Process properties
+    public string UserEmail { get; set; }
+    public string UserMessage { get; set; }
+    #endregion
+}
+
+public class HelloWorlsModel
+{
+    public string MessageToTheWorld { get; set; }
+    public string AnotherMessage { get; set; }
+    public DateTime DateTimeFromProcess { get; set; }
+    public string UserEmail { get; set; }
+    public string MessageFromUser { get; set; }
 }
 ```
 
@@ -88,10 +82,10 @@ This diagram is drawn in the Business Process Model Notation (BPMN - https://en.
 Actions and steps are represented by a rounded rectangle and performed in the direction of the arrow. So first we have "Registration and approvals ...", then "Send verification code by e-mail ..." and so on. 
 These kinds of diagrams do not show all the details. They are used to show high-level functionality. The BPMN diagram is then "converted" by the developer to the native workflow / business process shown in Diagram 2.
 
-<img width="100%" src="https://raw.githubusercontent.com/cv-lang/application-server/master/wiki/loanProcessDiagram.png" alt=".net application server"/>
+<img width="75%" src="https://raw.githubusercontent.com/cv-lang/application-server/master/wiki/loanProcessDiagram.png" alt=".net application server"/>
 Diagram 1 - BPMN Bank loan process
 
-<img width="100%" src="https://raw.githubusercontent.com/cv-lang/application-server/master/wiki/loanProcessNativeWorkflow.png" alt=".net application server"/>
+<img width="75%" src="https://raw.githubusercontent.com/cv-lang/application-server/master/wiki/loanProcessNativeWorkflow.png" alt=".net application server"/>
 Diagram 2 - Native workflow in C#
 
 # Advantages and disadvantages of Native workflow
