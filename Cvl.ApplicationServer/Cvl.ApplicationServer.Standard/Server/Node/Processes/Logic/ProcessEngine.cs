@@ -291,7 +291,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Logic
             return desc;
         }
 
-        public void SetProcessData(FormViewModel userFormModel)
+        public void SetProcessData(FormModel userFormModel)
         {
             var proc = getProcess(userFormModel.ProcessId);
             proc.Process.ProcessUI.FormDataFromUser = new FormData("", userFormModel);

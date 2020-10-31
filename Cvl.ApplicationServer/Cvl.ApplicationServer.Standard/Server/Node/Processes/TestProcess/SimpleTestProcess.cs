@@ -3,7 +3,7 @@ using System;
 
 namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
 {
-    public class HelloWorlsModel
+    public class HelloWorldModel
     {
         public string MessageToTheWorld { get; set; }
         public string AnotherMessage { get; set; }
@@ -22,7 +22,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
         protected override object Start(object inputParameter)
         {            
             //prepare model to show in MVC frontend
-            var model = new HelloWorlsModel();
+            var model = new HelloWorldModel();
             model.MessageToTheWorld = "Hello World";
             model.AnotherMessage = "Message from process";
             model.DateTimeFromProcess = DateTime.Now;

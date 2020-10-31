@@ -1,0 +1,16 @@
+﻿<div>
+    @switch (ViewModel.ProcessViewName)
+    {
+        case "HelloWorldView":
+            <HelloWorldView ViewModel="@ViewModel"></HelloWorldView>
+            break;        
+    }
+</div>
+
+@code {
+
+    [Parameter]
+    public Cvl.ApplicationServer.Server.Node.Processes.Model.UI.BlazorFrontEnd.BlazorViewModel 
+        ViewModel { get; set; }
+
+}

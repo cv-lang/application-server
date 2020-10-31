@@ -36,24 +36,19 @@
 @code {
 
     [Parameter]
-    public object Model { get; set; }
-
-    [Parameter]
-    public Cvl.ApplicationServer.Server.Node.Processes.Interfaces.IProcessEngine ProcessEngine { get; set; }
-
-    [Parameter]
-    public long ProcessId { get; set; }
+    public Cvl.ApplicationServer.Server.Node.Processes.Model.UI.BlazorFrontEnd.BlazorViewModel
+        ViewModel { get; set; }
 
     public Cvl.ApplicationServer.Server.Node.Processes.TestProcess.Steps.EmailValidationData ModelTypowany =>
-        (Cvl.ApplicationServer.Server.Node.Processes.TestProcess.Steps.EmailValidationData)Model;
+    (Cvl.ApplicationServer.Server.Node.Processes.TestProcess.Steps.EmailValidationData)ViewModel.Model;
 
 
     public void Test()
     {
-        var processDescription = ProcessEngine.GetProcessData(ProcessId);
-        processDescription.FormData.FormModel.SetModel(Model);
-        ProcessEngine.SetProcessData(processDescription.FormData.FormModel);
-        Navigation.NavigateTo($"/process-blazor/{ProcessId}", true);
+        var processDescription = ViewModel.ProcessEngine.GetProcessData(ViewModel.ProcessId);
+        processDescription.FormData.FormModel.SetModel(ViewModel.Model);
+        ViewModel.ProcessEngine.SetProcessData(processDescription.FormData.FormModel);
+        Navigation.NavigateTo($"/process-blazor/{ViewModel.ProcessId}", true);
     }
 
 }

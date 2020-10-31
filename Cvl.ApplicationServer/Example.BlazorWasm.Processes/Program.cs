@@ -21,7 +21,8 @@ namespace Example.BlazorWasm.Processes
             ApplicationServer.Start(startBackgroundProcessThread: true);
             var procesId = ApplicationServer.ProcessManager.StartProcess("Cvl.ApplicationServer.Server.Node.Processes.TestProcess.BankLoanProcess");
             var desc2 = ApplicationServer.ProcessManager.GetProcessData(2);
-
+            procesId = ApplicationServer.ProcessManager.StartProcess("Cvl.ApplicationServer.Server.Node.Processes.TestProcess.SimpleTestProcess");
+            desc2 = ApplicationServer.ProcessManager.GetProcessData(3);
 
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");

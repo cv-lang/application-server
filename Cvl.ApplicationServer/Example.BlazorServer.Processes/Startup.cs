@@ -32,7 +32,8 @@ namespace Example.BlazorServer.Processes
             services.AddControllersWithViews().AddViewComponentsAsServices();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();            
+            services.AddSingleton<WeatherForecastService>();
+            services.UseApplicationServerServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -62,7 +62,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         [Interpret]
         protected void EndProcess(string formName, BaseModel model)
         {
-            var formModel = new FormViewModel();
+            var formModel = new FormModel();
             formModel.ProcessId = Id;
 
             if (string.IsNullOrEmpty(formName) == false)

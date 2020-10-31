@@ -6,11 +6,11 @@ using System.Text;
 namespace Cvl.ApplicationServer.Server.Node.Processes.Model
 {
     /// <summary>
-    /// Model widoku - taki kontener modelu z dodatkowymi potrzebnymi danymi.
+    /// Model~widoku - taki kontener modelu z dodatkowymi potrzebnymi danymi.
     /// Zawiera propercje Model w której jest fizyczny obiekt z danymi.
     /// Obiekt przekazywany do formatki.
     /// </summary>
-    public class FormViewModel
+    public class FormModel
     {
         private const string gm = "Dane bazowe";
 
@@ -34,7 +34,7 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.Model
         public string ClientIpAddress { get; set; }
     }
 
-    public class FormModel<T> : FormViewModel
+    public class FormModel<T> : FormModel
         where T: new()        
     {
         private const string gm = "Dane bazowe";
