@@ -14,8 +14,8 @@ Like IIS, the application-server is responsible for running your business proces
 - Can communicate with the frontend to display more complex business forms and enter multiple data simultaneously. List of suppoerted frontends: Asp.Net Core MVC, Blazor server-site, Blazor Client-site, WPF.
 - It has the ability to suspend execution while waiting for user data or external events.. This pause can last for seconds, days, months, years without using CPU or RAM resources - it only uses harddrive to store execution state.
 
-Under the hood, it used a .Net Virtual Machine to hibernate the entire process while it waited and save it to storage like a hard drive. After an external event (user interaction, timers ...), the process is loaded from storage into the virtual machine and restored. 
-Hibernated process can be restored on another machine.
+.Net Virtual Machine is used in the background - to hibernate the entire process while it's waiting -  and save it to storage as a hard disk. 
+Once exterlnal trigger received (user interaction, timers ...), the process can be loaded from storage into the virtual machine and restored. Hibernated process can be restored on any another machine.
 
 # Alternative to
 - Azure Functions / Durable Functions - .Net Native workflow is just like a regular console application, without the await hack's and can be persisted for years 
