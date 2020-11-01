@@ -1,9 +1,9 @@
 # Getting Started
-To create buissness process - Native workflow and run it on application-server we have several options:
-- We can create application-server with WPF frontend
-- We can create application-server with ASP.NET Blazor (server and client-wasm) frontend
-- We can create application-server with WPF frontend
-- We can create application-server with ASP.NET Core MVC Web Application frontend.
+To create a business process/native workflow and run it on the application server, we have several options:
+- We can create an application-server with WPF frontend
+- We can create an application-server with ASP.NET Blazor (server and client-wasm) frontend
+- We can create an application-server with WPF frontend
+- We can create an application-server with ASP.NET Core MVC Web Application frontend.
 
 ## ASP.NET Core MVC Web Application frontend
 ### Create app
@@ -11,9 +11,61 @@ To create buissness process - Native workflow and run it on application-server w
 2) Install NuGet package '**Cvl.ApplicationServer.Server**' and '**Cvl.VirtualMachine**'
 3) In Startup.cs add -> using Cvl.ApplicationServer.Server.Extensions;
 4) In Startup.cs->ConfigureServices add -> services.UseApplicationServerServices();
-5) In Startup.cs->Configure add -> app.UseApplicationServer();
-At this moment, ju can run your server (F5) and enter /process-types (https://localhost:44390/process-types) to get list of avaliable process types
+5) At this moment, ju can run your server (F5) and enter /process-types (https://localhost:44390/process-types) to get list of avaliable process types
 There by 2 example processes Cvl.ApplicationServer.Server.Node.Processes.TestProcess.BankLoanProcess and Cvl.ApplicationServer.Server.Node.Processes.TestProcess.SimpleTestProcess.
+```CSharp
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Cvl.ApplicationServer.Server.Extensions;
+
+namespace ExampleApplicationServer
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllersWithViews();
+            services.UseApplicationServerServices();
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });            
+        }
+    }
+}
+```
 
 ### Create process
 6) Create your simple process, by creating folder Processes and add class MyTestProcess base on Cvl.ApplicationServer.Server.Node.Processes.Model.BaseProcess
@@ -66,6 +118,9 @@ public class MyTestProcess : Cvl.ApplicationServer.Server.Node.Processes.Model.B
     </div>
 </div>
 ```
+![](https://github.com/cv-lang/application-server/blob/master/wiki/gettingStarted-mvc-vs.png?raw=true)
+
+### Start application
 13) Run your app - F5 - and in browers open link /process-start/ExampleApplicationServer.Processes.MyTestProcess (https://localhost:44390/process-start/ExampleApplicationServer.Processes.MyTestProcess).
 This start your process and redirect You to your waiting page (https://localhost:44390/process-view/4) refresh page, you see your form (MyTestForm) with data from process.
 14) Enter user message and confirm
