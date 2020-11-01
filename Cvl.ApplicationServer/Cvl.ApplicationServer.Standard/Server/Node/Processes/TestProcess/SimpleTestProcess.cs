@@ -14,6 +14,12 @@ namespace Cvl.ApplicationServer.Server.Node.Processes.TestProcess
 
     public class SimpleTestProcess : BaseProcess
     {
+        public SimpleTestProcess()
+        {
+            ProcessUI.SetBaseViewPath("SimpleTestProcess/");
+            ProcessUI.ViewLayout = "_Layout";
+        }
+
         #region Process properties
         public string UserEmail { get; set; }
         public string UserMessage { get; set; }
