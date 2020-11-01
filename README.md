@@ -11,11 +11,17 @@ Like IIS, the application-server is responsible for running your business proces
 
 # .Net Native workflow
 .Net Native workflow is similar to .Net Console Application but has two differences:
-- Can communicate with the frontend to display more complex business forms and enter multiple data simultaneously. Frontends supported: Asp.Net Core MVC, Blazor server-site, Blazor Client-site, WPF.
+- Can communicate with the frontend to display more complex business forms and enter multiple data simultaneously. List of suppoerted frontends: Asp.Net Core MVC, Blazor server-site, Blazor Client-site, WPF.
 - It has the ability to suspend execution while waiting for user data or external events.. This pause can last for seconds, days, months, years without using CPU or RAM resources - it only uses harddrive to store execution state.
 
 Under the hood, it used a .Net Virtual Machine to hibernate the entire process while it waited and save it to storage like a hard drive. After an external event (user interaction, timers ...), the process is loaded from storage into the virtual machine and restored. 
-After the process is hibernated it can be restored on another machine.
+Hibernated process can be restored on another machine.
+
+# Alternative to
+- Azure Functions / Durable Functions - .Net Native workflow is just like a regular console application, without the await hack's and can be persisted for years 
+- AWS Lambda - It cannot run long-running processes
+- Windows Workflow Foundation - WF4 is a nightmare, don't even waste your time on it
+
 
 # Example of a simple native workflow
 
@@ -128,11 +134,6 @@ Blazor page - HelloWordView - view for step 1
 **Disadvantages:**
 - If you've read the 'Example of a simple native workflow' section, you may be wondering how to put a process to sleep for 2 years without having to run the entire server for 2 years?
 The answer is - virtual machine. Thanks to it, it is possible to hibernate the process and restore it later. This virtualization has some performance impact. It is just as fast as other alternatives such as Windows Workflow Foundation etc.
-
-# Alternative to
-- Azure Functions / Durable Functions - .Net Native workflow is just like a regular console application, without the await hack's.
-- AWS Lambda - It cannot run long-running processes
-- Windows Workflow Foundation - WF4 is a nightmare, don't even waste your time on it
 
 
 # Example of the customer's loan process
