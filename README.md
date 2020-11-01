@@ -127,7 +127,7 @@ Blazor page - HelloWordView - view for step 1
 - If you've read the 'Example of a simple native workflow' section, you may be wondering how to put a process to sleep for 2 years without having to run the entire server for 2 years?
 The answer is - virtual machine. Thanks to it, it is possible to hibernate the process and restore it later. This virtualization has some performance impact. It is just as fast as other alternatives such as Windows Workflow Foundation etc.
 
-## Alternative to
+# Alternative to
 - Azure Functions / Durable Functions - .Net Native workflow is just like a regular console application, without the await hack's.
 - AWS Lambda - It cannot run long-running processes
 - Windows Workflow Foundation - WF4 is a nightmare, don't even waste your time on it
@@ -186,7 +186,7 @@ Registration .Net Core Asp.Net MVC - Registration View
 - Cvl.ApplicationServer.WpfConsole - WPF application to managment server 
 - Cvl.ApplicationServer.WpfConsoleCore - WPF Core application to managment
 
-## NuGet 'Cvl.ApplicationServer'
+# NuGet 'Cvl.ApplicationServer'
 PM> Install-Package Cvl.ApplicationServer -Version 0.9.1
 
 [NuGet package Cvl.VirtualMachine](https://www.nuget.org/packages/Cvl.ApplicationServer/)
@@ -195,7 +195,7 @@ PM> Install-Package Cvl.ApplicationServer.Server -Version 0.9.1
 
 [NuGet package Cvl.VirtualMachine.Server](https://www.nuget.org/packages/Cvl.ApplicationServer.Server/)
 
-## Dependencies
+# Dependencies
 
 [.NET virtual-machine](https://github.com/cv-lang/virtual-machine)
 
