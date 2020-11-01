@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Model.Password" class="control-label">Password</label>
-                <InputText class="form-control" type="password" @bind-Value="ModelTypowany.PhoneNumber" />
+                <InputText class="form-control" type="password" @bind-Value="ModelTypowany.Password" />
                 <span asp-validation-for="Model.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -41,11 +41,7 @@
 
             <div class="primary"></div>
         </EditForm>
-
-        <button @onclick="Test"></button>
     </div>
-
-
 </div>
 
 

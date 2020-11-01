@@ -7,9 +7,6 @@
 @model Cvl.ApplicationServer.Server.Node.Processes.Model.FormModel<Cvl.ApplicationServer.Server.Node.Processes.TestProcess.RegistrationStepData>
 
 <h3>Registration</h3>
-
-
-<h1>sd</h1>
 <div class="row">
     <div class="col-lg-6 p-3">
         <h1 class="pb-5">How to get loan?</h1>
@@ -31,6 +28,11 @@
                 <span asp-validation-for="Model.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Model.Password" class="control-label">Password</label>
+                <input asp-for="Model.Password" class="form-control" />
+                <span asp-validation-for="Model.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-primary btn-block mt-2" type="submit"> Sign up</button>
             </div>
 
@@ -39,7 +41,29 @@
                     <input id="cbAgreementAll" name="cbAgreementAll" type="checkbox" />
                     <label class="ml-2" for="cbAgreementAll">Select all Terms of Service and Privacy Statement</label>
                 </div>
+
+                @for (int i = 0; i < Model.Model.Agreements.Count; i++)
+                {
+                    @Html.HiddenFor(x => x.Model.Agreements[i].Content)
+                    <div class="approval-row">
+                        <div class="m-2">
+                            @if (Model.Model.Agreements[i].Required)
+                            {
+                                <input class="cbAgreement" asp-for="Model.Agreements[i].Accepted" type="checkbox" required />
+                                <span class="ml-2 text-danger"> * </span>
+                            }
+                            else
+                            {
+                                <input class="cbAgreement" asp-for="Model.Agreements[i].Accepted" type="checkbox" />
+                            }
+                            <label class="d-inline ml-2" asp-for="Model.Agreements[i].Accepted">@Html.Raw(Model.Model.Agreements[i].Content)</label>
+                            <span asp-validation-for="Model.Agreements[i].Accepted" class="text-danger"></span>
+                        </div>
+                    </div>
+                }
+
             </div>
+
 
 
             <div class="primary"></div>
