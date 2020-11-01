@@ -85,6 +85,36 @@ public class HelloWorlsModel
 }
 ```
 
+Blazor page - HelloWordView - view for step 1
+```html
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <h1 class="pt-5 pb-3">Hello World View</h1>
+        <p>
+            @Model.MessageToTheWorld        
+            Message from process: @Model.AnotherMessage at @Model.DateTimeFromProcess
+        </p>
+        <EditForm Model="@Model" OnValidSubmit="@OnSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group mt-5">
+                <h3>User data form</h3>
+            </div>
+            <div class="form-group">
+                <label asp-for="Model.UserEmail" class="control-label">Email</label>
+                <InputText class="form-control" @bind-Value="Model.UserEmail" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Model.MessageFromUser" class="control-label">Message</label>
+                <InputText class="form-control" @bind-Value="Model.MessageFromUser" />
+            </div>
+            <button class="btn btn-primary btn-block mt-2" type="submit"> Confirm </button>
+        </EditForm>
+    </div>
+</div>
+```
+
+
 # Advantages and disadvantages of Native workflow
 **Advantages of Native workflow:**
 - are structural 1: 1 with BPMN diagrams
@@ -132,6 +162,10 @@ protected void Registration()
 }
 ```
 
+# Frontends
+- Asp.Net Core MVC
+- Asp.Net Core Blazor Server
+- Asp.Net Core Blazor Client (wasm)
 
 # Solution description
 - Cvl.ApplicationServer.NodeHost - NodeNetwork module
