@@ -3,7 +3,7 @@
 
 ### Run your long-running business process
 
-.NET Application-server is a program that manages your business applications,  native workflow, jobs, processes and performs the “magic” of converting .Net Console Application into native workflow that can be run on it.
+.NET Application-server is a program that manages your business applications,  native workflow/business processes, jobs and performs the “magic” of converting .Net Console Application into native workflow that can be run on it.
 
 Like IIS, the application-server is responsible for running your business processes,native workflows, jobs and services. Provides uniform methods for communication, logging, debugging and managing the entire system. It allows you to run business processes on different server nodes (on different physical machines).
 
@@ -17,7 +17,7 @@ After the process is hibernated it can be restored on another machine.
 
 # Example of a simple native workflow
 
-Below is an example process with three steps. 1) View and download user data. 2) Put the process to sleep for 2 years. 3) Send an email to the address provided earlier.
+Below is an example process with three steps. 1) View and get user data. 2) Put the process to sleep for **2 years**. 3) Send an email to the address provided earlier.
 
 View from the process - step 1:
 
@@ -126,6 +126,11 @@ Blazor page - HelloWordView - view for step 1
 **Disadvantages:**
 - If you've read the 'Example of a simple native workflow' section, you may be wondering how to put a process to sleep for 2 years without having to run the entire server for 2 years?
 The answer is - virtual machine. Thanks to it, it is possible to hibernate the process and restore it later. This virtualization has some performance impact. It is just as fast as other alternatives such as Windows Workflow Foundation etc.
+
+## Alternative to
+- Azure Functions / Durable Functions - .Net Native workflow is just like a regular console application, without the await hack's.
+- AWS Lambda - It cannot run long-running processes
+- Windows Workflow Foundation - WF4 is a nightmare, don't even waste your time on it
 
 
 # Example of the customer's loan process
