@@ -36,7 +36,7 @@ namespace ExampleApplicationServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.UseApplicationServerServices();
+       -->> services.UseApplicationServerServices(); <<---
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -140,5 +140,6 @@ public class MyTestProcess : Cvl.ApplicationServer.Server.Node.Processes.Model.B
     }
 }
 ```
-
+Process view:
+![](https://github.com/cv-lang/application-server/blob/master/wiki/mytestview.png?raw=true)
 
