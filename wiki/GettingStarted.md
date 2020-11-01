@@ -2,7 +2,6 @@
 To create a business process/native workflow and run it on the application server, we have several options:
 - We can create an application-server with WPF frontend
 - We can create an application-server with ASP.NET Blazor (server and client-wasm) frontend
-- We can create an application-server with WPF frontend
 - We can create an application-server with ASP.NET Core MVC Web Application frontend.
 
 ## ASP.NET Core MVC Web Application frontend
@@ -141,5 +140,6 @@ public class MyTestProcess : Cvl.ApplicationServer.Server.Node.Processes.Model.B
 }
 ```
 Process view:
+
 ![](https://github.com/cv-lang/application-server/blob/master/wiki/mytestview.png?raw=true)
 
