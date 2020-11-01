@@ -162,6 +162,9 @@ protected void Registration()
 }
 ```
 
+Registration .Net Core Asp.Net MVC - Registration View
+<img width="50%" src="https://raw.githubusercontent.com/cv-lang/application-server/master/wiki/CustomersLoanProcessView.png" alt=".net application server"/>
+
 # Frontends
 - Asp.Net Core MVC
 - Asp.Net Core Blazor Server
