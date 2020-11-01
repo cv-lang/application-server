@@ -16,6 +16,15 @@ Under the hood, it used a .Net Virtual Machine to hibernate the entire process w
 After the process is hibernated it can be restored on another machine.
 
 # Example of a simple native workflow
+
+Below is an example process with three steps. 1) View and download user data. 2) Put the process to sleep for 2 years. 3) Send an email to the address provided earlier.
+
+View from the process - step 1:
+
+<img src="https://raw.githubusercontent.com/cv-lang/application-server/master/wiki/simpleTestPRocessView.png" alt="simple test process view" width="360px"/> 
+
+Code for the sample native workflow process:
+
 ```csharp
 public class SimpleTestProcess : BaseProcess
 {
@@ -76,6 +85,19 @@ public class HelloWorlsModel
 }
 ```
 
+# Advantages and disadvantages of Native workflow
+**Advantages of Native workflow:**
+- are structural 1: 1 with BPMN diagrams
+- they have all the necessary functionalities in one place (sub-processes, jobs, timers, etc.)
+- they are very easy to write - you write like a console application
+- they are very easy to debug - you can run them like a console application
+- they are very easy to test (as opposed to e.g. Windows Workflow Foundation)
+
+**Disadvantages:**
+- If you've read the 'Example of a simple native workflow' section, you may be wondering how to put a process to sleep for 2 years without having to run the entire server for 2 years?
+The answer is - virtual machine. Thanks to it, it is possible to hibernate the process and restore it later. This virtualization has some performance impact. It is just as fast as other alternatives such as Windows Workflow Foundation etc.
+
+
 # Example of the customer's loan process
 Let's assume that we have a customer who wants to get a bank loan. The diagram below provides a general overview of all steps in the process. The steps are performed by the customer and/or the bank's system.
 This diagram is drawn in the Business Process Model Notation (BPMN - https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation) and starts in the top left blank circle.
@@ -88,18 +110,27 @@ Diagram 1 - BPMN Bank loan process
 <img width="65%" src="https://raw.githubusercontent.com/cv-lang/application-server/master/wiki/loanProcessNativeWorkflow.png" alt=".net application server"/>
 Diagram 2 - Native workflow in C#
 
-# Advantages and disadvantages of Native workflow
-**Advantages of Native workflow is:**
-- are structural 1: 1 with BPMN diagrams
-- they have all the necessary functionalities inside (sub-processes, orders, timers, etc.)
-- they are very easy to write - you write like a console application
-- they are very easy to debug - you can run them like a console application
-- they are very easy to test (as opposed to e.g. Windows Workflow Foundation)
 
-**Disadvantages:**
-- If you've read the 'Example of a simple native workflow' section, you may be wondering how to put a process to sleep for 2 years without having to run the entire server for 2 years?
-The answer is - virtual machine. Thanks to it, it is possible to hibernate the process and restore it later. This virtualization has some performance impact. It is just as fast as other alternatives such as Windows Workflow Foundation etc.
+Code for Registration step:
+```csharp
+protected void Registration()
+{
+    SetStepData("Registration", "Get email, phone number and agreements from Custromer");
+    var registration = getRegistrationStepModel();
+    var registrationResponse = ShowForm("Registration", registration);
 
+    SetStepData("Registration-response", "Custromer put contact data");
+    Log("check, just in case, whether approved consents");
+    validateRegistrationStepResponse(registrationResponse);
+
+    SetStepData("Registration-approve", "Custromer approve consents");
+
+    Log("Save the Customer selections");
+    SelectedProduct = registrationResponse.SelectedProduct;
+    ClientEmail = registrationResponse.Email;
+    ClientPhoneNumber = registrationResponse.PhoneNumber;
+}
+```
 
 
 # Solution description
