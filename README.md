@@ -143,7 +143,7 @@ protected void Registration()
 - Cvl.ApplicationServer.WpfConsole - WPF application to managment server 
 - Cvl.ApplicationServer.WpfConsoleCore - WPF Core application to managment
 
-## NuGet 'Cvl.VirtualMachine'
+## NuGet 'Cvl.ApplicationServer'
 PM> Install-Package Cvl.ApplicationServer -Version 0.9.1
 
 [NuGet package Cvl.VirtualMachine](https://www.nuget.org/packages/Cvl.ApplicationServer/)
