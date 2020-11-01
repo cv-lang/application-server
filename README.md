@@ -142,3 +142,18 @@ protected void Registration()
 - Cvl.ApplicationServer.UnityTest- test for application server logics
 - Cvl.ApplicationServer.WpfConsole - WPF application to managment server 
 - Cvl.ApplicationServer.WpfConsoleCore - WPF Core application to managment
+
+## NuGet 'Cvl.VirtualMachine'
+PM> Install-Package Cvl.ApplicationServer -Version 0.9.1
+
+[NuGet package Cvl.VirtualMachine](https://www.nuget.org/packages/Cvl.ApplicationServer/)
+
+PM> Install-Package Cvl.ApplicationServer.Server -Version 0.9.1
+
+[NuGet package Cvl.VirtualMachine.Server](https://www.nuget.org/packages/Cvl.ApplicationServer.Server/)
+
+## Dependencies
+
+[.NET virtual-machine](https://github.com/cv-lang/virtual-machine)
+
+[.NET node-network](https://github.com/cv-lang/node-network)
