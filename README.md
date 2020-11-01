@@ -7,6 +7,8 @@
 
 Like IIS, the application-server is responsible for running your business processes,native workflows, jobs and services. Provides uniform methods for communication, logging, debugging and managing the entire system. It allows you to run business processes on different server nodes (on different physical machines).
 
+[Getting started - step by step - creating a business native workflow](https://github.com/cv-lang/application-server/blob/master/wiki/GettingStarted.md)
+
 # .Net Native workflow
 .Net Native workflow is similar to .Net Console Application but has two differences:
 - Can communicate with the frontend to display more complex business forms and enter multiple data simultaneously. Frontends supported: Asp.Net Core MVC, Blazor server-site, Blazor Client-site, WPF.
