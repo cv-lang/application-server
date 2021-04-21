@@ -14,9 +14,8 @@ namespace Cvl.ApplicationServer.Logs.Model
     /// </summary>
     //[Table("Log", Schema = "Temporary")]
     public class LogElement : BaseObject
-    {
-        //[Key]
-        public long Id { get; set; }
+    {        
+        public Guid UniqueId { get; set; }
 
         public LogTypeEnum LogType { get; set; }
 
@@ -43,10 +42,11 @@ namespace Cvl.ApplicationServer.Logs.Model
         public string ExternalId1 { get; set; }
         public string ExternalId2 { get; set; }
         public string ExternalId3 { get; set; }
+        public string ExternalId4 { get; set; }
 
         public long? ParentId { get; set; }
         //[ForeignKey(nameof(ParentId))]
-        public virtual ICollection<LogElement> Elements { get; set; }
+        public virtual ICollection<LogElement> Elements { get; set; } = new List<LogElement>();
 
         /// <summary>
         /// ścieżka do pliku z kodem metody która utworzyła loggera

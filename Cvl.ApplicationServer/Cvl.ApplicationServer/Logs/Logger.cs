@@ -1,16 +1,36 @@
 ﻿using Cvl.ApplicationServer.Logs.Model;
+using Cvl.ApplicationServer.Logs.Storage;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Cvl.ApplicationServer.Logs
 {
-    public class Logger
+    public class Logger : IDisposable
     {
+        private readonly LogStorageBase storage;
+
+        public Logger()
+        { }
+
+        public Logger(LogStorageBase storage)
+        {
+            this.storage = storage;
+        }
+
         /// <summary>
         /// Lista logów 
         /// </summary>
-        public List<LogElement> Logs { get; set; } = new List<LogElement>();
+        public LogElement LogElement { get; set; } = new LogElement();
+
+        public SubLogger GetSubLogger(string message = null,
+            [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
+        [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
+        [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
+        {
+            var log = addLog(LogTypeEnum.Trace, memberName, sourceFilePath, sourceLineNumber, message ?? $"Submethod:{message}");
+            return new SubLogger(log);
+        }
 
         /// <summary>
         /// Funkcja do śledzenia działania programu
@@ -77,7 +97,6 @@ namespace Cvl.ApplicationServer.Logs
             [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
         {
             var log = addLog(LogTypeEnum.End, memberName, sourceFilePath, sourceLineNumber, null);
-            FlushLogs();
             return log;
         }
 
@@ -94,14 +113,18 @@ namespace Cvl.ApplicationServer.Logs
             //log.LoggerId = Id;
             //log.IdInLogger = LogIndex++;
 
-            // AddLogModel(log);
-
+            AddLogModel(log);
             return log;
+        }
+
+        private void AddLogModel(LogElement log)
+        {
+            LogElement.Elements.Add(log);
         }
 
         private void FlushLogs()
         {
-            throw new NotImplementedException();
+            storage.SaveLogs(LogElement);
         }
 
 
@@ -125,6 +148,17 @@ namespace Cvl.ApplicationServer.Logs
             FlushLogs();
 
             return returnValue;
+        }
+               
+
+        public virtual void Dispose()
+        {
+            FlushLogs();
+        }
+
+        public override string ToString()
+        {
+            return $"Count:{LogElement.Elements.Count}; {string.Join("; ", LogElement.Elements)}";
         }
     }
 }
