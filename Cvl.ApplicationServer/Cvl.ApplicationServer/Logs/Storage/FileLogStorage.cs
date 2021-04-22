@@ -39,7 +39,7 @@ namespace Cvl.ApplicationServer.Logs.Storage
             //zapisuje do nagłówka
             logElement.UniqueId = Guid.NewGuid();
 
-            var external1Dir = $"{logsDirectoryPath}{(logElement.Module != null ? logElement.Module + "_" : "" )}{logElement.ExternalId1}_log.txt";
+            var external1Dir = $"{logsDirectoryPath}{(logElement.Module != null ? logElement.Module + "_" : "" )}{logElement.ExternalId1}_{logElement.ExternalId2}_{logElement.ExternalId3}_log.txt";
             var logXml = Serializer.SerializeObject(logElement);
 
             //zapisuje ciało logu

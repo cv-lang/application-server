@@ -2,6 +2,7 @@
 using Cvl.ApplicationServer.Logs.Storage;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Cvl.ApplicationServer.Logs
@@ -77,7 +78,7 @@ namespace Cvl.ApplicationServer.Logs
         [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
         [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
         {
-            var log = addLog(LogTypeEnum.Error, memberName, sourceFilePath, sourceLineNumber, message);
+            var log = addLog(LogTypeEnum.Error, memberName, sourceFilePath, sourceLineNumber, $"{message} exeptionMessage:{ex?.Message ?? ""}");
             log.AddParameter(ex?.ToString(), "Exception.ToString()");
             return log;
         }
@@ -145,11 +146,21 @@ namespace Cvl.ApplicationServer.Logs
         {
             var log = addLog(LogTypeEnum.End, memberName, sourceFilePath, sourceLineNumber);
             log.AddParameter(returnValue, "ReturnValue");
-            FlushLogs();
-
+            
             return returnValue;
         }
-               
+
+        public Logger AddParameter(object parameterValue, string parameterName = null)
+        {
+
+            var first = LogElement.Elements.FirstOrDefault();
+            if(first!= null)
+            {
+                first.AddParameter(parameterValue, parameterName);
+            }
+
+            return this;
+        }
 
         public virtual void Dispose()
         {

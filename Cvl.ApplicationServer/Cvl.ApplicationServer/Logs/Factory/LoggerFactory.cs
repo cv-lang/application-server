@@ -28,6 +28,7 @@ namespace Cvl.ApplicationServer.Logs.Factory
             logger.LogElement.ExternalId3 = external3;
             logger.LogElement.ExternalId4 = external4;
             logger.LogElement.Module = module;
+            logger.Trace($"Start {memberName}");
 
             return logger;
         }

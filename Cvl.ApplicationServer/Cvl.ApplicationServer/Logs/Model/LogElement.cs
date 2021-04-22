@@ -22,7 +22,7 @@ namespace Cvl.ApplicationServer.Logs.Model
         /// <summary>
         /// Data utworzenie logera
         /// </summary>
-        public DateTime TimeStamp { get; set; }
+        public DateTime TimeStamp { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Moduł
