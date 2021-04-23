@@ -9,7 +9,7 @@ namespace Cvl.ApplicationServer.Logs.Storage
     public class LogStorageBase
     {     
         public virtual void SaveLogs(LogElement logElement)
-        {           
+        {         
 
         }
 

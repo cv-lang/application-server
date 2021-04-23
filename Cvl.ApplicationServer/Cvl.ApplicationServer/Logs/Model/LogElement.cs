@@ -15,6 +15,11 @@ namespace Cvl.ApplicationServer.Logs.Model
     //[Table("Log", Schema = "Temporary")]
     public class LogElement : BaseObject
     {        
+        public LogElement()
+        {
+            Params = new LogParameters(this);
+        }
+
         public string UniqueId { get; set; }
 
         public LogTypeEnum LogType { get; set; }
@@ -60,8 +65,8 @@ namespace Cvl.ApplicationServer.Logs.Model
 
 
         #region Parametry
-        public virtual ICollection<LogParameter> Params { get; set; } = new List<LogParameter>();
-
+        //public virtual ICollection<LogParameter> Params { get; set; } = new List<LogParameter>();
+        public LogParameters Params { get; set; }
 
         public LogElement AddParameter(object parameterValue, string parameterName = null)
         {
@@ -83,7 +88,7 @@ namespace Cvl.ApplicationServer.Logs.Model
                // JsonValue = JsonConvert.SerializeObject(parameterValue)
             };
 
-            Params.Add(logParam);
+            Params.Params.Add(logParam);
 
             return this;
         }
