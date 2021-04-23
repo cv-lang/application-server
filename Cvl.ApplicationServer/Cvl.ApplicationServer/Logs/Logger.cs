@@ -10,6 +10,7 @@ namespace Cvl.ApplicationServer.Logs
     public class Logger : IDisposable
     {
         private readonly LogStorageBase storage;
+        private int logsCounter = 0;
 
         public Logger()
         { }
@@ -105,14 +106,15 @@ namespace Cvl.ApplicationServer.Logs
             int sourceLineNumber, string message = "")
         {
             var log = new LogElement();
+            log.UniqueId = $"{LogElement.UniqueId}-{logsCounter}";
             log.TimeStamp = DateTime.Now;
             log.MemberName = memberName;
             log.Message = message;
             log.SourceFilePath = sourceFilePath;
             log.SourceLineNumber = sourceLineNumber;
             log.LogType = logType;
-            //log.LoggerId = Id;
-            //log.IdInLogger = LogIndex++;
+
+            logsCounter++;
 
             AddLogModel(log);
             return log;

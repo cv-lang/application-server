@@ -36,9 +36,7 @@ namespace Cvl.ApplicationServer.Logs.Storage
 
         public override void SaveLogs(LogElement logElement)
         {
-            //zapisuje do nagłówka
-            logElement.UniqueId = Guid.NewGuid();
-
+            //zapisuje do nagłówka            
             var external1Dir = $"{logsDirectoryPath}{(logElement.Module != null ? logElement.Module + "_" : "" )}{logElement.ExternalId1}_{logElement.ExternalId2}_{logElement.ExternalId3}_log.txt";
             var logXml = Serializer.SerializeObject(logElement);
 
@@ -77,11 +75,36 @@ namespace Cvl.ApplicationServer.Logs.Storage
             return getHeaders().Select(x=> x.LogElement).ToList();
         }
 
-        public override LogElement GetLogElement(Guid uniqueId)
+        public override LogElement GetLogElement(string uniqueId)
         {
             var logs = getHeaders();
+            
+            return getLog(uniqueId, logs);
+        }
+
+        private LogElement getLog(string uniqueId, List<LogContainer> logs)
+        {
+            var ids = uniqueId.Split('-');
+
+            if(ids.Length == 1)
+            {
+                return getFirstLevelLogs(uniqueId, logs);
+            } else
+            {
+                //mamy złożony id, gdzie kolejne zagniezdrzenia sa oddzielone -
+                var p = ids.ToList();
+                p.Remove(p.Last());
+                var preId = string.Join("-", p);
+                var preLog = getLog(preId, logs);
+                return preLog.Elements.FirstOrDefault(x => x.UniqueId == uniqueId);
+            }
+        }
+
+
+        private LogElement getFirstLevelLogs(string uniqueId, List<LogContainer> logs)
+        {
             var logElement = logs.FirstOrDefault(x => x.LogElement.UniqueId == uniqueId);
-            if(logElement == null)
+            if (logElement == null)
             {
                 return null;
             }
@@ -91,7 +114,7 @@ namespace Cvl.ApplicationServer.Logs.Storage
             foreach (var item in items)
             {
                 var i = Serializer.DeserializeObject<LogElement>(item);
-                if(i.UniqueId == uniqueId)
+                if (i.UniqueId == uniqueId)
                 {
                     return i;
                 }
@@ -99,6 +122,5 @@ namespace Cvl.ApplicationServer.Logs.Storage
 
             return null;
         }
-
     }
 }

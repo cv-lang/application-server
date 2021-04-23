@@ -15,7 +15,7 @@ namespace Cvl.ApplicationServer.Logs.Model
     //[Table("Log", Schema = "Temporary")]
     public class LogElement : BaseObject
     {        
-        public Guid UniqueId { get; set; }
+        public string UniqueId { get; set; }
 
         public LogTypeEnum LogType { get; set; }
 

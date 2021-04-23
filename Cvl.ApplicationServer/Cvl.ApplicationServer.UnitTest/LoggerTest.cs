@@ -34,6 +34,10 @@ namespace Cvl.ApplicationServer.UnitTest
 
             var lastHeader = loggerFactory.LogStorage.GetHeaders().Last();
             var lastFull = loggerFactory.LogStorage.GetLogElement(lastHeader.UniqueId);
+
+            var idTest = lastFull.Elements.Last().Elements.Last().UniqueId;
+
+            var l = loggerFactory.LogStorage.GetLogElement(idTest);
         }
 
         private void someSubfunction(int v1, int v2, string v3, Logger logger)
