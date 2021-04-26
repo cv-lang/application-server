@@ -15,7 +15,6 @@ namespace Cvl.ApplicationServer.Logs.Model
         {
             this.logElement = logElement;
         }
-
         public LogParameters()
         { }
 
