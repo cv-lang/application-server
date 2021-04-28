@@ -23,7 +23,7 @@ namespace Cvl.ApplicationServer.Logs.Factory
         [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
         {
             var logger= new Logger(LogStorage);
-            logger.LogElement.UniqueId = Convert.ToBase64String( BitConverter.GetBytes( DateTime.Now.Ticks)).Replace("=","").Replace("/","");
+            logger.LogElement.UniqueId = Convert.ToBase64String( BitConverter.GetBytes( DateTime.Now.Ticks)).Replace("=","").Replace("/","").Replace("+", "");
             logger.LogElement.ExternalId1 = externalId1;
             logger.LogElement.ExternalId2 = external2;
             logger.LogElement.ExternalId3 = external3;
