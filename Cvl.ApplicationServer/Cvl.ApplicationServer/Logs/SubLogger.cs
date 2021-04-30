@@ -6,16 +6,19 @@ using System.Text;
 namespace Cvl.ApplicationServer.Logs
 {
     public class SubLogger : Logger
-    {      
-
-        public SubLogger(LogElement log)
+    {
+        private Logger logger;
+        public SubLogger(LogElement log, Logger logger)
         {
             this.LogElement = log;
+            this.logger = logger;
+            loggerStack.Push(this);
         }
 
         public override void Dispose()
         {
             //nic w subl loggerze nie robię - zapisywanie jest w rodzicu (loggerze)
+            this.logger.DisposeSubLogger();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Cvl.ApplicationServer.Base.Model;
+using Cvl.ApplicationServer.Tools.Extension;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,5 +28,10 @@ namespace Cvl.ApplicationServer.Logs.Model
         public string StringValue { get; set; }
 
         public string JsonValue { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Name}: {StringValue?.TruncateLongString(130)}";
+        }
     }
 }

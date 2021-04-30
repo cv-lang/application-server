@@ -18,21 +18,42 @@ namespace Cvl.ApplicationServer.Logs
         public Logger(LogStorageBase storage)
         {
             this.storage = storage;
+            loggerStack.Push(this);
         }
+
+        #region SubLogger
+
+        protected Stack<Logger> loggerStack = new Stack<Logger>();
+
+        public SubLogger GetSubLogger(string message = null,
+            [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
+            [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
+            [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
+        {
+            var currentLogger =loggerStack.Peek();
+            var log = currentLogger.addLog(LogTypeEnum.Trace, memberName, sourceFilePath, sourceLineNumber, message ?? $"Submethod:{memberName}");
+            var sub= new SubLogger(log, this);
+            loggerStack.Push(sub);
+            return sub;
+        }
+
+        public void DisposeSubLogger()
+        {
+            loggerStack.Pop();
+        }
+
+        #endregion
+
+
 
         /// <summary>
         /// Lista logów 
         /// </summary>
         public LogElement LogElement { get; set; } = new LogElement();
 
-        public SubLogger GetSubLogger(string message = null,
-            [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
-        [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
-        [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
-        {
-            var log = addLog(LogTypeEnum.Trace, memberName, sourceFilePath, sourceLineNumber, message ?? $"Submethod:{message}");
-            return new SubLogger(log);
-        }
+        #region LogElement
+
+        #endregion
 
         /// <summary>
         /// Funkcja do śledzenia działania programu

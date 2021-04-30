@@ -16,7 +16,7 @@ namespace Cvl.ApplicationServer.Logs.Storage
 
     public class FileLogStorage : LogStorageBase
     {
-        public string StorageFolderPath { get; set; } = "c:\\cvl\\logs\\";
+        public string StorageFolderPath { get; set; } = "c:\\logs\\";
         private string storageFile => StorageFolderPath + "logs.txt";
         public string logsDirectoryPath => StorageFolderPath + "byExternalId\\";
 
@@ -24,6 +24,12 @@ namespace Cvl.ApplicationServer.Logs.Storage
 
         public FileLogStorage()
         {
+            
+        }
+
+        public FileLogStorage(string logPath)
+        {
+            StorageFolderPath = logPath;
             Init();
         }
 
