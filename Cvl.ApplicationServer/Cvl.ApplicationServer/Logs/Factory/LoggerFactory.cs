@@ -22,7 +22,7 @@ namespace Cvl.ApplicationServer.Logs.Factory
         [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
         [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
         {
-            var logger= new Logger(LogStorage);
+            var logger= new LoggerMain(LogStorage);
             logger.LogElement.UniqueId = Convert.ToBase64String( BitConverter.GetBytes( DateTime.Now.Ticks)).Replace("=","").Replace("/","").Replace("+", "");
             logger.LogElement.ExternalId1 = externalId1;
             logger.LogElement.ExternalId2 = external2;

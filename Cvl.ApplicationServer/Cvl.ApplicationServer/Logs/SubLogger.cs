@@ -7,18 +7,17 @@ namespace Cvl.ApplicationServer.Logs
 {
     public class SubLogger : Logger
     {
-        private Logger logger;
-        public SubLogger(LogElement log, Logger logger)
+        private LoggerMain loggerMain;
+        public SubLogger(LogElement log, LoggerMain loggerMain)
         {
             this.LogElement = log;
-            this.logger = logger;
-            loggerStack.Push(this);
+            this.loggerMain = loggerMain;
         }
 
         public override void Dispose()
         {
             //nic w subl loggerze nie robię - zapisywanie jest w rodzicu (loggerze)
-            this.logger.DisposeSubLogger();
+            this.loggerMain.DisposeSubLogger();
         }
     }
 }

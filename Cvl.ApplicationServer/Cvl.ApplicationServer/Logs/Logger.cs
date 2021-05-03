@@ -9,37 +9,24 @@ namespace Cvl.ApplicationServer.Logs
 {
     public class Logger : IDisposable
     {
-        private readonly LogStorageBase storage;
         private int logsCounter = 0;
 
         public Logger()
         { }
 
-        public Logger(LogStorageBase storage)
-        {
-            this.storage = storage;
-            loggerStack.Push(this);
-        }
-
+       
         #region SubLogger
 
-        protected Stack<Logger> loggerStack = new Stack<Logger>();
-
-        public SubLogger GetSubLogger(string message = null,
+        public virtual SubLogger GetSubLogger(string message = null,
             [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
             [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
             [global::System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
         {
-            var currentLogger =loggerStack.Peek();
-            var log = currentLogger.addLog(LogTypeEnum.Trace, memberName, sourceFilePath, sourceLineNumber, message ?? $"Submethod:{memberName}");
-            var sub= new SubLogger(log, this);
-            loggerStack.Push(sub);
-            return sub;
+            throw new NotImplementedException();
         }
 
-        public void DisposeSubLogger()
+        public virtual void DisposeSubLogger()
         {
-            loggerStack.Pop();
         }
 
         #endregion
@@ -123,7 +110,7 @@ namespace Cvl.ApplicationServer.Logs
             return log;
         }
 
-        private LogElement addLog(LogTypeEnum logType, string memberName, string sourceFilePath,
+        public LogElement addLog(LogTypeEnum logType, string memberName, string sourceFilePath,
             int sourceLineNumber, string message = "")
         {
             var log = new LogElement();
@@ -144,11 +131,6 @@ namespace Cvl.ApplicationServer.Logs
         private void AddLogModel(LogElement log)
         {
             LogElement.Elements.Add(log);
-        }
-
-        private void FlushLogs()
-        {
-            storage.SaveLogs(LogElement);
         }
 
 
@@ -187,12 +169,12 @@ namespace Cvl.ApplicationServer.Logs
 
         public virtual void Dispose()
         {
-            FlushLogs();
+            throw new NotImplementedException("Logger został użyty niepoprawnie, wymaga Main lub sub loggera");
         }
 
         public override string ToString()
         {
-            return $"Count:{LogElement.Elements.Count}; {string.Join("; ", LogElement.Elements)}";
+            return $"({LogElement.Elements.Count}): {string.Join("; ", LogElement.Elements)}";
         }
     }
 }

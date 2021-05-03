@@ -22,9 +22,9 @@ namespace Cvl.ApplicationServer.UnitTest
         [Test]
         public void GetRequest()
         {
-            using var logger = loggerFactory.GetLogger();
+            using var logger = loggerFactory.GetLogger(message:"GetRequest");
             mainLogger = logger;
-            logger.Trace("Request");
+            logger.Trace("Request in GetRequest");
             requestLogics(logger);
         }
 
@@ -32,7 +32,7 @@ namespace Cvl.ApplicationServer.UnitTest
 
         private void requestLogics(Logs.Logger logger)
         {
-            using var log = logger.GetSubLogger();
+            using var log = logger.GetSubLogger(message:"request logics");
             someFunction2(2);
             someFunction1(1);
             someFunction2(2);
@@ -40,14 +40,14 @@ namespace Cvl.ApplicationServer.UnitTest
 
         private void someFunction1(int v)
         {
-            using var log = mainLogger.GetSubLogger();
+            using var log = mainLogger.GetSubLogger("fun1");
             someFunction2(10+v);
         }
 
         private void someFunction2(int v)
         {
-            using var log = mainLogger.GetSubLogger();
-            log.Trace($"fun2 {v}");
+            using var log = mainLogger.GetSubLogger("fun2");
+            log.Trace($"fun2 in fun2 {v}");
         }
     }
 }

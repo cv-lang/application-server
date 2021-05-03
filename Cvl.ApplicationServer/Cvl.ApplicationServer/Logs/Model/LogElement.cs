@@ -105,7 +105,7 @@ namespace Cvl.ApplicationServer.Logs.Model
         #endregion
         public override string ToString()
         {
-            return $"{Message} - {MemberName}";
+            return $"{UniqueId}: {Message} - {MemberName}";
         }
     }
 }
