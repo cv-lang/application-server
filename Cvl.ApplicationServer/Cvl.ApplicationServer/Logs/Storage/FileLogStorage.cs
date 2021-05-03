@@ -99,7 +99,7 @@ namespace Cvl.ApplicationServer.Logs.Storage
             {
                 //mamy złożony id, gdzie kolejne zagniezdrzenia sa oddzielone -
                 var p = ids.ToList();
-                p.Remove(p.Last());
+                p.RemoveAt(p.Count-1);
                 var preId = string.Join("-", p);
                 var preLog = getLog(preId, logs);
                 return preLog.Elements.FirstOrDefault(x => x.UniqueId == uniqueId);

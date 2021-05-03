@@ -163,6 +163,10 @@ namespace Cvl.ApplicationServer.Logs
             {
                 first.AddParameter(parameterValue, parameterName);
             }
+            else
+            {
+                LogElement.AddParameter(parameterValue, parameterName);
+            }
 
             return this;
         }
