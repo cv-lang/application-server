@@ -35,6 +35,10 @@ namespace Cvl.ApplicationServer.UnitTest
             using var log = logger.GetSubLogger(message:"request logics");
             someFunction2(2);
             someFunction1(1);
+            {
+                using var sublog= log.GetSubLogger("tes tsubloga w request");
+                sublog.Trace("trace subloga");
+            }
             someFunction2(2);
         }
 
@@ -48,6 +52,10 @@ namespace Cvl.ApplicationServer.UnitTest
         {
             using var log = mainLogger.GetSubLogger("fun2");
             log.Trace($"fun2 in fun2 {v}");
+            {
+                using var sublog = log.GetSubLogger("test subloga w fun2");
+                sublog.Trace("trace subloga fun2");
+            }
         }
     }
 }

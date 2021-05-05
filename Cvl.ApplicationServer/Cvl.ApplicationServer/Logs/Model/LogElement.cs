@@ -79,16 +79,30 @@ namespace Cvl.ApplicationServer.Logs.Model
                 }
             }
 
-
-            var logParam = new LogParameter()
+            try
             {
-                Name = parameterName,
-                XmlValue = Serializer.SerializeObject(parameterValue),
-                StringValue = parameterValue?.ToString(),
-               // JsonValue = JsonConvert.SerializeObject(parameterValue)
-            };
+                var logParam = new LogParameter()
+                {
+                    Name = parameterName,
+                    XmlValue = Serializer.SerializeObject(parameterValue),
+                    StringValue = parameterValue?.ToString(),
+                    // JsonValue = JsonConvert.SerializeObject(parameterValue)
+                };
 
-            Params.Params.Add(logParam);
+                Params.Params.Add(logParam);
+            }
+            catch (Exception e)
+            {
+                var logParam = new LogParameter()
+                {
+                    Name = parameterName,
+                    StringValue = e.Message,
+                    // JsonValue = JsonConvert.SerializeObject(parameterValue)
+                };
+
+                Params.Params.Add(logParam);
+            }
+            
 
             return this;
         }

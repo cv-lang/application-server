@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Cvl.ApplicationServer.Logs
 {
-    public class Logger : IDisposable
+    public abstract class Logger : IDisposable
     {
         private int logsCounter = 0;
 

@@ -16,7 +16,7 @@ namespace Cvl.ApplicationServer.Logs.Factory
             this.module = module;
         }
 
-        public Logger GetLogger(string externalId1 = null, string external2 = null, string external3 = null, string external4 = null,
+        public LoggerMain GetLogger(string externalId1 = null, string external2 = null, string external3 = null, string external4 = null,
             string message = null,
             [global::System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
         [global::System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
