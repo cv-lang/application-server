@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cvl.ApplicationServer", "Cvl.ApplicationServer\Cvl.ApplicationServer.csproj", "{F58A0EA8-D05A-484F-9AFF-746945CCDDBA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cvl.ApplicationServer.Server", "Cvl.ApplicationServer.Server\Cvl.ApplicationServer.Server.csproj", "{4A6B34CF-DF7B-4917-94F3-1F5F34048C11}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cvl.ApplicationServer.UnitTest", "Cvl.ApplicationServer.UnitTest\Cvl.ApplicationServer.UnitTest.csproj", "{0783E1AD-4FEF-4740-BFFA-81C168A0E632}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cvl.ApplicationServer.UnitTest", "Cvl.ApplicationServer.UnitTest\Cvl.ApplicationServer.UnitTest.csproj", "{0783E1AD-4FEF-4740-BFFA-81C168A0E632}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,22 +13,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F58A0EA8-D05A-484F-9AFF-746945CCDDBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F58A0EA8-D05A-484F-9AFF-746945CCDDBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F58A0EA8-D05A-484F-9AFF-746945CCDDBA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F58A0EA8-D05A-484F-9AFF-746945CCDDBA}.Debug|x86.Build.0 = Debug|Any CPU
-		{F58A0EA8-D05A-484F-9AFF-746945CCDDBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F58A0EA8-D05A-484F-9AFF-746945CCDDBA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F58A0EA8-D05A-484F-9AFF-746945CCDDBA}.Release|x86.ActiveCfg = Release|Any CPU
-		{F58A0EA8-D05A-484F-9AFF-746945CCDDBA}.Release|x86.Build.0 = Release|Any CPU
-		{4A6B34CF-DF7B-4917-94F3-1F5F34048C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A6B34CF-DF7B-4917-94F3-1F5F34048C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A6B34CF-DF7B-4917-94F3-1F5F34048C11}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4A6B34CF-DF7B-4917-94F3-1F5F34048C11}.Debug|x86.Build.0 = Debug|Any CPU
-		{4A6B34CF-DF7B-4917-94F3-1F5F34048C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A6B34CF-DF7B-4917-94F3-1F5F34048C11}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A6B34CF-DF7B-4917-94F3-1F5F34048C11}.Release|x86.ActiveCfg = Release|Any CPU
-		{4A6B34CF-DF7B-4917-94F3-1F5F34048C11}.Release|x86.Build.0 = Release|Any CPU
 		{0783E1AD-4FEF-4740-BFFA-81C168A0E632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0783E1AD-4FEF-4740-BFFA-81C168A0E632}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0783E1AD-4FEF-4740-BFFA-81C168A0E632}.Debug|x86.ActiveCfg = Debug|Any CPU

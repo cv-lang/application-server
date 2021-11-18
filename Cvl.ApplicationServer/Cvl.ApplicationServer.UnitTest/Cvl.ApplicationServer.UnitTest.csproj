@@ -16,8 +16,4 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Cvl.ApplicationServer\Cvl.ApplicationServer.csproj" />
-  </ItemGroup>
-
 </Project>
