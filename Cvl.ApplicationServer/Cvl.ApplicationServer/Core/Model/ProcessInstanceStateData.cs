@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,14 +9,13 @@ namespace Cvl.ApplicationServer.Core.Model
 {
     public class ProcessInstanceStateData : BaseEntity
     {
-        public ProcessInstanceStateData(long? processInstanceId, string processStateFullSerialization)
+        public ProcessInstanceStateData(string processStateFullSerialization)
         {
-            ProcessInstanceId = processInstanceId;
             ProcessStateFullSerialization = processStateFullSerialization;
         }
 
-        public long? ProcessInstanceId { get; set; }
-        public virtual ProcessInstance? ProcessInstance { get; set; }
+        public long ProcessInstanceId { get; set; } 
+        public virtual ProcessInstance ProcessInstance { get; set; }
 
         /// <summary>
         /// Full serializet of request

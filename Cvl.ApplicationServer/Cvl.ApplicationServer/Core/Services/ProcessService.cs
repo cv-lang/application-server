@@ -1,6 +1,7 @@
 ﻿using Cvl.ApplicationServer.Core.Database.Contexts;
 using Cvl.ApplicationServer.Core.Model;
 using Cvl.ApplicationServer.Core.Repositories;
+using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,16 @@ namespace Cvl.ApplicationServer.Core.Services
         private readonly ProcessInstanceRepository _processInstanceRepository;
         private readonly ProcessActivityDataRepository _processActivityDataRepository;
         private readonly ProcessActivityRepository _processActivityRepository;
+        private readonly ProcessInstanceStateDataRepository _processInstanceStateDataRepository;
+        private readonly IFullSerializer _fullSerializer;
 
         public ProcessService(ApplicationDbContext applicationDbContext, 
             IServiceProvider serviceProvider, 
             ProcessInstanceRepository processInstanceRepository,
             ProcessActivityDataRepository processActivityDataRepository,
-            ProcessActivityRepository processActivityRepository
+            ProcessActivityRepository processActivityRepository,
+            ProcessInstanceStateDataRepository processInstanceStateDataRepository,
+            IFullSerializer fullSerializer
 
             ) :base(applicationDbContext)
         {
@@ -29,6 +34,8 @@ namespace Cvl.ApplicationServer.Core.Services
             this._processInstanceRepository = processInstanceRepository;
             this._processActivityDataRepository = processActivityDataRepository;
             this._processActivityRepository = processActivityRepository;
+            this._processInstanceStateDataRepository = processInstanceStateDataRepository;
+            this._fullSerializer = fullSerializer;
         }
 
 
@@ -38,6 +45,8 @@ namespace Cvl.ApplicationServer.Core.Services
 
             var processInstance = new ProcessInstance("", typeof(T).FullName!, "new", "init","", 
                 Processes.Threading.ThreadState.Idle);
+
+            processInstance.ProcessInstanceStateData = new ProcessInstanceStateData("");
 
             _processInstanceRepository.Insert(processInstance);
             _processInstanceRepository.SaveChanges();
@@ -63,6 +72,18 @@ namespace Cvl.ApplicationServer.Core.Services
         {
             _processActivityDataRepository.Update(activityData);
             _processActivityDataRepository.SaveChanges();
+        }
+
+        internal void SerializeProcess(IProcess process)
+        {
+            if (process is IProcessSerialization processSerialization)
+            {
+                var json = processSerialization.ProcessSerizalization(_fullSerializer);
+                var stateData = _processInstanceStateDataRepository.GetAll().Single(x => x.Id == process.ProcessId);
+                stateData.ModifiedDate = DateTime.Now;
+                stateData.ProcessStateFullSerialization = json;
+                _processInstanceStateDataRepository.SaveChanges();
+            }
         }
     }
 }

@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Core.Model
 {
+    public enum ProcessActivityState
+    {
+        Executing,
+        Executed,
+        Exception
+    }
+
     /// <summary>
     /// History of interaction with process
     /// Contains request and respons of interaction
@@ -15,7 +22,8 @@ namespace Cvl.ApplicationServer.Core.Model
     public class ProcessActivity : BaseEntity
     {
         public ProcessActivity(long? processInstanceId,
-            string clientIpAddress, string clientIpPort, string clientConnectionData, string memberName,
+            string clientIpAddress, string clientIpPort, string clientConnectionData,
+            ProcessActivityState activityState, string memberName,
             DateTime requestDate, string previewRequestJson, 
             DateTime? responseDate, string? previewResponseJson, 
             long processActivityDataId)
@@ -30,6 +38,7 @@ namespace Cvl.ApplicationServer.Core.Model
             PreviewResponseJson = previewResponseJson;
             ProcessActivityDataId = processActivityDataId;
             MemberName = memberName;
+            ActivityState = activityState;
         }
 
         public long? ProcessInstanceId { get; set; }
@@ -42,6 +51,7 @@ namespace Cvl.ApplicationServer.Core.Model
         public string ClientIpPort { get; set; }
         public string ClientConnectionData { get; set; }
 
+        public ProcessActivityState ActivityState { get; set; }
         public string MemberName { get; set; }
     
         /// <summary>

@@ -58,5 +58,7 @@ namespace Cvl.ApplicationServer.Core.Model
         /// Main(single) thread state 
         /// </summary>
         public Processes.Threading.ThreadState MainThreadState { get; set; }
+
+        public virtual ProcessInstanceStateData ProcessInstanceStateData { get; set; }
     }
 }

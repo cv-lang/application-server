@@ -30,6 +30,9 @@ namespace Cvl.ApplicationServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
+                    b.Property<int>("ActivityState")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Archival")
                         .HasColumnType("bit");
 
@@ -190,7 +193,7 @@ namespace Cvl.ApplicationServer.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("ProcessInstanceId")
+                    b.Property<long>("ProcessInstanceId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("ProcessStateFullSerialization")
@@ -199,7 +202,8 @@ namespace Cvl.ApplicationServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProcessInstanceId");
+                    b.HasIndex("ProcessInstanceId")
+                        .IsUnique();
 
                     b.ToTable("ProcessStates");
                 });
@@ -259,8 +263,10 @@ namespace Cvl.ApplicationServer.Migrations
             modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.ProcessInstanceStateData", b =>
                 {
                     b.HasOne("Cvl.ApplicationServer.Core.Model.ProcessInstance", "ProcessInstance")
-                        .WithMany()
-                        .HasForeignKey("ProcessInstanceId");
+                        .WithOne("ProcessInstanceStateData")
+                        .HasForeignKey("Cvl.ApplicationServer.Core.Model.ProcessInstanceStateData", "ProcessInstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProcessInstance");
                 });
@@ -272,6 +278,12 @@ namespace Cvl.ApplicationServer.Migrations
                         .HasForeignKey("ProcessInstanceId");
 
                     b.Navigation("ProcessInstance");
+                });
+
+            modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.ProcessInstance", b =>
+                {
+                    b.Navigation("ProcessInstanceStateData")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

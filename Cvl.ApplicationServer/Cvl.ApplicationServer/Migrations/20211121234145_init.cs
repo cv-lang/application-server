@@ -65,6 +65,7 @@ namespace Cvl.ApplicationServer.Migrations
                     ClientIpAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ClientIpPort = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ClientConnectionData = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ActivityState = table.Column<int>(type: "int", nullable: false),
                     MemberName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RequestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PreviewRequestJson = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
@@ -98,7 +99,7 @@ namespace Cvl.ApplicationServer.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProcessInstanceId = table.Column<long>(type: "bigint", nullable: true),
+                    ProcessInstanceId = table.Column<long>(type: "bigint", nullable: false),
                     ProcessStateFullSerialization = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Archival = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -112,7 +113,8 @@ namespace Cvl.ApplicationServer.Migrations
                         column: x => x.ProcessInstanceId,
                         principalSchema: "Processes",
                         principalTable: "ProcessInstance",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,7 +154,8 @@ namespace Cvl.ApplicationServer.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ProcessStates_ProcessInstanceId",
                 table: "ProcessStates",
-                column: "ProcessInstanceId");
+                column: "ProcessInstanceId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_StepHistories_ProcessInstanceId",

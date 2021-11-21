@@ -19,7 +19,7 @@ namespace Cvl.ApplicationServer.Test
 
         public async Task<TestResponse> TestStep1(TestRequest request)
         {
-            var process = _applicationServer.CreateProcess<TestProcess,ITestProcess>(GetConnectionData());
+            var process = _applicationServer.CreateProcess<ITestProcess>(GetConnectionData());
 
             process.TestMethod1(2);
 
@@ -29,8 +29,8 @@ namespace Cvl.ApplicationServer.Test
 
         public async Task<TestResponse> TestStep2(TestRequest request)
         {
-            //var process = _applicationServer.CreateProcess<TestProcess>(GetConnectionData());
-            //process.TestMethod1(2);
+            var process = _applicationServer.LoadProcess<ITestProcess>(2,GetConnectionData());
+            process.TestMethod1(2);
 
             await Task.Delay(500);
             return new TestResponse();

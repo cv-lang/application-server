@@ -1,4 +1,5 @@
 ﻿using Castle.DynamicProxy;
+using Cvl.ApplicationServer.Core.Model;
 using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Cvl.ApplicationServer.Processes.Infrastructure;
@@ -22,18 +23,22 @@ namespace Cvl.ApplicationServer.Core
             this._processService = processService;
             this._fullSerializer = fullSerializer;
             this._jsonSerializer = jsonSerializer;
-        }
+        }        
 
-        public TProcesInterface CreateProcess<TProcess,TProcesInterface>(Model.ClientConnectionData clientConnectionData) 
-            where TProcesInterface : class, IProcess
-            where TProcess : Cvl.ApplicationServer.Processes.Base.BaseProcess, TProcesInterface
+        public TProcesInterface CreateProcess<TProcesInterface>(Model.ClientConnectionData clientConnectionData) 
+            where TProcesInterface : class, IProcess            
         {
-            var process = _processService.CreateProcess<TProcess>();
-            var processProxy = new ProcessInterceptorProxy<TProcess>(process, clientConnectionData,_fullSerializer, _jsonSerializer, _processService);
+            var process = _processService.CreateProcess<TProcesInterface>();
+            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData,_fullSerializer, _jsonSerializer, _processService);
 
             var generator = new ProxyGenerator();
             var proxy = generator.CreateInterfaceProxyWithTarget<TProcesInterface>(process, processProxy);
             return proxy;
+        }
+
+        internal T LoadProcess<T>(long processId, ClientConnectionData clientConnectionData)
+        {
+            throw new NotImplementedException();
         }
     }
 }
