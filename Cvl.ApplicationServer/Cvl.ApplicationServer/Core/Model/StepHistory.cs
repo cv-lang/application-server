@@ -7,9 +7,16 @@ using System.Threading.Tasks;
 namespace Cvl.ApplicationServer.Core.Model
 {
     public class StepHistory : BaseEntity
-    {        
+    {
+        public StepHistory(long? processInstanceId, string step, string stepDescription)
+        {
+            ProcessInstanceId = processInstanceId;
+            Step = step;
+            StepDescription = stepDescription;
+        }
+
         public long? ProcessInstanceId { get; set; }
-        public virtual ProcessInstance ProcessInstance { get; set; }
+        public virtual ProcessInstance? ProcessInstance { get; set; }
         public string Step { get; set; }
         public string StepDescription { get; set; }
     }

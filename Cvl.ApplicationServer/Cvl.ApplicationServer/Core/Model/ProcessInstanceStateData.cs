@@ -8,9 +8,19 @@ namespace Cvl.ApplicationServer.Core.Model
 {
     public class ProcessInstanceStateData : BaseEntity
     {
-        public long? ProcessInstanceId { get; set; }
-        public virtual ProcessInstance ProcessInstance { get; set; }
+        public ProcessInstanceStateData(long? processInstanceId, string processStateFullSerialization)
+        {
+            ProcessInstanceId = processInstanceId;
+            ProcessStateFullSerialization = processStateFullSerialization;
+        }
 
-        public string XmlState { get; set; }
+        public long? ProcessInstanceId { get; set; }
+        public virtual ProcessInstance? ProcessInstance { get; set; }
+
+        /// <summary>
+        /// Full serializet of request
+        /// to deserialize an object of type 'object'
+        /// </summary>
+        public string ProcessStateFullSerialization { get; set; }
     }
 }

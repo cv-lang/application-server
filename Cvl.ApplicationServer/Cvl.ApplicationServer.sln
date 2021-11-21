@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cvl.ApplicationServer", "Cv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cvl.ApplicationServer.Server", "Cvl.ApplicationServer.Server\Cvl.ApplicationServer.Server.csproj", "{D044EC62-205E-4550-B878-9D027E6C4754}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{4E332926-305C-4151-881F-C38269CACA1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{D91FAAB1-912A-42DF-9ABC-8EF4C42EF649}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{D044EC62-205E-4550-B878-9D027E6C4754}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D044EC62-205E-4550-B878-9D027E6C4754}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D044EC62-205E-4550-B878-9D027E6C4754}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E332926-305C-4151-881F-C38269CACA1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E332926-305C-4151-881F-C38269CACA1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E332926-305C-4151-881F-C38269CACA1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E332926-305C-4151-881F-C38269CACA1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D91FAAB1-912A-42DF-9ABC-8EF4C42EF649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D91FAAB1-912A-42DF-9ABC-8EF4C42EF649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D91FAAB1-912A-42DF-9ABC-8EF4C42EF649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D91FAAB1-912A-42DF-9ABC-8EF4C42EF649}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

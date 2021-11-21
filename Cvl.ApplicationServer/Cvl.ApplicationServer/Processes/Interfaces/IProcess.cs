@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cvl.ApplicationServer.Core.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

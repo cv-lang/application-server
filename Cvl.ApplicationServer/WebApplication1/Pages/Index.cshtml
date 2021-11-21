@@ -1,0 +1,48 @@
+﻿@page
+@using Kendo.Mvc.UI
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div>dff </div>
+<div>
+@(Html.Kendo().Grid<DetailProductViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
+        columns.Bound(p => p.ProductName)
+                .ClientTemplate(
+                    @"<div class='product-photo'
+                        style='background-image: url(" + @Url.Content("~/shared/web/foods/#:data.ProductID#.jpg") + ");'></div><div class='product-name'>#: ProductName #</div>").Width(300);
+        columns.Bound(p => p.UnitPrice).Title("Price").Width(105);        
+        columns.Command(command => command.Destroy()).Width(120);
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Excel();
+        toolbar.Pdf();
+        toolbar.Search();
+    })
+    .Pdf(pdf=>pdf.ProxyURL(Url.Action("Excel_Export_Save", "Grid")))
+    .Excel(excel=>excel.ProxyURL(Url.Action("Excel_Export_Save", "Grid")))
+    .ColumnMenu(col=>col.Filterable(false))
+    .Height(700)
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Pageable()
+    .Sortable()
+    .Navigatable()
+    .Resizable(r=>r.Columns(true))
+    .Reorderable(r => r.Columns(true))
+    .Groupable(g=>g.ShowFooter(false))
+    .Filterable()
+    .Scrollable()    
+    
+)
+
+</div>

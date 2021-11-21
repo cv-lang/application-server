@@ -14,22 +14,50 @@ namespace Cvl.ApplicationServer.Core.Model
     /// </summary>
     public class ProcessActivity : BaseEntity
     {
+        public ProcessActivity(long? processInstanceId,
+            string clientIpAddress, string clientIpPort, string clientConnectionData, string memberName,
+            DateTime requestDate, string previewRequestJson, 
+            DateTime? responseDate, string? previewResponseJson, 
+            long processActivityDataId)
+        {
+            ProcessInstanceId = processInstanceId;            
+            ClientIpAddress = clientIpAddress;
+            ClientIpPort = clientIpPort;
+            ClientConnectionData = clientConnectionData;
+            RequestDate = requestDate;
+            PreviewRequestJson = previewRequestJson;
+            ResponseDate = responseDate;
+            PreviewResponseJson = previewResponseJson;
+            ProcessActivityDataId = processActivityDataId;
+            MemberName = memberName;
+        }
+
         public long? ProcessInstanceId { get; set; }
-        public virtual ProcessInstance ProcessInstance { get; set; }
+        public virtual ProcessInstance? ProcessInstance { get; set; }
+
+        /// <summary>
+        /// Dane połączenia klienta
+        /// </summary>
         public string ClientIpAddress { get; set; }
         public string ClientIpPort { get; set; }
         public string ClientConnectionData { get; set; }
 
-
-        public DateTime ActionDate { get; set; } = DateTime.Now;
-        public DateTime? RequestDate { get; set; }
+        public string MemberName { get; set; }
+    
+        /// <summary>
+        /// Data requestu
+        /// </summary>
+        public DateTime RequestDate { get; set; } = DateTime.Now;
 
         [StringLength(150)]
         public string PreviewRequestJson { get; set; }
+
+
         public DateTime? ResponseDate { get; set; }
 
         [StringLength(150)]
-        public string PreviewResponseJson { get; set; }
+        public string? PreviewResponseJson { get; set; }
+
 
         public long ProcessActivityDataId { get; set; }
         public ProcessActivityData ProcessActivityData { get; set; }

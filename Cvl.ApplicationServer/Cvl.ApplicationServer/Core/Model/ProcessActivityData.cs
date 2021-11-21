@@ -12,13 +12,45 @@ namespace Cvl.ApplicationServer.Core.Model
     /// </summary>
     public class ProcessActivityData : BaseEntity
     {
-        public string RequestXml { get; set; }
+        public ProcessActivityData(string requestFullSerialization, string requestJson, string requestType)
+        {
+            RequestFullSerialization = requestFullSerialization;
+            RequestJson = requestJson;
+            RequestType = requestType;            
+        }
+
+
+        /// <summary>
+        /// Full serializet of request
+        /// to deserialize an object of type 'object'
+        /// </summary>
+        public string RequestFullSerialization { get; set; }
+
+        /// <summary>
+        /// Json serialize
+        /// </summary>
         public string RequestJson { get; set; }
+
+        /// <summary>
+        /// Request full type name
+        /// </summary>
         public string RequestType { get; set; }
 
 
-        public string ResponseXml { get; set; }
-        public string ResponseJson { get; set; }
-        public string ResponseType { get; set; }
+        /// <summary>
+        /// Full serializet of request
+        /// to deserialize an object of type 'object'
+        /// </summary>
+        public string? ResponseFullSerialization { get; set; }
+
+        /// <summary>
+        /// Json serialize
+        /// </summary>
+        public string? ResponseJson { get; set; }
+
+        /// <summary>
+        /// Request full type name
+        /// </summary>
+        public string? ResponseType { get; set; }
     }
 }

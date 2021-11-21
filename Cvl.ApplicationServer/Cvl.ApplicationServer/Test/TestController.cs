@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cvl.ApplicationServer.Core.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,13 +17,28 @@ namespace Cvl.ApplicationServer.Test
         }
 
 
-        public async Task<TestResponse> TestMethod(TestRequest request)
+        public async Task<TestResponse> TestStep1(TestRequest request)
         {
-            var process = _applicationServer.CreateProcess<TestProcess>();
+            var process = _applicationServer.CreateProcess<TestProcess,ITestProcess>(GetConnectionData());
+
             process.TestMethod1(2);
 
             await Task.Delay(500);
             return new TestResponse();
+        }
+
+        public async Task<TestResponse> TestStep2(TestRequest request)
+        {
+            //var process = _applicationServer.CreateProcess<TestProcess>(GetConnectionData());
+            //process.TestMethod1(2);
+
+            await Task.Delay(500);
+            return new TestResponse();
+        }
+
+        public ClientConnectionData GetConnectionData()
+        {
+            return new ClientConnectionData("localTest","1","");
         }
     }
 }
