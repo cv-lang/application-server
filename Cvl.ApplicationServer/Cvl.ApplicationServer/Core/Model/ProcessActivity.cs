@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace Cvl.ApplicationServer.Core.Model
     /// Contains request and respons of interaction
     /// in json and xml
     /// </summary>
+    /// 
+    [Table("Activity", Schema = "Processes")]
     public class ProcessActivity : BaseEntity
     {
         public ProcessActivity(long? processInstanceId,

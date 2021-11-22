@@ -5,11 +5,11 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cvl.ApplicationServer", "Cvl.ApplicationServer\Cvl.ApplicationServer.csproj", "{DE821296-ADE3-4918-A7E3-1A413BBBE495}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cvl.ApplicationServer.Server", "Cvl.ApplicationServer.Server\Cvl.ApplicationServer.Server.csproj", "{D044EC62-205E-4550-B878-9D027E6C4754}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cvl.ApplicationServer.Server", "Cvl.ApplicationServer.Server\Cvl.ApplicationServer.Server.csproj", "{D044EC62-205E-4550-B878-9D027E6C4754}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{4E332926-305C-4151-881F-C38269CACA1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{4E332926-305C-4151-881F-C38269CACA1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{D91FAAB1-912A-42DF-9ABC-8EF4C42EF649}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{D91FAAB1-912A-42DF-9ABC-8EF4C42EF649}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

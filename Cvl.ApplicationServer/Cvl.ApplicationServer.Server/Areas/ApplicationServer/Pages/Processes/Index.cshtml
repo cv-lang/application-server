@@ -1,0 +1,38 @@
+﻿@page
+@model Cvl.ApplicationServer.Server.Areas.ApplicationServer.Pages.Processes.IndexModel
+@{
+}
+
+<h1>PRoces</h1>
+
+@using Cvl.ApplicationServer.Core.Model
+@using Kendo.Mvc
+@using Kendo.Mvc.UI
+
+@(Html.Kendo().Grid<ProcessInstance>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Id).Width(300);
+        columns.Bound(p => p.ProcessNumber).Title("Price").Width(105);
+        columns.Bound(p => p.Status).Title("In Stock").Width(130);
+        columns.Bound(p => p.Step).Title("Category").Width(125);
+        columns.Bound(p => p.StepDescription).Title("Rating").Width(140);
+    })
+    .ToolBar(tools =>
+	  {
+		  tools.Create();
+	  })
+	  .Sortable()
+	  .Pageable()
+	  .Filterable()
+    .DataSource(dataSource => dataSource
+        .WebApi()        
+        .Model(model =>
+        {
+            model.Id(p => p.Id);           
+        })
+        .Read(x=> x.Action("Processes_Read", "Processes"))
+        //.Read( "Processes_Read", "api-processes")
+    )
+)

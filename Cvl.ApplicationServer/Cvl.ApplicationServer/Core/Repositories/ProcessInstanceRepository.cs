@@ -1,5 +1,6 @@
 ﻿using Cvl.ApplicationServer.Core.Database.Contexts;
 using Cvl.ApplicationServer.Core.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace Cvl.ApplicationServer.Core.Repositories
     {
         public ProcessInstanceRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
+        }
+
+        public override ProcessInstance Get(long id)
+        {
+            return base.GetAll().Include(x=> x.ProcessInstanceStateData).Single(x=> x.Id == id);
         }
     }
 }

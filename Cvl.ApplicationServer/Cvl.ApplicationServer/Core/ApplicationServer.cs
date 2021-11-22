@@ -23,7 +23,12 @@ namespace Cvl.ApplicationServer.Core
             this._processService = processService;
             this._fullSerializer = fullSerializer;
             this._jsonSerializer = jsonSerializer;
-        }        
+        }
+
+        public IQueryable<ProcessInstance> GetAllProcesses()
+        {
+            return _processService.GetAllObjects();
+        }
 
         public TProcesInterface CreateProcess<TProcesInterface>(Model.ClientConnectionData clientConnectionData) 
             where TProcesInterface : class, IProcess            
@@ -36,9 +41,16 @@ namespace Cvl.ApplicationServer.Core
             return proxy;
         }
 
-        internal T LoadProcess<T>(long processId, ClientConnectionData clientConnectionData)
+        internal TProcesInterface LoadProcess<TProcesInterface>(long processId, ClientConnectionData clientConnectionData)
+             where TProcesInterface : class, IProcess
         {
-            throw new NotImplementedException();
+            var process = _processService.LoadProcess<TProcesInterface>(processId);
+
+            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, _fullSerializer, _jsonSerializer, _processService);
+
+            var generator = new ProxyGenerator();
+            var proxy = generator.CreateInterfaceProxyWithTarget<TProcesInterface>(process, processProxy);
+            return proxy;
         }
     }
 }

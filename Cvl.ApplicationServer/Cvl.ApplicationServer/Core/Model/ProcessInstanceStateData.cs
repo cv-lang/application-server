@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Core.Model
 {
+    [Table("InstanceStateData", Schema = "Processes")]
     public class ProcessInstanceStateData : BaseEntity
     {
         public ProcessInstanceStateData(string processStateFullSerialization)

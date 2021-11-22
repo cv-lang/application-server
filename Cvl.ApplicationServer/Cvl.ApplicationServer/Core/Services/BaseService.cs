@@ -1,5 +1,6 @@
 ﻿using Cvl.ApplicationServer.Core.Database.Contexts;
 using Cvl.ApplicationServer.Core.Model;
+using Cvl.ApplicationServer.Core.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,20 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Core.Services
 {
-    public class BaseService<T> where T : BaseEntity
+    public class BaseService<T, TRepository> 
+        where T : BaseEntity
+        where TRepository : IRepository<T>
     {
-        //protected readonly Repositories.Repository<T> Repository;
+        protected readonly TRepository Repository;
 
-        public BaseService(ApplicationDbContext applicationDbContext)
+        public BaseService(TRepository repository)
         {
-            //Repository = new Repositories.Repository<T>(applicationDbContext);
+            Repository = repository;
+        }
+
+        public IQueryable<T> GetAllObjects()
+        {
+            return Repository.GetAll();
         }
     }
 }

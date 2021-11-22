@@ -13,7 +13,8 @@ namespace Cvl.ApplicationServer.Migrations
                 name: "Processes");
 
             migrationBuilder.CreateTable(
-                name: "ProcessActivityDaties",
+                name: "ActivityData",
+                schema: "Processes",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -30,11 +31,11 @@ namespace Cvl.ApplicationServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProcessActivityDaties", x => x.Id);
+                    table.PrimaryKey("PK_ActivityData", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProcessInstance",
+                name: "Instance",
                 schema: "Processes",
                 columns: table => new
                 {
@@ -52,11 +53,12 @@ namespace Cvl.ApplicationServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProcessInstance", x => x.Id);
+                    table.PrimaryKey("PK_Instance", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProcessActivities",
+                name: "Activity",
+                schema: "Processes",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -78,23 +80,25 @@ namespace Cvl.ApplicationServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProcessActivities", x => x.Id);
+                    table.PrimaryKey("PK_Activity", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProcessActivities_ProcessActivityDaties_ProcessActivityDataId",
+                        name: "FK_Activity_ActivityData_ProcessActivityDataId",
                         column: x => x.ProcessActivityDataId,
-                        principalTable: "ProcessActivityDaties",
+                        principalSchema: "Processes",
+                        principalTable: "ActivityData",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProcessActivities_ProcessInstance_ProcessInstanceId",
+                        name: "FK_Activity_Instance_ProcessInstanceId",
                         column: x => x.ProcessInstanceId,
                         principalSchema: "Processes",
-                        principalTable: "ProcessInstance",
+                        principalTable: "Instance",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProcessStates",
+                name: "InstanceStateData",
+                schema: "Processes",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -107,18 +111,19 @@ namespace Cvl.ApplicationServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProcessStates", x => x.Id);
+                    table.PrimaryKey("PK_InstanceStateData", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProcessStates_ProcessInstance_ProcessInstanceId",
+                        name: "FK_InstanceStateData_Instance_ProcessInstanceId",
                         column: x => x.ProcessInstanceId,
                         principalSchema: "Processes",
-                        principalTable: "ProcessInstance",
+                        principalTable: "Instance",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "StepHistories",
+                name: "StepHistory",
+                schema: "Processes",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -132,53 +137,61 @@ namespace Cvl.ApplicationServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StepHistories", x => x.Id);
+                    table.PrimaryKey("PK_StepHistory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StepHistories_ProcessInstance_ProcessInstanceId",
+                        name: "FK_StepHistory_Instance_ProcessInstanceId",
                         column: x => x.ProcessInstanceId,
                         principalSchema: "Processes",
-                        principalTable: "ProcessInstance",
+                        principalTable: "Instance",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProcessActivities_ProcessActivityDataId",
-                table: "ProcessActivities",
+                name: "IX_Activity_ProcessActivityDataId",
+                schema: "Processes",
+                table: "Activity",
                 column: "ProcessActivityDataId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProcessActivities_ProcessInstanceId",
-                table: "ProcessActivities",
+                name: "IX_Activity_ProcessInstanceId",
+                schema: "Processes",
+                table: "Activity",
                 column: "ProcessInstanceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProcessStates_ProcessInstanceId",
-                table: "ProcessStates",
+                name: "IX_InstanceStateData_ProcessInstanceId",
+                schema: "Processes",
+                table: "InstanceStateData",
                 column: "ProcessInstanceId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_StepHistories_ProcessInstanceId",
-                table: "StepHistories",
+                name: "IX_StepHistory_ProcessInstanceId",
+                schema: "Processes",
+                table: "StepHistory",
                 column: "ProcessInstanceId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProcessActivities");
+                name: "Activity",
+                schema: "Processes");
 
             migrationBuilder.DropTable(
-                name: "ProcessStates");
+                name: "InstanceStateData",
+                schema: "Processes");
 
             migrationBuilder.DropTable(
-                name: "StepHistories");
+                name: "StepHistory",
+                schema: "Processes");
 
             migrationBuilder.DropTable(
-                name: "ProcessActivityDaties");
+                name: "ActivityData",
+                schema: "Processes");
 
             migrationBuilder.DropTable(
-                name: "ProcessInstance",
+                name: "Instance",
                 schema: "Processes");
         }
     }

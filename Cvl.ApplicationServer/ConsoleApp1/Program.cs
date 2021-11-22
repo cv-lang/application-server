@@ -6,6 +6,7 @@ using Cvl.ApplicationServer.Core.Repositories;
 using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Server.Setup;
 using Cvl.ApplicationServer.Test;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,21 +30,12 @@ var ProcessesContextConnectionString = configuration.GetConnectionString("Proces
 var serviceProvider = new ServiceCollection()
             .AddLogging()
             .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ProcessesContextConnectionString))
-            .AddTransient<IFullSerializer, FullSerializer>()
-            .AddTransient<IJsonSerializer, Cvl.ApplicationServer.Core.Tools.Serializers.JsonSerializer>()
-            .AddTransient<ProcessActivityDataRepository, ProcessActivityDataRepository>()
-            .AddTransient<ProcessActivityRepository, ProcessActivityRepository>()
-            .AddTransient<ProcessInstanceRepository, ProcessInstanceRepository>()
-            .AddTransient<ProcessInstanceStateDataRepository, ProcessInstanceStateDataRepository>()
-            .AddTransient<ProcessService, ProcessService>()
-            .AddTransient<TestService, TestService>()
-            .AddTransient<ITestProcess, TestProcess>()
-            .AddTransient<TestController, TestController>()
-            .AddTransient<ApplicationServer, ApplicationServer>()
+            .UseRegisterApplicationServer()
             .BuildServiceProvider();
 
 var testController= serviceProvider.GetService<TestController>();
 var tt = await testController.TestStep1(new TestRequest());
+await testController.TestStep2(new TestRequest());
 
 Console.WriteLine(tt);
 

@@ -9,7 +9,7 @@ namespace Cvl.ApplicationServer.Core.Repositories
 {
     public interface IRepository<T> where T : BaseEntity
     {
-        IEnumerable<T> GetAll();
+        IQueryable<T> GetAll();
         T Get(long Id);
         void Insert(T entity);
         void Update(T entity);

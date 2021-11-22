@@ -34,14 +34,14 @@ namespace Cvl.ApplicationServer.Core.Repositories
             _applicationDbContext.SaveChanges();
         }
 
-        public T Get(long Id)
+        public virtual T Get(long id)
         {
-            return entities.Single(c => c.Id == Id);
+            return entities.Single(c => c.Id == id);
         }
 
-        public IEnumerable<T> GetAll()
+        public IQueryable<T> GetAll()
         {
-            return entities.AsEnumerable();
+            return entities;
         }
 
         public void Insert(T entity)

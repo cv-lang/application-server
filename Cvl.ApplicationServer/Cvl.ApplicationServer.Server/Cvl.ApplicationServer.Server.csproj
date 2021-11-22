@@ -1,18 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
 
-  <ItemGroup>
+  <ItemGroup>	  
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
+	<PackageReference Include="Telerik.UI.for.AspNet.Core" Version="2021.3.1109" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cvl.ApplicationServer\Cvl.ApplicationServer.csproj" />
   </ItemGroup>
 
 </Project>

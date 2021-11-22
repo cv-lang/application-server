@@ -85,7 +85,7 @@ namespace Cvl.ApplicationServer.Migrations
 
                     b.HasIndex("ProcessInstanceId");
 
-                    b.ToTable("ProcessActivities");
+                    b.ToTable("Activity", "Processes");
                 });
 
             modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.ProcessActivityData", b =>
@@ -128,7 +128,7 @@ namespace Cvl.ApplicationServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProcessActivityDaties");
+                    b.ToTable("ActivityData", "Processes");
                 });
 
             modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.ProcessInstance", b =>
@@ -173,7 +173,7 @@ namespace Cvl.ApplicationServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProcessInstance", "Processes");
+                    b.ToTable("Instance", "Processes");
                 });
 
             modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.ProcessInstanceStateData", b =>
@@ -205,7 +205,7 @@ namespace Cvl.ApplicationServer.Migrations
                     b.HasIndex("ProcessInstanceId")
                         .IsUnique();
 
-                    b.ToTable("ProcessStates");
+                    b.ToTable("InstanceStateData", "Processes");
                 });
 
             modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.StepHistory", b =>
@@ -240,7 +240,7 @@ namespace Cvl.ApplicationServer.Migrations
 
                     b.HasIndex("ProcessInstanceId");
 
-                    b.ToTable("StepHistories");
+                    b.ToTable("StepHistory", "Processes");
                 });
 
             modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.ProcessActivity", b =>

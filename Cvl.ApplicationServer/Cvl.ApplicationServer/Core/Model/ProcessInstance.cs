@@ -12,7 +12,7 @@ namespace Cvl.ApplicationServer.Core.Model
     /// <summary>
     /// Process instances
     /// </summary>
-    [Table("ProcessInstance", Schema = "Processes")]
+    [Table("Instance", Schema = "Processes")]
     public class ProcessInstance : BaseEntity
     {
         public ProcessInstance() { }

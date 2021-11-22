@@ -11,10 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Core.Services
 {
-    public class ProcessService : BaseService<ProcessInstance>
+    public class ProcessService : BaseService<ProcessInstance, ProcessInstanceRepository>
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly ProcessInstanceRepository _processInstanceRepository;
         private readonly ProcessActivityDataRepository _processActivityDataRepository;
         private readonly ProcessActivityRepository _processActivityRepository;
         private readonly ProcessInstanceStateDataRepository _processInstanceStateDataRepository;
@@ -28,16 +27,14 @@ namespace Cvl.ApplicationServer.Core.Services
             ProcessInstanceStateDataRepository processInstanceStateDataRepository,
             IFullSerializer fullSerializer
 
-            ) :base(applicationDbContext)
+            ) :base(processInstanceRepository)
         {
            _serviceProvider = serviceProvider;
-            this._processInstanceRepository = processInstanceRepository;
             this._processActivityDataRepository = processActivityDataRepository;
             this._processActivityRepository = processActivityRepository;
             this._processInstanceStateDataRepository = processInstanceStateDataRepository;
             this._fullSerializer = fullSerializer;
-        }
-
+        }        
 
         internal T CreateProcess<T>() where T : class, IProcess
         {
@@ -48,10 +45,21 @@ namespace Cvl.ApplicationServer.Core.Services
 
             processInstance.ProcessInstanceStateData = new ProcessInstanceStateData("");
 
-            _processInstanceRepository.Insert(processInstance);
-            _processInstanceRepository.SaveChanges();
+            Repository.Insert(processInstance);
+            Repository.SaveChanges();
 
             process.ProcessId = processInstance.Id;
+
+            return process;
+        }
+
+        internal T LoadProcess<T>(long processId) where T : class, IProcess
+        {
+            var process = _serviceProvider.GetService(typeof(T)) as T;
+            process.ProcessId = processId;
+            var processInstance = Repository.Get(processId);
+
+            DeserializeProcess(process, processInstance.ProcessInstanceStateData.ProcessStateFullSerialization);
 
             return process;
         }
@@ -83,6 +91,14 @@ namespace Cvl.ApplicationServer.Core.Services
                 stateData.ModifiedDate = DateTime.Now;
                 stateData.ProcessStateFullSerialization = json;
                 _processInstanceStateDataRepository.SaveChanges();
+            }
+        }
+
+        internal void DeserializeProcess(IProcess process, string fullState)
+        {
+            if (process is IProcessSerialization processSerialization)
+            {
+                processSerialization.ProcessDeserialization(_fullSerializer, fullState);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace Cvl.ApplicationServer.Core.Model
     /// Activity data - request and respons data
     /// all json's, xml's
     /// </summary>
+    [Table("ActivityData", Schema = "Processes")]
     public class ProcessActivityData : BaseEntity
     {
         public ProcessActivityData(string requestFullSerialization, string requestJson, string requestType)

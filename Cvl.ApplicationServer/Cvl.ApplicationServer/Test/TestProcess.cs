@@ -10,6 +10,11 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Test
 {
+    public class TestProcessState
+    {
+        public string Request { get; set; }
+        public int Dane { get; set; }
+    }
 
     public interface ITestProcess : IProcess
     {
@@ -18,6 +23,7 @@ namespace Cvl.ApplicationServer.Test
 
     public class TestProcess : BaseProcess, ITestProcess
     {
+        private TestProcessState _processState = new TestProcessState();
         private TestService _testService;
 
         public TestProcess(TestService testService)
@@ -32,12 +38,12 @@ namespace Cvl.ApplicationServer.Test
 
         public override void ProcessDeserialization(IFullSerializer serializer, string serializedProcess)
         {
-            throw new NotImplementedException();
+            _processState = serializer.Deserialize<TestProcessState>(serializedProcess);
         }
 
         public override string ProcessSerizalization(IFullSerializer serializer)
         {
-            throw new NotImplementedException();
+            return serializer.Serialize(_processState);
         }
     }
 }
