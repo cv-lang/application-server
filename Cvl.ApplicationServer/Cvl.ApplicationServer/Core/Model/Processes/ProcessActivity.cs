@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cvl.ApplicationServer.Core.Model
+namespace Cvl.ApplicationServer.Core.Model.Processes
 {
     public enum ProcessActivityState
     {
@@ -21,17 +21,16 @@ namespace Cvl.ApplicationServer.Core.Model
     /// in json and xml
     /// </summary>
     /// 
-    [Table("Activity", Schema = "Processes")]
+    [Table("ProcessActivity", Schema = "Processes")]
     public class ProcessActivity : BaseEntity
     {
         public ProcessActivity(long? processInstanceId,
             string clientIpAddress, string clientIpPort, string clientConnectionData,
             ProcessActivityState activityState, string memberName,
-            DateTime requestDate, string previewRequestJson, 
-            DateTime? responseDate, string? previewResponseJson, 
-            long processActivityDataId)
+            DateTime requestDate, string previewRequestJson,
+            DateTime? responseDate, string? previewResponseJson)
         {
-            ProcessInstanceId = processInstanceId;            
+            ProcessInstanceId = processInstanceId;
             ClientIpAddress = clientIpAddress;
             ClientIpPort = clientIpPort;
             ClientConnectionData = clientConnectionData;
@@ -39,11 +38,11 @@ namespace Cvl.ApplicationServer.Core.Model
             PreviewRequestJson = previewRequestJson;
             ResponseDate = responseDate;
             PreviewResponseJson = previewResponseJson;
-            ProcessActivityDataId = processActivityDataId;
             MemberName = memberName;
             ActivityState = activityState;
         }
 
+        public const int JsonPreviewSize = 150;
         public long? ProcessInstanceId { get; set; }
         public virtual ProcessInstance? ProcessInstance { get; set; }
 
@@ -56,23 +55,23 @@ namespace Cvl.ApplicationServer.Core.Model
 
         public ProcessActivityState ActivityState { get; set; }
         public string MemberName { get; set; }
-    
+
         /// <summary>
         /// Data requestu
         /// </summary>
         public DateTime RequestDate { get; set; } = DateTime.Now;
 
-        [StringLength(150)]
+        [StringLength(JsonPreviewSize)]
         public string PreviewRequestJson { get; set; }
 
 
         public DateTime? ResponseDate { get; set; }
 
-        [StringLength(150)]
+        [StringLength(JsonPreviewSize)]
         public string? PreviewResponseJson { get; set; }
 
 
         public long ProcessActivityDataId { get; set; }
-        public ProcessActivityData ProcessActivityData { get; set; }
+        public ProcessActivityData ProcessActivityData { get; set; } = null!;
     }
 }

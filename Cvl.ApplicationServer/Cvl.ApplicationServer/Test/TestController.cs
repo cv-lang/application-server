@@ -23,7 +23,7 @@ namespace Cvl.ApplicationServer.Test
 
             process.TestMethod1(2);
 
-            await Task.Delay(500);
+            await Task.Delay(50);
             return new TestResponse();
         }
 
@@ -32,7 +32,16 @@ namespace Cvl.ApplicationServer.Test
             var process = _applicationServer.LoadProcess<ITestProcess>(2,GetConnectionData());
             process.TestMethod1(2);
 
-            await Task.Delay(500);
+            await Task.Delay(50);
+            return new TestResponse();
+        }
+
+        public async Task<TestResponse> TestStep3(TestRequest request)
+        {
+            var process = _applicationServer.LoadProcess<ITestProcess>(2, GetConnectionData());
+            process.TestMethod2(2);
+
+            await Task.Delay(50);
             return new TestResponse();
         }
 

@@ -19,6 +19,7 @@ namespace Cvl.ApplicationServer.Test
     public interface ITestProcess : IProcess
     {
         int TestMethod1(int i);
+        int TestMethod2(int i);
     }
 
     public class TestProcess : BaseProcess, ITestProcess
@@ -33,6 +34,12 @@ namespace Cvl.ApplicationServer.Test
 
         public int TestMethod1(int i)
         {
+            return _testService.TestLogicMethod(i);
+        }
+
+        public int TestMethod2(int i)
+        {
+            throw new Exception("Jakiś tam błąd " + i);
             return _testService.TestLogicMethod(i);
         }
 

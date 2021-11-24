@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Core\Dtos\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

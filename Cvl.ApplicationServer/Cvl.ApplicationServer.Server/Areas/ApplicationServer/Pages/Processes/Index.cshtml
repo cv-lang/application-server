@@ -3,31 +3,37 @@
 @{
 }
 
-<h1>PRoces</h1>
-
-@using Cvl.ApplicationServer.Core.Model
+@using Cvl.ApplicationServer.Core.Model.Processes
+@using Cvl.ApplicationServer.Processes.Dtos
 @using Kendo.Mvc
 @using Kendo.Mvc.UI
 
-@(Html.Kendo().Grid<ProcessInstance>()
+<h1>PRoces</h1>
+
+@(Html.Kendo().Grid<ProcessListItemDto>()
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.Id).Width(300);
-        columns.Bound(p => p.ProcessNumber).Title("Price").Width(105);
-        columns.Bound(p => p.Status).Title("In Stock").Width(130);
-        columns.Bound(p => p.Step).Title("Category").Width(125);
-        columns.Bound(p => p.StepDescription).Title("Rating").Width(140);
+        columns.Bound(p => p.Id).Width(12);
+        columns.Bound(p => p.Type).Title("Type").Width(66)
+            .ClientTemplate("<span title='#=Type#'>#=TypeShortName#</span>");
+        columns.Bound(p => p.ProcessNumber).Title("#").Width(55);
+        columns.Bound(p => p.StatusName).Title("Status").Width(99);
+        columns.Bound(p => p.StepName).Title("Step").Width(66)
+            .ClientTemplate("<span title='#=StepDescription#'>#=StepName#</span>");
+        columns.Bound(p => p.NumberOfActivities).Title("Diag").Width(66)
+            .ClientTemplate("<span title='Activities:#=NumberOfActivities# LastRequest:#=LastRequestPreview# LastResponse:#=LastResponsePreview# '>A:#=NumberOfActivities#</span> <span title='Steps:#=NumberOfSteps#'>S:#=NumberOfSteps#</span> <span title='Errors:#=NumberOfSteps#, LastError:#=LastErrorPreview#'>E:#=NumberOfErrors#</span>");
     })
     .ToolBar(tools =>
 	  {
 		  tools.Create();
 	  })
 	  .Sortable()
-	  .Pageable()
+	  .Pageable(pager => pager.AlwaysVisible(false).PageSizes(new int[] {10, 20, 50, 100 }))
 	  .Filterable()
     .DataSource(dataSource => dataSource
-        .WebApi()        
+        .Ajax()
+        .PageSize(20)
         .Model(model =>
         {
             model.Id(p => p.Id);           

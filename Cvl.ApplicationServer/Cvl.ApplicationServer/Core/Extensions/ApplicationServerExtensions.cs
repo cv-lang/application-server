@@ -2,6 +2,7 @@
 using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Services;
 using Cvl.ApplicationServer.Test;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -23,7 +24,10 @@ namespace Cvl.ApplicationServer.Server.Setup
             .AddTransient<ProcessActivityRepository, ProcessActivityRepository>()
             .AddTransient<ProcessInstanceRepository, ProcessInstanceRepository>()
             .AddTransient<ProcessInstanceStateDataRepository, ProcessInstanceStateDataRepository>()
+            .AddTransient<ProcessDiagnosticDataRepository, ProcessDiagnosticDataRepository>()
+            .AddTransient<ProcessInstanceService, ProcessInstanceService>()
             .AddTransient<ProcessService, ProcessService>()
+
             .AddTransient<TestService, TestService>()
             .AddTransient<ITestProcess, TestProcess>()
             .AddTransient<TestController, TestController>()

@@ -1,6 +1,7 @@
 ﻿using Castle.DynamicProxy;
 using Cvl.ApplicationServer.Core.Extensions;
 using Cvl.ApplicationServer.Core.Model;
+using Cvl.ApplicationServer.Core.Model.Processes;
 using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Cvl.ApplicationServer.Processes.Interfaces;
@@ -19,10 +20,10 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
         private readonly ClientConnectionData _clientConnectionData;
         private readonly IFullSerializer _serializer;
         private readonly IJsonSerializer _jsonSerializer;
-        private readonly ProcessService _processService;
+        private readonly ProcessInstanceService _processService;
 
         public ProcessInterceptorProxy(IProcess process, ClientConnectionData clientConnectionData, 
-            IFullSerializer serializer, IJsonSerializer jsonSerializer, ProcessService processService)
+            IFullSerializer serializer, IJsonSerializer jsonSerializer, ProcessInstanceService processService)
         {
             _process = process;
             _clientConnectionData = clientConnectionData;
@@ -54,15 +55,15 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
 
             //zapisuje dane requestu
             var activityData = new ProcessActivityData(requestFulSerializeString, requestJsonSerializeStrong, requestType);
-            _processService.Insert(activityData);
-
+            
             var activity = new ProcessActivity(_process.ProcessId,
                 _clientConnectionData.ClientIpAddress, _clientConnectionData.ClientIpPort, _clientConnectionData.GetClientConnectionData(),
                 ProcessActivityState.Executing, invocation.Method.Name,
-                DateTime.Now, requestFulSerializeString?.Truncate(140) ?? "", null, null, activityData.Id
+                DateTime.Now, requestFulSerializeString?.Truncate(ProcessActivity.JsonPreviewSize) ?? "", null, null
                 );
+            activity.ProcessActivityData = activityData;
 
-            _processService.Insert(activity);
+            _processService.InsertProcessActivity(activity);
 
             try
             {
@@ -70,25 +71,19 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
             }
             catch (Exception ex)
             {
-                var errorRespnse = ex.ToString();
-                activityData.ResponseFullSerialization = errorRespnse;
-                activity.PreviewResponseJson = $"Error: {ex.Message}";
-                activity.ActivityState = ProcessActivityState.Exception;
-                _processService.Update(activityData);
+                var errorRespnse = ex.ToString();     
+                _processService.UpdateActivityError(ex, activity, activityData);
 
                 throw;
             }
 
             var response = _serializer.Serialize(invocation.ReturnValue);
             var jsonResponse= _jsonSerializer.Serialize(invocation.ReturnValue);
-            activityData.ResponseFullSerialization = response;
-            activityData.ResponseJson = jsonResponse;
-            activityData.ResponseType = invocation.ReturnValue?.GetType()?.FullName;
-            _processService.Update(activityData);                      
 
-            activity.ResponseDate = DateTime.Now;
-            activity.PreviewResponseJson = jsonResponse.Truncate(140);
-            activity.ActivityState = ProcessActivityState.Executed;
+            _processService.UpdateActivityResponse(response, jsonResponse, invocation.ReturnValue?.GetType()?.FullName,
+                activity, activityData);
+
+            
 
             _processService.SerializeProcess(_process);
 

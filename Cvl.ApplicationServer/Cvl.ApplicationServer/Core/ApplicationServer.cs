@@ -1,9 +1,12 @@
 ﻿using Castle.DynamicProxy;
 using Cvl.ApplicationServer.Core.Model;
+using Cvl.ApplicationServer.Core.Model.Processes;
 using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Dtos;
 using Cvl.ApplicationServer.Processes.Infrastructure;
 using Cvl.ApplicationServer.Processes.Interfaces;
+using Cvl.ApplicationServer.Processes.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,27 +17,31 @@ namespace Cvl.ApplicationServer.Core
 {
     public class ApplicationServer
     {
-        private readonly ProcessService _processService;
         private readonly IFullSerializer _fullSerializer;
         private readonly IJsonSerializer _jsonSerializer;
+        private readonly ProcessInstanceService _processInstanceService;
+        private readonly ProcessService _processService;
 
-        public ApplicationServer(ProcessService processService, IFullSerializer fullSerializer, IJsonSerializer jsonSerializer)
+        public ApplicationServer(IFullSerializer fullSerializer, IJsonSerializer jsonSerializer,
+            ProcessInstanceService processInstanceService,
+            ProcessService processService)
         {
+            this._processInstanceService = processInstanceService;
             this._processService = processService;
             this._fullSerializer = fullSerializer;
             this._jsonSerializer = jsonSerializer;
         }
 
-        public IQueryable<ProcessInstance> GetAllProcesses()
+        public IQueryable<ProcessListItemDto> GetAllProcesses()
         {
-            return _processService.GetAllObjects();
+            return _processService.GetAllProcesses();
         }
 
         public TProcesInterface CreateProcess<TProcesInterface>(Model.ClientConnectionData clientConnectionData) 
             where TProcesInterface : class, IProcess            
         {
-            var process = _processService.CreateProcess<TProcesInterface>();
-            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData,_fullSerializer, _jsonSerializer, _processService);
+            var process = _processInstanceService.CreateProcess<TProcesInterface>();
+            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData,_fullSerializer, _jsonSerializer, _processInstanceService);
 
             var generator = new ProxyGenerator();
             var proxy = generator.CreateInterfaceProxyWithTarget<TProcesInterface>(process, processProxy);
@@ -44,9 +51,9 @@ namespace Cvl.ApplicationServer.Core
         internal TProcesInterface LoadProcess<TProcesInterface>(long processId, ClientConnectionData clientConnectionData)
              where TProcesInterface : class, IProcess
         {
-            var process = _processService.LoadProcess<TProcesInterface>(processId);
+            var process = _processInstanceService.LoadProcess<TProcesInterface>(processId);
 
-            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, _fullSerializer, _jsonSerializer, _processService);
+            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, _fullSerializer, _jsonSerializer, _processInstanceService);
 
             var generator = new ProxyGenerator();
             var proxy = generator.CreateInterfaceProxyWithTarget<TProcesInterface>(process, processProxy);

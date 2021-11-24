@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cvl.ApplicationServer.Core.Model.Processes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Core.Model
 {
-    [Table("StepHistory", Schema = "Processes")]
-    public class StepHistory : BaseEntity
+    [Table("ProcessStepHistory", Schema = "Processes")]
+    public class ProcessStepHistory : BaseEntity
     {
-        public StepHistory(long? processInstanceId, string step, string stepDescription)
+        public ProcessStepHistory(long? processInstanceId, string step, string stepDescription)
         {
             ProcessInstanceId = processInstanceId;
             Step = step;

@@ -1,5 +1,5 @@
 ﻿using Cvl.ApplicationServer.Core.Database.Contexts;
-using Cvl.ApplicationServer.Core.Model;
+using Cvl.ApplicationServer.Core.Model.Processes;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

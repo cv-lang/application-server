@@ -1,5 +1,5 @@
 ﻿using Cvl.ApplicationServer.Core.Database.Contexts;
-using Cvl.ApplicationServer.Core.Model;
+using Cvl.ApplicationServer.Core.Model.Processes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Core.Repositories
 {
-    public class ProcessInstanceStateDataRepository : Repository<ProcessInstanceStateData>
+    public class ProcessInstanceStateDataRepository : Repository<ProcessStateData>
     {
         public ProcessInstanceStateDataRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {

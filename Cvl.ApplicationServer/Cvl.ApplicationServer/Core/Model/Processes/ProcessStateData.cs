@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cvl.ApplicationServer.Core.Model
+namespace Cvl.ApplicationServer.Core.Model.Processes
 {
-    [Table("InstanceStateData", Schema = "Processes")]
-    public class ProcessInstanceStateData : BaseEntity
+    [Table("ProcessStateData", Schema = "Processes")]
+    public class ProcessStateData : BaseEntity
     {
-        public ProcessInstanceStateData(string processStateFullSerialization)
+        public ProcessStateData(string processStateFullSerialization)
         {
             ProcessStateFullSerialization = processStateFullSerialization;
         }
 
-        public long ProcessInstanceId { get; set; } 
+        public long ProcessInstanceId { get; set; }
         public virtual ProcessInstance ProcessInstance { get; set; }
 
         /// <summary>
