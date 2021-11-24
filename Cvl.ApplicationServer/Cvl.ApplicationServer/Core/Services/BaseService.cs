@@ -24,5 +24,10 @@ namespace Cvl.ApplicationServer.Core.Services
         {
             return Repository.GetAll();
         }
+
+        public T GetSingle(long processId)
+        {
+            return Repository.GetSingle(processId);
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace Cvl.ApplicationServer.Server.Setup
             .AddTransient<ProcessInstanceRepository, ProcessInstanceRepository>()
             .AddTransient<ProcessInstanceStateDataRepository, ProcessInstanceStateDataRepository>()
             .AddTransient<ProcessDiagnosticDataRepository, ProcessDiagnosticDataRepository>()
+            .AddTransient<ProcessStepHistoryRepository, ProcessStepHistoryRepository>()
             .AddTransient<ProcessInstanceService, ProcessInstanceService>()
             .AddTransient<ProcessService, ProcessService>()
 

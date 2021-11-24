@@ -20,6 +20,7 @@ namespace Cvl.ApplicationServer.Core.Services
         private readonly ProcessActivityRepository _processActivityRepository;
         private readonly ProcessInstanceStateDataRepository _processInstanceStateDataRepository;
         private readonly ProcessDiagnosticDataRepository _processDiagnosticDataRepository;
+        private readonly ProcessStepHistoryRepository _processStepHistoryRepository;
         private readonly IFullSerializer _fullSerializer;
 
         public ProcessInstanceService(ApplicationDbContext applicationDbContext, 
@@ -29,6 +30,7 @@ namespace Cvl.ApplicationServer.Core.Services
             ProcessActivityRepository processActivityRepository,
             ProcessInstanceStateDataRepository processInstanceStateDataRepository,
             ProcessDiagnosticDataRepository processDiagnosticDataRepository,
+            ProcessStepHistoryRepository processStepHistoryRepository,
             IFullSerializer fullSerializer
 
             ) :base(processInstanceRepository)
@@ -38,8 +40,26 @@ namespace Cvl.ApplicationServer.Core.Services
             this._processActivityRepository = processActivityRepository;
             this._processInstanceStateDataRepository = processInstanceStateDataRepository;
             this._processDiagnosticDataRepository = processDiagnosticDataRepository;
+            this._processStepHistoryRepository = processStepHistoryRepository;
             this._fullSerializer = fullSerializer;
-        }        
+        }
+
+        internal void UpdateProcessStep(long processId, string stepName, string description, int? step)
+        {
+            ProcessInstance processInstance = this.GetSingle(processId);
+
+            if (step != null)
+            {
+                processInstance.Step = step.Value;
+            }
+            processInstance.StatusName = stepName;
+            processInstance.StepDescription = description;
+            Repository.Update(processInstance);
+
+            var procesStepHistory = new ProcessStepHistory(processId, step, stepName, description);
+            _processStepHistoryRepository.InsertAsync(procesStepHistory);
+            _processStepHistoryRepository.SaveChanges();
+        }
 
         internal T CreateProcess<T>() where T : class, IProcess
         {
@@ -55,7 +75,7 @@ namespace Cvl.ApplicationServer.Core.Services
             processInstance.ProcessInstanceStateData = new ProcessStateData(string.Empty);
             processInstance.ProcessDiagnosticData = new ProcessDiagnosticData();
 
-            Repository.Insert(processInstance);
+            Repository.InsertAsync(processInstance);
             Repository.SaveChanges();
 
             process.ProcessId = processInstance.Id;
@@ -67,7 +87,7 @@ namespace Cvl.ApplicationServer.Core.Services
         {
             var process = _serviceProvider.GetService(typeof(T)) as T;
             process.ProcessId = processId;
-            var processInstance = Repository.Get(processId);
+            var processInstance = Repository.GetSingle(processId);
 
             DeserializeProcess(process, processInstance.ProcessInstanceStateData.ProcessStateFullSerialization);
 
@@ -84,7 +104,7 @@ namespace Cvl.ApplicationServer.Core.Services
             processDiagnosticData.LastRequestPreview = activity.PreviewRequestJson;
             _processDiagnosticDataRepository.Update(processDiagnosticData);
 
-            _processActivityRepository.Insert(activity);
+            _processActivityRepository.InsertAsync(activity);
             _processActivityRepository.SaveChanges();
         }
 

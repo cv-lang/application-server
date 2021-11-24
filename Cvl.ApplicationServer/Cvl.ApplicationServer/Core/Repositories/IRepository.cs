@@ -10,8 +10,8 @@ namespace Cvl.ApplicationServer.Core.Repositories
     public interface IRepository<T> where T : BaseEntity
     {
         IQueryable<T> GetAll();
-        T Get(long Id);
-        void Insert(T entity);
+        T GetSingle(long Id);
+        void InsertAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
         void Remove(T entity);

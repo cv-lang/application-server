@@ -15,7 +15,7 @@ namespace Cvl.ApplicationServer.Core.Repositories
         {
         }
 
-        public override ProcessInstance Get(long id)
+        public override Task<ProcessInstance> GetSingle(long id)
         {
             return base.GetAll().Include(x=> x.ProcessInstanceStateData).Single(x=> x.Id == id);
         }

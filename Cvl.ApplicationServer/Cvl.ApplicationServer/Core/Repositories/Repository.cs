@@ -34,9 +34,9 @@ namespace Cvl.ApplicationServer.Core.Repositories
             _applicationDbContext.SaveChanges();
         }
 
-        public virtual T Get(long id)
+        public async virtual Task<T> GetSingleAsync(long id)
         {
-            return entities.Single(c => c.Id == id);
+            return await entities.SingleAsync(c => c.Id == id);
         }
 
         public IQueryable<T> GetAll()
@@ -50,7 +50,7 @@ namespace Cvl.ApplicationServer.Core.Repositories
             {
                 throw new ArgumentNullException("entity");
             }
-            entities.Add(entity);
+            entities.AddAsync(entity);
             _applicationDbContext.SaveChanges();
         }
 

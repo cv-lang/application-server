@@ -32,6 +32,11 @@ namespace Cvl.ApplicationServer.Core
             this._jsonSerializer = jsonSerializer;
         }
 
+        public async Task SetStepAsync(long processId, string stepName, string description, int? step)
+        {
+            _processInstanceService.UpdateProcessStep(processId, stepName, description, step);
+        }
+
         public IQueryable<ProcessListItemDto> GetAllProcesses()
         {
             return _processService.GetAllProcesses();
