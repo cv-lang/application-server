@@ -16,7 +16,7 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
         }
 
         public long ProcessInstanceId { get; set; }
-        public virtual ProcessInstance ProcessInstance { get; set; }
+        public virtual ProcessInstance ProcessInstance { get; set; } = null!;
 
         /// <summary>
         /// Full serializet of request

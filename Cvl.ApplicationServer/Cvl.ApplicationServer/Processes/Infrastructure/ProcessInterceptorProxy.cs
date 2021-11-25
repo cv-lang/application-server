@@ -32,16 +32,16 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
             _processService = processService;
         }
 
-        public void Intercept(IInvocation invocation)
+        public async void Intercept(IInvocation invocation)
         {
             var requestFulSerializeString = "";
             var requestJsonSerializeStrong = "";
-            var requestType = "";
+            string requestType = "";
 
             if(invocation.Arguments.Count() == 1)
             {
                 var request = invocation.Arguments[0];
-                requestType = request.GetType().FullName;
+                requestType = request.GetType().FullName!;
                 requestFulSerializeString= _serializer.Serialize(request);
                 requestJsonSerializeStrong = _jsonSerializer.Serialize(request);
             }
@@ -49,7 +49,7 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
             {
                 requestFulSerializeString = _serializer.Serialize(invocation.Arguments.ToList());
                 requestJsonSerializeStrong = _jsonSerializer.Serialize(invocation.Arguments.ToList());
-                requestType = invocation.Arguments.ToList().GetType().FullName;
+                requestType = invocation.Arguments.ToList().GetType().FullName!;
             }
                       
 
@@ -63,7 +63,7 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
                 );
             activity.ProcessActivityData = activityData;
 
-            _processService.InsertProcessActivity(activity);
+            await _processService.InsertProcessActivityAsync(activity);
 
             try
             {
@@ -72,7 +72,7 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
             catch (Exception ex)
             {
                 var errorRespnse = ex.ToString();     
-                _processService.UpdateActivityError(ex, activity, activityData);
+                await _processService.UpdateActivityErrorAsync(ex, activity, activityData);
 
                 throw;
             }
@@ -80,12 +80,11 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
             var response = _serializer.Serialize(invocation.ReturnValue);
             var jsonResponse= _jsonSerializer.Serialize(invocation.ReturnValue);
 
-            _processService.UpdateActivityResponse(response, jsonResponse, invocation.ReturnValue?.GetType()?.FullName,
+            await _processService.UpdateActivityResponseAsync(response, jsonResponse, invocation.ReturnValue?.GetType()?.FullName,
                 activity, activityData);
+                        
 
-            
-
-            _processService.SerializeProcess(_process);
+            await _processService.SerializeProcessAsync(_process);
 
             invocation.ReturnValue = invocation.ReturnValue;
         }

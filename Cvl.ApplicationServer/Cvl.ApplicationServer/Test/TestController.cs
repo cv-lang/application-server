@@ -17,28 +17,28 @@ namespace Cvl.ApplicationServer.Test
         }
 
 
-        public async Task<TestResponse> TestStep1(TestRequest request)
+        public async Task<TestResponse> TestStep1Async(TestRequest request)
         {
-            var process = _applicationServer.CreateProcess<ITestProcess>(GetConnectionData());
+            var process = await _applicationServer.CreateProcessAsync<ITestProcess>(GetConnectionData());
 
-            process.TestMethod1(2);
+            await process.TestMethod1Async(2);
 
             await Task.Delay(50);
             return new TestResponse();
         }
 
-        public async Task<TestResponse> TestStep2(TestRequest request)
+        public async Task<TestResponse> TestStep2Async(TestRequest request)
         {
-            var process = _applicationServer.LoadProcess<ITestProcess>(2,GetConnectionData());
-            process.TestMethod1(2);
+            var process = await _applicationServer.LoadProcessAsync<ITestProcess>(2,GetConnectionData());
+            await process.TestMethod1Async(2);
 
             await Task.Delay(50);
             return new TestResponse();
         }
 
-        public async Task<TestResponse> TestStep3(TestRequest request)
+        public async Task<TestResponse> TestStep3Async(TestRequest request)
         {
-            var process = _applicationServer.LoadProcess<ITestProcess>(2, GetConnectionData());
+            var process = await _applicationServer.LoadProcessAsync<ITestProcess>(2, GetConnectionData());
             process.TestMethod2(2);
 
             await Task.Delay(50);

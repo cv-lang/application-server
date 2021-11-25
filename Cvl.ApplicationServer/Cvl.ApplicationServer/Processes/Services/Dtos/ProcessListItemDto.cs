@@ -11,7 +11,8 @@ namespace Cvl.ApplicationServer.Processes.Dtos
     public class ProcessListItemDto
     {       
         public ProcessListItemDto()
-        { }
+        { 
+        }
 
         public ProcessListItemDto(ProcessInstance processInstance)
         {
@@ -34,13 +35,13 @@ namespace Cvl.ApplicationServer.Processes.Dtos
         }
         
         public long Id { get; set; }
-        public string ProcessNumber { get; set; }
-        public string Type { get; set; }
-        public string TypeShortName { get; set; }
-        public string StatusName { get; set; }
-        public string StepName { get; set; }
-        public string StepDescription { get; set; }
-        public string MainThreadState { get; set; }
+        public string ProcessNumber { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
+        public string TypeShortName { get; set; } = string.Empty;
+        public string StatusName { get; set; } = string.Empty;
+        public string StepName { get; set; } = string.Empty;
+        public string StepDescription { get; set; } = string.Empty;
+        public string MainThreadState { get; set; } = string.Empty;
 
         public ProcessBusinessData BusinessData { get; set; } = null!;
 

@@ -25,9 +25,9 @@ namespace Cvl.ApplicationServer.Core.Services
             return Repository.GetAll();
         }
 
-        public T GetSingle(long processId)
+        public async Task<T> GetSingleAsync(long processId)
         {
-            return Repository.GetSingle(processId);
+            return await Repository.GetSingleAsync(processId);
         }
     }
 }

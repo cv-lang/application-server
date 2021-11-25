@@ -10,20 +10,12 @@ namespace WebApplication1.Pages
         public IndexModel(ILogger<IndexModel> logger, int id = 2)
         {
             _logger = logger;
-            id = id;
+            this.id = id;
         }
 
         public void OnGet()
         {
 
         }
-    }
-
-    public class DetailProductViewModel
-    {
-        public long ProductID { get; set; }
-        public string ProductName { get; set; }
-        public string ProductDescription { get; set; }
-        public decimal UnitPrice { get; set; }
-    }
+    }   
 }

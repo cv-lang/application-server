@@ -34,7 +34,7 @@ namespace Cvl.ApplicationServer.Core
 
         public async Task SetStepAsync(long processId, string stepName, string description, int? step)
         {
-            _processInstanceService.UpdateProcessStep(processId, stepName, description, step);
+            await _processInstanceService.UpdateProcessStepAsync(processId, stepName, description, step);
         }
 
         public IQueryable<ProcessListItemDto> GetAllProcesses()
@@ -42,10 +42,10 @@ namespace Cvl.ApplicationServer.Core
             return _processService.GetAllProcesses();
         }
 
-        public TProcesInterface CreateProcess<TProcesInterface>(Model.ClientConnectionData clientConnectionData) 
+        public async Task<TProcesInterface> CreateProcessAsync<TProcesInterface>(Model.ClientConnectionData clientConnectionData) 
             where TProcesInterface : class, IProcess            
         {
-            var process = _processInstanceService.CreateProcess<TProcesInterface>();
+            var process = await _processInstanceService.CreateProcessAsync<TProcesInterface>();
             var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData,_fullSerializer, _jsonSerializer, _processInstanceService);
 
             var generator = new ProxyGenerator();
@@ -53,10 +53,10 @@ namespace Cvl.ApplicationServer.Core
             return proxy;
         }
 
-        internal TProcesInterface LoadProcess<TProcesInterface>(long processId, ClientConnectionData clientConnectionData)
+        internal async Task<TProcesInterface> LoadProcessAsync<TProcesInterface>(long processId, ClientConnectionData clientConnectionData)
              where TProcesInterface : class, IProcess
         {
-            var process = _processInstanceService.LoadProcess<TProcesInterface>(processId);
+            var process = await _processInstanceService.LoadProcessAsync<TProcesInterface>(processId);
 
             var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, _fullSerializer, _jsonSerializer, _processInstanceService);
 

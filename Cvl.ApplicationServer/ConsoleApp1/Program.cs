@@ -33,23 +33,23 @@ var serviceProvider = new ServiceCollection()
             .UseRegisterApplicationServer()
             .BuildServiceProvider();
 
-var testController= serviceProvider.GetService<TestController>();
-var tt = await testController.TestStep1(new TestRequest());
+var testController= serviceProvider.GetService<TestController>()!;
+var tt = await testController.TestStep1Async(new TestRequest());
 
 for (int i = 0; i < 100; i++)
 {
-    tt = await testController.TestStep1(new TestRequest());
+    tt = await testController.TestStep1Async(new TestRequest());
 
-    await testController.TestStep2(new TestRequest());
+    await testController.TestStep2Async(new TestRequest());
 
     try
     {
-        await testController.TestStep3(new TestRequest());
+        await testController.TestStep3Async(new TestRequest());
 
     }
     catch (Exception ex)
     {
-
+        Console.WriteLine(ex.ToString());
     }
 }
 

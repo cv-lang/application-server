@@ -28,7 +28,7 @@ namespace Cvl.ApplicationServer.Processes.Base
 
         protected async Task SetStepAsync(string stepName, string description, int? step = null)
         {
-            await _applicationServer.SetStepAsync(stepName, description, step);
+            await _applicationServer.SetStepAsync(ProcessId, stepName, description, step);
         }
     }
 }

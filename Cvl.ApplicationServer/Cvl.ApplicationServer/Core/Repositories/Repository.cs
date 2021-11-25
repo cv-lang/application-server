@@ -13,7 +13,7 @@ namespace Cvl.ApplicationServer.Core.Repositories
     {
         #region property  
         private readonly ApplicationDbContext _applicationDbContext;
-        private DbSet<T> entities;
+        private readonly DbSet<T> entities;
         #endregion
 
         #region Constructor  
@@ -28,15 +28,14 @@ namespace Cvl.ApplicationServer.Core.Repositories
         {
             if (entity == null)
             {
-                throw new ArgumentNullException("entity");
+                throw new ArgumentNullException(nameof(entity));
             }
             entities.Remove(entity);
-            _applicationDbContext.SaveChanges();
         }
 
-        public async virtual Task<T> GetSingleAsync(long id)
+        public virtual Task<T> GetSingleAsync(long id)
         {
-            return await entities.SingleAsync(c => c.Id == id);
+            return entities.SingleAsync(c => c.Id == id);
         }
 
         public IQueryable<T> GetAll()
@@ -48,35 +47,32 @@ namespace Cvl.ApplicationServer.Core.Repositories
         {
             if (entity == null)
             {
-                throw new ArgumentNullException("entity");
+                throw new ArgumentNullException(nameof(entity));
             }
-            entities.AddAsync(entity);
-            _applicationDbContext.SaveChanges();
+            entities.Add(entity);
         }
 
         public void Remove(T entity)
         {
             if (entity == null)
             {
-                throw new ArgumentNullException("entity");
+                throw new ArgumentNullException(nameof(entity));
             }
             entities.Remove(entity);
         }
 
-        public void SaveChanges()
+        public Task SaveChangesAsync()
         {
-            _applicationDbContext.SaveChanges();
+            return _applicationDbContext.SaveChangesAsync();
         }
 
         public void Update(T entity)
         {
             if (entity == null)
             {
-                throw new ArgumentNullException("entity");
+                throw new ArgumentNullException(nameof(entity));
             }
             entities.Update(entity);
-            _applicationDbContext.SaveChanges();
         }
-
     }
 }

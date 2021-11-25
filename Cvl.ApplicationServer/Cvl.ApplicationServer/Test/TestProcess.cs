@@ -13,13 +13,13 @@ namespace Cvl.ApplicationServer.Test
 {
     public class TestProcessState
     {
-        public string Request { get; set; }
+        public string Request { get; set; } = string.Empty;
         public int Dane { get; set; }
     }
 
     public interface ITestProcess : IProcess
     {
-        Task<int> TestMethod1(int i);
+        Task<int> TestMethod1Async(int i);
         int TestMethod2(int i);
     }
 
@@ -34,7 +34,7 @@ namespace Cvl.ApplicationServer.Test
             _testService = testService;
         }
 
-        public async Task<int> TestMethod1(int i)
+        public async Task<int> TestMethod1Async(int i)
         {
             await SetStepAsync("Step", "Step descrption");
 
@@ -46,12 +46,12 @@ namespace Cvl.ApplicationServer.Test
         public int TestMethod2(int i)
         {
             throw new Exception("Jakiś tam błąd " + i);
-            return _testService.TestLogicMethod(i);
+            //return _testService.TestLogicMethod(i);
         }
 
         public override void ProcessDeserialization(IFullSerializer serializer, string serializedProcess)
         {
-            _processState = serializer.Deserialize<TestProcessState>(serializedProcess);
+            _processState = serializer.Deserialize<TestProcessState>(serializedProcess) ?? throw new Exception("Could not deserialize process state");
         }
 
         public override string ProcessSerizalization(IFullSerializer serializer)

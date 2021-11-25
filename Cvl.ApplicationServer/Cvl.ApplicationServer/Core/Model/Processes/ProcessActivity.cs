@@ -24,7 +24,7 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
     [Table("ProcessActivity", Schema = "Processes")]
     public class ProcessActivity : BaseEntity
     {
-        public ProcessActivity(long? processInstanceId,
+        public ProcessActivity(long processInstanceId,
             string clientIpAddress, string clientIpPort, string clientConnectionData,
             ProcessActivityState activityState, string memberName,
             DateTime requestDate, string previewRequestJson,
@@ -43,8 +43,8 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
         }
 
         public const int JsonPreviewSize = 150;
-        public long? ProcessInstanceId { get; set; }
-        public virtual ProcessInstance? ProcessInstance { get; set; }
+        public long ProcessInstanceId { get; set; }
+        public virtual ProcessInstance ProcessInstance { get; set; } = null!;
 
         /// <summary>
         /// Dane połączenia klienta

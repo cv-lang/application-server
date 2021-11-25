@@ -44,9 +44,9 @@ namespace Cvl.ApplicationServer.Core.Services
             this._fullSerializer = fullSerializer;
         }
 
-        internal void UpdateProcessStep(long processId, string stepName, string description, int? step)
+        internal async Task UpdateProcessStepAsync(long processId, string stepName, string description, int? step)
         {
-            ProcessInstance processInstance = this.GetSingle(processId);
+            ProcessInstance processInstance = await this.GetSingleAsync(processId);
 
             if (step != null)
             {
@@ -57,11 +57,11 @@ namespace Cvl.ApplicationServer.Core.Services
             Repository.Update(processInstance);
 
             var procesStepHistory = new ProcessStepHistory(processId, step, stepName, description);
-            _processStepHistoryRepository.InsertAsync(procesStepHistory);
-            _processStepHistoryRepository.SaveChanges();
+            _processStepHistoryRepository.Insert(procesStepHistory);
+            await _processStepHistoryRepository.SaveChangesAsync();
         }
 
-        internal T CreateProcess<T>() where T : class, IProcess
+        internal async Task<T> CreateProcessAsync<T>() where T : class, IProcess
         {
             var process = _serviceProvider.GetService(typeof(T)) as T;
             if (process == null)
@@ -75,40 +75,43 @@ namespace Cvl.ApplicationServer.Core.Services
             processInstance.ProcessInstanceStateData = new ProcessStateData(string.Empty);
             processInstance.ProcessDiagnosticData = new ProcessDiagnosticData();
 
-            Repository.InsertAsync(processInstance);
-            Repository.SaveChanges();
+            Repository.Insert(processInstance);
+            await Repository.SaveChangesAsync();
 
             process.ProcessId = processInstance.Id;
 
             return process;
         }
 
-        internal T LoadProcess<T>(long processId) where T : class, IProcess
+        internal async Task<T> LoadProcessAsync<T>(long processId) where T : class, IProcess
         {
             var process = _serviceProvider.GetService(typeof(T)) as T;
+            if (process == null)
+            {
+                throw new ArgumentException($"Could not create a process '{typeof(T)}'");
+            }
+
             process.ProcessId = processId;
-            var processInstance = Repository.GetSingle(processId);
+            var processInstance = await Repository.GetSingleAsync(processId);
 
             DeserializeProcess(process, processInstance.ProcessInstanceStateData.ProcessStateFullSerialization);
 
             return process;
         }        
 
-        internal void InsertProcessActivity(ProcessActivity activity)
+        internal async Task InsertProcessActivityAsync(ProcessActivity activity)
         {
-            if (activity.ProcessInstanceId is null) { throw new NullReferenceException("ProcessInstanceId"); }
-
             //zwiększam licznik aktywności procesu
-            var processDiagnosticData = _processDiagnosticDataRepository.GetByProcessId(activity.ProcessInstanceId.Value);
+            var processDiagnosticData = _processDiagnosticDataRepository.GetByProcessId(activity.ProcessInstanceId);
             processDiagnosticData.NumberOfActivities++;
             processDiagnosticData.LastRequestPreview = activity.PreviewRequestJson;
             _processDiagnosticDataRepository.Update(processDiagnosticData);
 
-            _processActivityRepository.InsertAsync(activity);
-            _processActivityRepository.SaveChanges();
+            _processActivityRepository.Insert(activity);
+            await _processActivityRepository.SaveChangesAsync();
         }
 
-        internal void UpdateActivityError(Exception ex, ProcessActivity activity, ProcessActivityData activityData)
+        internal async Task UpdateActivityErrorAsync(Exception ex, ProcessActivity activity, ProcessActivityData activityData)
         {
             
             activityData.ResponseJson = ex.ToString();
@@ -119,17 +122,18 @@ namespace Cvl.ApplicationServer.Core.Services
             _processActivityRepository.Update(activity);
 
             //ustawiam last error preview
-            var processDiagnosticData = _processDiagnosticDataRepository.GetByProcessId(activity.ProcessInstanceId.Value);
+            var processDiagnosticData = _processDiagnosticDataRepository.GetByProcessId(activity.ProcessInstanceId);
             processDiagnosticData.NumberOfErrors++;
             processDiagnosticData.LastError = activityData.ResponseJson;
             processDiagnosticData.LastErrorPreview = activity.PreviewResponseJson;
             _processDiagnosticDataRepository.Update(processDiagnosticData);
+
+            //zapisuje całość UoW
+            await Repository.SaveChangesAsync();
         }
 
-        internal void UpdateActivityResponse(string response, string jsonResponse, string? returnValueType, ProcessActivity activity, ProcessActivityData activityData)
+        internal async Task UpdateActivityResponseAsync(string response, string jsonResponse, string? returnValueType, ProcessActivity activity, ProcessActivityData activityData)
         {
-            if (activity.ProcessInstanceId is null) { throw new NullReferenceException("ProcessInstanceId"); }
-
             activityData.ResponseFullSerialization = response;
             activityData.ResponseJson = jsonResponse;
             activityData.ResponseType = returnValueType;
@@ -141,32 +145,34 @@ namespace Cvl.ApplicationServer.Core.Services
             _processActivityRepository.Update(activity);
 
             //ustawiam last response preview
-            var processDiagnosticData = _processDiagnosticDataRepository.GetByProcessId(activity.ProcessInstanceId.Value);
+            var processDiagnosticData = _processDiagnosticDataRepository.GetByProcessId(activity.ProcessInstanceId);
             processDiagnosticData.NumberOfActivities++;
             processDiagnosticData.LastResponsePreview = activity.PreviewResponseJson;
             _processDiagnosticDataRepository.Update(processDiagnosticData);
+
+            //zapisuje całość UoW
+            await Repository.SaveChangesAsync();
         }
 
-        internal void UpdateProcessActivity(ProcessActivity activity)
-        {
-            if (activity.ProcessInstanceId is null) { throw new NullReferenceException("ProcessInstanceId"); }
-
+        internal async Task UpdateProcessActivityAsync(ProcessActivity activity)
+        {            
             //zwiększam licznik aktywności procesu
-            var processDiagnosticData = _processDiagnosticDataRepository.GetByProcessId(activity.ProcessInstanceId.Value);
+            var processDiagnosticData = _processDiagnosticDataRepository.GetByProcessId(activity.ProcessInstanceId);
             processDiagnosticData.NumberOfActivities++;
             processDiagnosticData.LastRequestPreview = activity.PreviewRequestJson;
             _processDiagnosticDataRepository.Update(processDiagnosticData);
+            await _processDiagnosticDataRepository.SaveChangesAsync();
         }
 
-        internal void UpdateProcessActivityData(ProcessActivityData activityData)
+        internal async Task UpdateProcessActivityDataAsync(ProcessActivityData activityData)
         {
             _processActivityDataRepository.Update(activityData);
-            _processActivityDataRepository.SaveChanges();
+            await _processActivityDataRepository.SaveChangesAsync();
         }
 
         
 
-        internal void SerializeProcess(IProcess process)
+        internal async Task SerializeProcessAsync(IProcess process)
         {
             if (process is IProcessSerialization processSerialization)
             {
@@ -174,7 +180,7 @@ namespace Cvl.ApplicationServer.Core.Services
                 var stateData = _processInstanceStateDataRepository.GetAll().Single(x => x.Id == process.ProcessId);
                 stateData.ModifiedDate = DateTime.Now;
                 stateData.ProcessStateFullSerialization = json;
-                _processInstanceStateDataRepository.SaveChanges();
+                await _processInstanceStateDataRepository.SaveChangesAsync();
             }
         }
 
