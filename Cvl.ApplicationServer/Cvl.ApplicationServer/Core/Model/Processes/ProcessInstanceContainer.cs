@@ -9,20 +9,21 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
 {
 
     /// <summary>
-    /// Process instances
+    /// Process instances container
     /// </summary>
-    [Table("ProcessInstance", Schema = "Processes")]
-    public class ProcessInstance : BaseEntity
+    [Table("ProcessInstanceContainer", Schema = "Processes")]
+    public class ProcessInstanceContainer : BaseEntity
     {
-        public ProcessInstance(string processNumber, string type, string statusName, string stepName, string stepDescription,
-            Cvl.ApplicationServer.Processes.Threading.ThreadState mainThreadState)
+        public ProcessInstanceContainer(string processNumber, string type, string statusName, string stepName, string stepDescription)
         {
             ProcessNumber = processNumber;
             Type = type;
             StatusName = statusName;
             StepName = stepName;
             StepDescription = stepDescription;
-            MainThreadState = mainThreadState;
+            ProcessThreadData = new ProcessThreadData();
+            BusinessData = new ProcessBusinessData();
+            ExternalIds = new ExternalIdentifiers();
         }        
 
 
@@ -56,16 +57,28 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
         public string StepDescription { get; set; }
 
         /// <summary>
-        /// Main(single) thread state 
+        /// Object with proces state (serialized)
         /// </summary>
-        public Cvl.ApplicationServer.Processes.Threading.ThreadState MainThreadState { get; set; }
-
         public virtual ProcessStateData ProcessInstanceStateData { get; set; } = null!;
 
+        /// <summary>
+        /// Proces diagnostic data (number of request, last error...)
+        /// </summary>
         public virtual ProcessDiagnosticData ProcessDiagnosticData { get; set; } = null!;
 
-        public ProcessBusinessData BusinessData { get; set; } = null!;
+        /// <summary>
+        /// Main(single) thread state 
+        /// </summary>
+        public ProcessThreadData ProcessThreadData { get; set; }
 
-        public ExternalIdentifiers ExternalIds { get; set; } = null!;
+        /// <summary>
+        /// Business specific data
+        /// </summary>
+        public ProcessBusinessData BusinessData { get; set; }
+
+        /// <summary>
+        /// Extrenals Id
+        /// </summary>
+        public ExternalIdentifiers ExternalIds { get; set; }
     }
 }

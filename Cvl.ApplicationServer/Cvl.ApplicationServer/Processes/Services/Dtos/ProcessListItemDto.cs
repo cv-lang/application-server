@@ -14,7 +14,7 @@ namespace Cvl.ApplicationServer.Processes.Dtos
         { 
         }
 
-        public ProcessListItemDto(ProcessInstance processInstance)
+        public ProcessListItemDto(ProcessInstanceContainer processInstance)
         {
             Id = processInstance.Id;
             ProcessNumber = processInstance.ProcessNumber;
@@ -23,7 +23,7 @@ namespace Cvl.ApplicationServer.Processes.Dtos
             StatusName = processInstance.StatusName;
             StepName = processInstance.StepName;
             StepDescription = processInstance.StepDescription + "jakiś opis";
-            MainThreadState = processInstance.MainThreadState.ToString();
+            MainThreadState = processInstance.ProcessThreadData.MainThreadState.ToString();
             BusinessData = processInstance.BusinessData;
             ExternalIds = processInstance.ExternalIds;
             NumberOfActivities = processInstance.ProcessDiagnosticData.NumberOfActivities;

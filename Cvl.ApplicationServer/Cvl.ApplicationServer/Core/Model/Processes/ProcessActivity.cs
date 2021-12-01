@@ -44,7 +44,7 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
 
         public const int JsonPreviewSize = 150;
         public long ProcessInstanceId { get; set; }
-        public virtual ProcessInstance ProcessInstance { get; set; } = null!;
+        public virtual ProcessInstanceContainer ProcessInstance { get; set; } = null!;
 
         /// <summary>
         /// Dane połączenia klienta

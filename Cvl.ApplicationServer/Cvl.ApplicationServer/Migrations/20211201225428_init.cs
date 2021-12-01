@@ -35,7 +35,7 @@ namespace Cvl.ApplicationServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProcessInstance",
+                name: "ProcessInstanceContainer",
                 schema: "Processes",
                 columns: table => new
                 {
@@ -47,7 +47,8 @@ namespace Cvl.ApplicationServer.Migrations
                     Step = table.Column<int>(type: "int", nullable: false),
                     StepName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StepDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MainThreadState = table.Column<int>(type: "int", nullable: false),
+                    ProcessThreadData_MainThreadState = table.Column<int>(type: "int", nullable: false),
+                    ProcessThreadData_NextExecutionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     BusinessData_ClientName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BusinessData_VendorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BusinessData_Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -62,7 +63,7 @@ namespace Cvl.ApplicationServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProcessInstance", x => x.Id);
+                    table.PrimaryKey("PK_ProcessInstanceContainer", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,7 +73,7 @@ namespace Cvl.ApplicationServer.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProcessInstanceId = table.Column<long>(type: "bigint", nullable: true),
+                    ProcessInstanceId = table.Column<long>(type: "bigint", nullable: false),
                     ClientIpAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ClientIpPort = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ClientConnectionData = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -98,11 +99,12 @@ namespace Cvl.ApplicationServer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProcessActivity_ProcessInstance_ProcessInstanceId",
+                        name: "FK_ProcessActivity_ProcessInstanceContainer_ProcessInstanceId",
                         column: x => x.ProcessInstanceId,
                         principalSchema: "Processes",
-                        principalTable: "ProcessInstance",
-                        principalColumn: "Id");
+                        principalTable: "ProcessInstanceContainer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,10 +130,10 @@ namespace Cvl.ApplicationServer.Migrations
                 {
                     table.PrimaryKey("PK_ProcessDiagnosticData", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProcessDiagnosticData_ProcessInstance_ProcessInstanceId",
+                        name: "FK_ProcessDiagnosticData_ProcessInstanceContainer_ProcessInstanceId",
                         column: x => x.ProcessInstanceId,
                         principalSchema: "Processes",
-                        principalTable: "ProcessInstance",
+                        principalTable: "ProcessInstanceContainer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -153,10 +155,10 @@ namespace Cvl.ApplicationServer.Migrations
                 {
                     table.PrimaryKey("PK_ProcessStateData", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProcessStateData_ProcessInstance_ProcessInstanceId",
+                        name: "FK_ProcessStateData_ProcessInstanceContainer_ProcessInstanceId",
                         column: x => x.ProcessInstanceId,
                         principalSchema: "Processes",
-                        principalTable: "ProcessInstance",
+                        principalTable: "ProcessInstanceContainer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -169,7 +171,8 @@ namespace Cvl.ApplicationServer.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProcessInstanceId = table.Column<long>(type: "bigint", nullable: true),
-                    Step = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Step = table.Column<int>(type: "int", nullable: true),
+                    StepName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StepDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Archival = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -179,10 +182,10 @@ namespace Cvl.ApplicationServer.Migrations
                 {
                     table.PrimaryKey("PK_ProcessStepHistory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProcessStepHistory_ProcessInstance_ProcessInstanceId",
+                        name: "FK_ProcessStepHistory_ProcessInstanceContainer_ProcessInstanceId",
                         column: x => x.ProcessInstanceId,
                         principalSchema: "Processes",
-                        principalTable: "ProcessInstance",
+                        principalTable: "ProcessInstanceContainer",
                         principalColumn: "Id");
                 });
 
@@ -242,7 +245,7 @@ namespace Cvl.ApplicationServer.Migrations
                 schema: "Processes");
 
             migrationBuilder.DropTable(
-                name: "ProcessInstance",
+                name: "ProcessInstanceContainer",
                 schema: "Processes");
         }
     }

@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+
 using ConsoleApp1.TTeeesd;
 using Cvl.ApplicationServer.Core;
 using Cvl.ApplicationServer.Core.Database.Contexts;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;
 using System.Text.Json;
+using TestNS;
 
 Console.WriteLine("Hello, World!");
 
@@ -56,29 +58,33 @@ for (int i = 0; i < 100; i++)
 
 Console.WriteLine(tt);
 
-public class Test
+
+namespace TestNS
 {
-    
-    public Test(string nazwa, int wiek)
+    public class Test
     {
-        Nazwa = nazwa;
-        Wiek = wiek;
+
+        public Test(string nazwa, int wiek)
+        {
+            Nazwa = nazwa;
+            Wiek = wiek;
+        }
+
+        public string Nazwa { get; set; }
+        public int Wiek { get; set; }
+
+        public object? Project { get; set; }
+
+        public Dictionary<string, object> Projects { get; set; } = new Dictionary<string, object>();
     }
 
-    public string Nazwa { get; set; }
-    public int Wiek { get; set; }
+    public abstract class BaseProject
+    {
+        public string? Name { get; set; }
+    }
 
-    public object? Project { get; set; }
-
-    public Dictionary<string, object> Projects { get; set; } = new Dictionary<string, object>();
-}
-
-public abstract class BaseProject
-{
-    public string? Name { get; set; }
-}
-
-public class JsProject : BaseProject
-{
-    public string? Path { get; set; }
+    public class JsProject : BaseProject
+    {
+        public string? Path { get; set; }
+    }
 }

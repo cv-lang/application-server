@@ -70,7 +70,7 @@ namespace Cvl.ApplicationServer.Migrations
                     b.Property<long>("ProcessActivityDataId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("ProcessInstanceId")
+                    b.Property<long>("ProcessInstanceId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("RequestDate")
@@ -180,7 +180,7 @@ namespace Cvl.ApplicationServer.Migrations
                     b.ToTable("ProcessDiagnosticData", "Processes");
                 });
 
-            modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstance", b =>
+            modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstanceContainer", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -193,9 +193,6 @@ namespace Cvl.ApplicationServer.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("MainThreadState")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -225,7 +222,7 @@ namespace Cvl.ApplicationServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProcessInstance", "Processes");
+                    b.ToTable("ProcessInstanceContainer", "Processes");
                 });
 
             modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.Processes.ProcessStateData", b =>
@@ -280,11 +277,14 @@ namespace Cvl.ApplicationServer.Migrations
                     b.Property<long?>("ProcessInstanceId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Step")
+                    b.Property<int?>("Step")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StepDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StepDescription")
+                    b.Property<string>("StepName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -303,9 +303,11 @@ namespace Cvl.ApplicationServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstance", "ProcessInstance")
+                    b.HasOne("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstanceContainer", "ProcessInstance")
                         .WithMany()
-                        .HasForeignKey("ProcessInstanceId");
+                        .HasForeignKey("ProcessInstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProcessActivityData");
 
@@ -314,7 +316,7 @@ namespace Cvl.ApplicationServer.Migrations
 
             modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.Processes.ProcessDiagnosticData", b =>
                 {
-                    b.HasOne("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstance", "ProcessInstance")
+                    b.HasOne("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstanceContainer", "ProcessInstance")
                         .WithOne("ProcessDiagnosticData")
                         .HasForeignKey("Cvl.ApplicationServer.Core.Model.Processes.ProcessDiagnosticData", "ProcessInstanceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -323,11 +325,11 @@ namespace Cvl.ApplicationServer.Migrations
                     b.Navigation("ProcessInstance");
                 });
 
-            modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstance", b =>
+            modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstanceContainer", b =>
                 {
                     b.OwnsOne("Cvl.ApplicationServer.Core.Model.ProcessBusinessData", "BusinessData", b1 =>
                         {
-                            b1.Property<long>("ProcessInstanceId")
+                            b1.Property<long>("ProcessInstanceContainerId")
                                 .HasColumnType("bigint");
 
                             b1.Property<string>("ClientName")
@@ -342,17 +344,17 @@ namespace Cvl.ApplicationServer.Migrations
                             b1.Property<string>("VendorName")
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.HasKey("ProcessInstanceId");
+                            b1.HasKey("ProcessInstanceContainerId");
 
-                            b1.ToTable("ProcessInstance", "Processes");
+                            b1.ToTable("ProcessInstanceContainer", "Processes");
 
                             b1.WithOwner()
-                                .HasForeignKey("ProcessInstanceId");
+                                .HasForeignKey("ProcessInstanceContainerId");
                         });
 
                     b.OwnsOne("Cvl.ApplicationServer.Core.Model.Processes.ExternalIdentifiers", "ExternalIds", b1 =>
                         {
-                            b1.Property<long>("ProcessInstanceId")
+                            b1.Property<long>("ProcessInstanceContainerId")
                                 .HasColumnType("bigint");
 
                             b1.Property<string>("ExternalId1")
@@ -371,12 +373,31 @@ namespace Cvl.ApplicationServer.Migrations
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)");
 
-                            b1.HasKey("ProcessInstanceId");
+                            b1.HasKey("ProcessInstanceContainerId");
 
-                            b1.ToTable("ProcessInstance", "Processes");
+                            b1.ToTable("ProcessInstanceContainer", "Processes");
 
                             b1.WithOwner()
-                                .HasForeignKey("ProcessInstanceId");
+                                .HasForeignKey("ProcessInstanceContainerId");
+                        });
+
+                    b.OwnsOne("Cvl.ApplicationServer.Core.Model.Processes.ProcessThreadData", "ProcessThreadData", b1 =>
+                        {
+                            b1.Property<long>("ProcessInstanceContainerId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<int>("MainThreadState")
+                                .HasColumnType("int");
+
+                            b1.Property<DateTime?>("NextExecutionDate")
+                                .HasColumnType("datetime2");
+
+                            b1.HasKey("ProcessInstanceContainerId");
+
+                            b1.ToTable("ProcessInstanceContainer", "Processes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ProcessInstanceContainerId");
                         });
 
                     b.Navigation("BusinessData")
@@ -384,11 +405,14 @@ namespace Cvl.ApplicationServer.Migrations
 
                     b.Navigation("ExternalIds")
                         .IsRequired();
+
+                    b.Navigation("ProcessThreadData")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.Processes.ProcessStateData", b =>
                 {
-                    b.HasOne("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstance", "ProcessInstance")
+                    b.HasOne("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstanceContainer", "ProcessInstance")
                         .WithOne("ProcessInstanceStateData")
                         .HasForeignKey("Cvl.ApplicationServer.Core.Model.Processes.ProcessStateData", "ProcessInstanceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -399,14 +423,14 @@ namespace Cvl.ApplicationServer.Migrations
 
             modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.ProcessStepHistory", b =>
                 {
-                    b.HasOne("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstance", "ProcessInstance")
+                    b.HasOne("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstanceContainer", "ProcessInstance")
                         .WithMany()
                         .HasForeignKey("ProcessInstanceId");
 
                     b.Navigation("ProcessInstance");
                 });
 
-            modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstance", b =>
+            modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.Processes.ProcessInstanceContainer", b =>
                 {
                     b.Navigation("ProcessDiagnosticData")
                         .IsRequired();

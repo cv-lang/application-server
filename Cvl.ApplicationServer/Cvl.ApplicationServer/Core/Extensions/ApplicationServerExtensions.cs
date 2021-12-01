@@ -2,6 +2,7 @@
 using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.Services;
 using Cvl.ApplicationServer.Test;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,12 +23,13 @@ namespace Cvl.ApplicationServer.Server.Setup
             .AddTransient<IJsonSerializer, Cvl.ApplicationServer.Core.Tools.Serializers.JsonSerializer>()
             .AddTransient<ProcessActivityDataRepository, ProcessActivityDataRepository>()
             .AddTransient<ProcessActivityRepository, ProcessActivityRepository>()
-            .AddTransient<ProcessInstanceRepository, ProcessInstanceRepository>()
+            .AddTransient<ProcessInstanceContainerRepository, ProcessInstanceContainerRepository>()
             .AddTransient<ProcessInstanceStateDataRepository, ProcessInstanceStateDataRepository>()
             .AddTransient<ProcessDiagnosticDataRepository, ProcessDiagnosticDataRepository>()
             .AddTransient<ProcessStepHistoryRepository, ProcessStepHistoryRepository>()
-            .AddTransient<ProcessInstanceService, ProcessInstanceService>()
+            .AddTransient<ProcessInstanceContainerService, ProcessInstanceContainerService>()
             .AddTransient<ProcessService, ProcessService>()
+            .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
 
             .AddTransient<TestService, TestService>()
             .AddTransient<ITestProcess, TestProcess>()

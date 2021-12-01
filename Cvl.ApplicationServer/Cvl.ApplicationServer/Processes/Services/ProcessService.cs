@@ -11,9 +11,9 @@ namespace Cvl.ApplicationServer.Processes.Services
 {
     public class ProcessService
     {
-        private readonly ProcessInstanceService _processInstanceService;
+        private readonly ProcessInstanceContainerService _processInstanceService;
 
-        public ProcessService(ProcessInstanceService processInstanceService)
+        public ProcessService(ProcessInstanceContainerService processInstanceService)
         {
             this._processInstanceService = processInstanceService;
         }

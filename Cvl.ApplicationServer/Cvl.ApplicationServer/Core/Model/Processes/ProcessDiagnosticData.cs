@@ -11,7 +11,7 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
     public class ProcessDiagnosticData : BaseEntity
     {
         public long ProcessInstanceId { get; set; }
-        public virtual ProcessInstance ProcessInstance { get; set; } = null!;
+        public virtual ProcessInstanceContainer ProcessInstance { get; set; } = null!;
 
         /// <summary>
         /// How much activity has been performed

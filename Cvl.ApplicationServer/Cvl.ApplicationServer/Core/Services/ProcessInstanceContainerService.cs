@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Core.Services
 {
-    public class ProcessInstanceService : BaseService<ProcessInstance, ProcessInstanceRepository>
+    public class ProcessInstanceContainerService : BaseService<ProcessInstanceContainer, ProcessInstanceContainerRepository>
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ProcessActivityDataRepository _processActivityDataRepository;
@@ -22,16 +22,18 @@ namespace Cvl.ApplicationServer.Core.Services
         private readonly ProcessDiagnosticDataRepository _processDiagnosticDataRepository;
         private readonly ProcessStepHistoryRepository _processStepHistoryRepository;
         private readonly IFullSerializer _fullSerializer;
+        private readonly IProcessNumberGenerator _processNumberGenerator;
 
-        public ProcessInstanceService(ApplicationDbContext applicationDbContext, 
+        public ProcessInstanceContainerService(ApplicationDbContext applicationDbContext, 
             IServiceProvider serviceProvider, 
-            ProcessInstanceRepository processInstanceRepository,
+            ProcessInstanceContainerRepository processInstanceRepository,
             ProcessActivityDataRepository processActivityDataRepository,
             ProcessActivityRepository processActivityRepository,
             ProcessInstanceStateDataRepository processInstanceStateDataRepository,
             ProcessDiagnosticDataRepository processDiagnosticDataRepository,
             ProcessStepHistoryRepository processStepHistoryRepository,
-            IFullSerializer fullSerializer
+            IFullSerializer fullSerializer,
+            IProcessNumberGenerator processNumberGenerator
 
             ) :base(processInstanceRepository)
         {
@@ -42,11 +44,12 @@ namespace Cvl.ApplicationServer.Core.Services
             this._processDiagnosticDataRepository = processDiagnosticDataRepository;
             this._processStepHistoryRepository = processStepHistoryRepository;
             this._fullSerializer = fullSerializer;
+            this._processNumberGenerator = processNumberGenerator;
         }
 
         internal async Task UpdateProcessStepAsync(long processId, string stepName, string description, int? step)
         {
-            ProcessInstance processInstance = await this.GetSingleAsync(processId);
+            ProcessInstanceContainer processInstance = await this.GetSingleAsync(processId);
 
             if (step != null)
             {
@@ -69,16 +72,21 @@ namespace Cvl.ApplicationServer.Core.Services
                 throw new ArgumentException($"Could not create a process '{typeof(T)}'");
             }
 
-            var processInstance = new ProcessInstance("", process.GetType().FullName!, "new", "init","", 
-                Processes.Threading.ThreadState.Idle);
+            var processInstanceContainer = new ProcessInstanceContainer("", process.GetType().FullName!, "new", "init","");
 
-            processInstance.ProcessInstanceStateData = new ProcessStateData(string.Empty);
-            processInstance.ProcessDiagnosticData = new ProcessDiagnosticData();
+            processInstanceContainer.ProcessInstanceStateData = new ProcessStateData(string.Empty);
+            processInstanceContainer.ProcessDiagnosticData = new ProcessDiagnosticData();
 
-            Repository.Insert(processInstance);
+            Repository.Insert(processInstanceContainer);
             await Repository.SaveChangesAsync();
 
-            process.ProcessId = processInstance.Id;
+
+            processInstanceContainer.ProcessNumber = _processNumberGenerator.GenerateProcessNumber(processInstanceContainer.Id);
+            Repository.Update(processInstanceContainer);
+            await Repository.SaveChangesAsync();
+
+            process.ProcessId = processInstanceContainer.Id;
+            processInstanceContainer.ProcessNumber = processInstanceContainer.ProcessNumber;
 
             return process;
         }

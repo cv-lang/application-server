@@ -19,14 +19,14 @@ namespace Cvl.ApplicationServer.Core
     {
         private readonly IFullSerializer _fullSerializer;
         private readonly IJsonSerializer _jsonSerializer;
-        private readonly ProcessInstanceService _processInstanceService;
+        private readonly ProcessInstanceContainerService _processInstanceContainerService;
         private readonly ProcessService _processService;
 
         public ApplicationServer(IFullSerializer fullSerializer, IJsonSerializer jsonSerializer,
-            ProcessInstanceService processInstanceService,
+            ProcessInstanceContainerService processInstanceContainerService,
             ProcessService processService)
         {
-            this._processInstanceService = processInstanceService;
+            this._processInstanceContainerService = processInstanceContainerService;
             this._processService = processService;
             this._fullSerializer = fullSerializer;
             this._jsonSerializer = jsonSerializer;
@@ -34,7 +34,7 @@ namespace Cvl.ApplicationServer.Core
 
         public async Task SetStepAsync(long processId, string stepName, string description, int? step)
         {
-            await _processInstanceService.UpdateProcessStepAsync(processId, stepName, description, step);
+            await _processInstanceContainerService.UpdateProcessStepAsync(processId, stepName, description, step);
         }
 
         public IQueryable<ProcessListItemDto> GetAllProcesses()
@@ -45,8 +45,8 @@ namespace Cvl.ApplicationServer.Core
         public async Task<TProcesInterface> CreateProcessAsync<TProcesInterface>(Model.ClientConnectionData clientConnectionData) 
             where TProcesInterface : class, IProcess            
         {
-            var process = await _processInstanceService.CreateProcessAsync<TProcesInterface>();
-            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData,_fullSerializer, _jsonSerializer, _processInstanceService);
+            var process = await _processInstanceContainerService.CreateProcessAsync<TProcesInterface>();
+            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData,_fullSerializer, _jsonSerializer, _processInstanceContainerService);
 
             var generator = new ProxyGenerator();
             var proxy = generator.CreateInterfaceProxyWithTarget<TProcesInterface>(process, processProxy);
@@ -56,9 +56,9 @@ namespace Cvl.ApplicationServer.Core
         internal async Task<TProcesInterface> LoadProcessAsync<TProcesInterface>(long processId, ClientConnectionData clientConnectionData)
              where TProcesInterface : class, IProcess
         {
-            var process = await _processInstanceService.LoadProcessAsync<TProcesInterface>(processId);
+            var process = await _processInstanceContainerService.LoadProcessAsync<TProcesInterface>(processId);
 
-            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, _fullSerializer, _jsonSerializer, _processInstanceService);
+            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, _fullSerializer, _jsonSerializer, _processInstanceContainerService);
 
             var generator = new ProxyGenerator();
             var proxy = generator.CreateInterfaceProxyWithTarget<TProcesInterface>(process, processProxy);

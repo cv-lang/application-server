@@ -20,7 +20,7 @@ namespace Cvl.ApplicationServer.Core.Model
         }
 
         public long? ProcessInstanceId { get; set; }
-        public virtual ProcessInstance? ProcessInstance { get; set; }
+        public virtual ProcessInstanceContainer? ProcessInstance { get; set; }
         public int? Step { get; set; }
         public string StepName { get; set; }
         public string StepDescription { get; set; }

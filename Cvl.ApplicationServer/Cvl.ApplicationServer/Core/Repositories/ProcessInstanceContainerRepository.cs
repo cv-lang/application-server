@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Core.Repositories
 {
-    public class ProcessInstanceRepository : Repository<ProcessInstance>
+    public class ProcessInstanceContainerRepository : Repository<ProcessInstanceContainer>
     {
-        public ProcessInstanceRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public ProcessInstanceContainerRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
 
-        public override async Task<ProcessInstance> GetSingleAsync(long id)
+        public override async Task<ProcessInstanceContainer> GetSingleAsync(long id)
         {
             return await base.GetAll().Include(x=> x.ProcessInstanceStateData).SingleAsync(x=> x.Id == id);
         }

@@ -20,10 +20,10 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
         private readonly ClientConnectionData _clientConnectionData;
         private readonly IFullSerializer _serializer;
         private readonly IJsonSerializer _jsonSerializer;
-        private readonly ProcessInstanceService _processService;
+        private readonly ProcessInstanceContainerService _processService;
 
         public ProcessInterceptorProxy(IProcess process, ClientConnectionData clientConnectionData, 
-            IFullSerializer serializer, IJsonSerializer jsonSerializer, ProcessInstanceService processService)
+            IFullSerializer serializer, IJsonSerializer jsonSerializer, ProcessInstanceContainerService processService)
         {
             _process = process;
             _clientConnectionData = clientConnectionData;

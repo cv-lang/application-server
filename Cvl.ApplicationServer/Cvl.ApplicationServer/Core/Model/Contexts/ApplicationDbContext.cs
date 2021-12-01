@@ -20,7 +20,7 @@ namespace Cvl.ApplicationServer.Core.Database.Contexts
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<ProcessInstance> ProcessInstances => Set<ProcessInstance>();
+        public DbSet<ProcessInstanceContainer> ProcessInstances => Set<ProcessInstanceContainer>();
         public DbSet<ProcessActivity> ProcessActivities => Set<ProcessActivity>();
         public DbSet<ProcessActivityData> ProcessActivityDaties => Set<ProcessActivityData>();
         public DbSet<ProcessStateData> ProcessStates => Set<ProcessStateData>();
