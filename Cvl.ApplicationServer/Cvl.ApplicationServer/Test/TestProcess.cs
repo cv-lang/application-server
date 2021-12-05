@@ -20,7 +20,11 @@ namespace Cvl.ApplicationServer.Test
     public interface ITestProcess : IProcess
     {
         Task<int> TestMethod1Async(int i);
-        int TestMethod2(int i);
+        int TestMethod2WhitExeption(int i);
+
+        Task<int> TestMethod3WithExeptionAsync(int i);
+
+        Task TestMethod4WithExeptionAsync(int i);
     }
 
     public class TestProcess : BaseProcess, ITestProcess
@@ -43,10 +47,32 @@ namespace Cvl.ApplicationServer.Test
 
         
 
-        public int TestMethod2(int i)
+        public int TestMethod2WhitExeption(int i)
         {
-            throw new Exception("Jakiś tam błąd " + i);
+            throw new Exception("Błąd TestMethod2WhitExeption" + i);
             //return _testService.TestLogicMethod(i);
+        }
+
+        public async Task<int> TestMethod3WithExeptionAsync(int i)
+        {
+            if (i == 0)
+            {
+                throw new Exception("Błąd TestMethod3WithExeptionAsync");
+            }
+
+            await Task.Delay(50);
+
+            return i;
+        }
+
+        public async Task TestMethod4WithExeptionAsync(int i)
+        {
+            if (i == 0)
+            {
+                throw new Exception("Błąd TestMethod3WithExeptionAsync");
+            }
+
+            await Task.Delay(50);
         }
 
         public override void ProcessDeserialization(IFullSerializer serializer, string serializedProcess)
@@ -58,5 +84,7 @@ namespace Cvl.ApplicationServer.Test
         {
             return serializer.Serialize(_processState);
         }
+
+        
     }
 }

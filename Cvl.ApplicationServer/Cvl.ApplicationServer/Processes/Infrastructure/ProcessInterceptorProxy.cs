@@ -8,12 +8,16 @@ using Cvl.ApplicationServer.Processes.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Processes.Infrastructure
 {
-    public class ProcessInterceptorProxy<T> : IInterceptor
+
+
+
+    public class ProcessInterceptorProxy<T> : AsyncInterceptor
         where T : IProcess
     {
         private IProcess _process;
@@ -32,24 +36,26 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
             _processService = processService;
         }
 
-        public async void Intercept(IInvocation invocation)
-        {
+        
+        protected override async Task<Object> InterceptAsync(object target, MethodBase method, object[] arguments, Func<Task<object>> proceed)
+        {            
+        
             var requestFulSerializeString = "";
             var requestJsonSerializeStrong = "";
             string requestType = "";
 
-            if(invocation.Arguments.Count() == 1)
+            if(arguments.Count() == 1)
             {
-                var request = invocation.Arguments[0];
+                var request = arguments[0];
                 requestType = request.GetType().FullName!;
                 requestFulSerializeString= _serializer.Serialize(request);
                 requestJsonSerializeStrong = _jsonSerializer.Serialize(request);
             }
             else
             {
-                requestFulSerializeString = _serializer.Serialize(invocation.Arguments.ToList());
-                requestJsonSerializeStrong = _jsonSerializer.Serialize(invocation.Arguments.ToList());
-                requestType = invocation.Arguments.ToList().GetType().FullName!;
+                requestFulSerializeString = _serializer.Serialize(arguments.ToList());
+                requestJsonSerializeStrong = _jsonSerializer.Serialize(arguments.ToList());
+                requestType = arguments.ToList().GetType().FullName!;
             }
                       
 
@@ -58,16 +64,18 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
             
             var activity = new ProcessActivity(_process.ProcessId,
                 _clientConnectionData.ClientIpAddress, _clientConnectionData.ClientIpPort, _clientConnectionData.GetClientConnectionData(),
-                ProcessActivityState.Executing, invocation.Method.Name,
+                ProcessActivityState.Executing, method.Name,
                 DateTime.Now, requestFulSerializeString?.Truncate(ProcessActivity.JsonPreviewSize) ?? "", null, null
                 );
             activity.ProcessActivityData = activityData;
 
             await _processService.InsertProcessActivityAsync(activity);
 
+            object returnValue;
             try
             {
-                invocation.Proceed();
+                returnValue = await proceed();
+                
             }
             catch (Exception ex)
             {
@@ -76,17 +84,92 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
 
                 throw;
             }
+            
 
-            var response = _serializer.Serialize(invocation.ReturnValue);
-            var jsonResponse= _jsonSerializer.Serialize(invocation.ReturnValue);
+            var response = _serializer.Serialize(returnValue);
+            var jsonResponse= _jsonSerializer.Serialize(returnValue);
 
-            await _processService.UpdateActivityResponseAsync(response, jsonResponse, invocation.ReturnValue?.GetType()?.FullName,
+            await _processService.UpdateActivityResponseAsync(response, jsonResponse, returnValue?.GetType()?.FullName,
                 activity, activityData);
                         
 
             await _processService.SerializeProcessAsync(_process);
 
-            invocation.ReturnValue = invocation.ReturnValue;
+            return returnValue;
+        }
+    }
+
+
+
+
+    public abstract class AsyncInterceptor : IInterceptor
+    {
+        class TaskCompletionSourceMethodMarkerAttribute : Attribute
+        {
+
+        }
+
+        private static readonly MethodInfo _taskCompletionSourceMethod = typeof(AsyncInterceptor)
+            .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
+            .Single(x => x.GetCustomAttributes(typeof(TaskCompletionSourceMethodMarkerAttribute)).Any());
+
+
+        protected virtual Task<Object> InterceptAsync(Object target, MethodBase method, object[] arguments, Func<Task<Object>> proceed)
+        {
+            return proceed();
+        }
+
+        protected virtual void Intercept(Object target, MethodBase method, object[] arguments, Action proceed)
+        {
+            proceed();
+        }
+
+        [TaskCompletionSourceMethodMarker]
+        Task<TResult> TaskCompletionSource<TResult>(IInvocation invocation)
+        {
+            var tcs = new TaskCompletionSource<TResult>();
+
+            var task = InterceptAsync(invocation.InvocationTarget, invocation.Method, invocation.Arguments, () =>
+            {
+                var task2 = (Task)invocation.Method.Invoke(invocation.InvocationTarget, invocation.Arguments);
+                var tcs2 = new TaskCompletionSource<Object>();
+                task2.ContinueWith(x =>
+                {
+                    if (x.IsFaulted)
+                    {
+                        tcs2.SetException(x.Exception);
+                        return;
+                    }
+                    dynamic dynamicTask = task2;
+                    Object result = dynamicTask.Result;
+                    tcs2.SetResult(result);
+                });
+                return tcs2.Task;
+            });
+
+            task.ContinueWith(x =>
+            {
+                if (x.IsFaulted)
+                {
+                    tcs.SetException(x.Exception);
+                    return;
+                }
+
+                tcs.SetResult((TResult)x.Result);
+            });
+
+            return tcs.Task;
+        }
+        void IInterceptor.Intercept(IInvocation invocation)
+        {
+            if (!typeof(Task).IsAssignableFrom(invocation.Method.ReturnType))
+            {
+                Intercept(invocation.InvocationTarget, invocation.Method, invocation.Arguments, invocation.Proceed);
+                return;
+            }
+            var returnType = invocation.Method.ReturnType.IsGenericType ? invocation.Method.ReturnType.GetGenericArguments()[0] : typeof(object);
+            var method = _taskCompletionSourceMethod.MakeGenericMethod(returnType);
+            invocation.ReturnValue = method.Invoke(this, new object[] { invocation });
         }
     }
 }
