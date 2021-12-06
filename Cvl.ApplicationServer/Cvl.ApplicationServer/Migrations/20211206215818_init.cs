@@ -41,7 +41,7 @@ namespace Cvl.ApplicationServer.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProcessNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProcessNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StatusName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Step = table.Column<int>(type: "int", nullable: false),
@@ -57,6 +57,8 @@ namespace Cvl.ApplicationServer.Migrations
                     ExternalIds_ExternalId2 = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     ExternalIds_ExternalId3 = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     ExternalIds_ExternalId4 = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    ProcessSpecificData_ProcessSpecificData1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProcessSpecificData_ProcessSpecificData2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Archival = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -207,6 +209,12 @@ namespace Cvl.ApplicationServer.Migrations
                 table: "ProcessDiagnosticData",
                 column: "ProcessInstanceId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProcessInstanceContainer_ProcessNumber",
+                schema: "Processes",
+                table: "ProcessInstanceContainer",
+                column: "ProcessNumber");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProcessStateData_ProcessInstanceId",

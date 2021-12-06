@@ -29,5 +29,11 @@ namespace Cvl.ApplicationServer.Core.Services
         {
             return await Repository.GetSingleAsync(processId);
         }
+
+        public async Task UpdateAsync(T entity)
+        {
+            Repository.Update(entity);
+            await Repository.SaveChangesAsync();
+        }
     }
 }

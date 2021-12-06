@@ -1,4 +1,5 @@
 ﻿using Cvl.ApplicationServer.Core.Model;
+using Cvl.ApplicationServer.Core.Model.Processes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

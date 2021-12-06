@@ -2,6 +2,7 @@
 using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.Services;
 using Cvl.ApplicationServer.Test;
@@ -30,11 +31,14 @@ namespace Cvl.ApplicationServer.Server.Setup
             .AddTransient<ProcessInstanceContainerService, ProcessInstanceContainerService>()
             .AddTransient<ProcessService, ProcessService>()
             .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
+            .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
+            .AddTransient<ApplicationServerProcesses, ApplicationServerProcesses>()
+            .AddTransient<Core.ApplicationServer, Core.ApplicationServer>()
 
             .AddTransient<TestService, TestService>()
             .AddTransient<ITestProcess, TestProcess>()
-            .AddTransient<TestController, TestController>()
-            .AddTransient<Core.ApplicationServer, Core.ApplicationServer>();
+            .AddTransient<TestController, TestController>();
+            
 
             return services;
         }

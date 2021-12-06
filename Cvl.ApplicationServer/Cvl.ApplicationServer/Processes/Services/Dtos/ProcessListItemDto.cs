@@ -32,6 +32,7 @@ namespace Cvl.ApplicationServer.Processes.Dtos
             LastErrorPreview = processInstance.ProcessDiagnosticData.LastErrorPreview;
             LastRequestPreview = processInstance.ProcessDiagnosticData.LastRequestPreview;
             LastResponsePreview = processInstance.ProcessDiagnosticData.LastResponsePreview;
+            ProcessSpecificData = processInstance.ProcessSpecificData;
         }
         
         public long Id { get; set; }
@@ -47,11 +48,14 @@ namespace Cvl.ApplicationServer.Processes.Dtos
 
         public ExternalIdentifiers ExternalIds { get; set; } = null!;
 
+        public ProcessSpecificData ProcessSpecificData { get; } = null!;
+
         public long NumberOfActivities { get; set; }
         public long NumberOfSteps { get; set; }
         public long NumberOfErrors { get; set; }
         public string? LastErrorPreview { get; set; }
         public string? LastRequestPreview { get; set; }
         public string? LastResponsePreview { get; set; }
+        
     }  
 }

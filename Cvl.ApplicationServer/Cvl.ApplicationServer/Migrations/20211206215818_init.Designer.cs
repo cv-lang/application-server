@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cvl.ApplicationServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211201225428_init")]
+    [Migration("20211206215818_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -201,7 +201,7 @@ namespace Cvl.ApplicationServer.Migrations
 
                     b.Property<string>("ProcessNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("StatusName")
                         .IsRequired()
@@ -223,6 +223,8 @@ namespace Cvl.ApplicationServer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProcessNumber");
 
                     b.ToTable("ProcessInstanceContainer", "Processes");
                 });
@@ -383,6 +385,25 @@ namespace Cvl.ApplicationServer.Migrations
                                 .HasForeignKey("ProcessInstanceContainerId");
                         });
 
+                    b.OwnsOne("Cvl.ApplicationServer.Core.Model.Processes.ProcessSpecificData", "ProcessSpecificData", b1 =>
+                        {
+                            b1.Property<long>("ProcessInstanceContainerId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("ProcessSpecificData1")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("ProcessSpecificData2")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ProcessInstanceContainerId");
+
+                            b1.ToTable("ProcessInstanceContainer", "Processes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ProcessInstanceContainerId");
+                        });
+
                     b.OwnsOne("Cvl.ApplicationServer.Core.Model.Processes.ProcessThreadData", "ProcessThreadData", b1 =>
                         {
                             b1.Property<long>("ProcessInstanceContainerId")
@@ -406,6 +427,9 @@ namespace Cvl.ApplicationServer.Migrations
                         .IsRequired();
 
                     b.Navigation("ExternalIds")
+                        .IsRequired();
+
+                    b.Navigation("ProcessSpecificData")
                         .IsRequired();
 
                     b.Navigation("ProcessThreadData")

@@ -23,7 +23,7 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Controllers
         [Route("Processes_Read")]
         public DataSourceResult Processes_Read([DataSourceRequest] DataSourceRequest request)
         {
-            var objects = _applicationServer.GetAllProcesses();
+            var objects = _applicationServer.Processes.GetAllProcesses();
             return objects.ToDataSourceResult(request);
         }
     }

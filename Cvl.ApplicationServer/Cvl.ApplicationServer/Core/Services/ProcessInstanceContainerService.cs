@@ -86,7 +86,6 @@ namespace Cvl.ApplicationServer.Core.Services
             await Repository.SaveChangesAsync();
 
             process.ProcessId = processInstanceContainer.Id;
-            processInstanceContainer.ProcessNumber = processInstanceContainer.ProcessNumber;
 
             return process;
         }
@@ -105,7 +104,25 @@ namespace Cvl.ApplicationServer.Core.Services
             DeserializeProcess(process, processInstance.ProcessInstanceStateData.ProcessStateFullSerialization);
 
             return process;
-        }        
+        }
+
+        internal async Task<T> LoadProcessAsync<T>(string processNumber) where T : class, IProcess
+        {
+            var process = _serviceProvider.GetService(typeof(T)) as T;
+            if (process == null)
+            {
+                throw new ArgumentException($"Could not create a process '{typeof(T)}'");
+            }
+
+            var processInstance = await Repository.GetSingleByNumberAsync(processNumber);
+
+            process.ProcessId = processInstance.Id;
+            
+
+            DeserializeProcess(process, processInstance.ProcessInstanceStateData.ProcessStateFullSerialization);
+
+            return process;
+        }
 
         internal async Task InsertProcessActivityAsync(ProcessActivity activity)
         {

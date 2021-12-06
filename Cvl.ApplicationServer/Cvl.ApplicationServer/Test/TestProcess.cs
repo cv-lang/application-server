@@ -42,6 +42,20 @@ namespace Cvl.ApplicationServer.Test
         {
             await SetStepAsync("Step", "Step descrption");
 
+            var container = await GetProcessInstanceContainer();
+
+            container.ExternalIds.ExternalId1 = "4443332211";
+            container.ExternalIds.ExternalId2 = "+44111222333";
+            container.ExternalIds.ExternalId3 = "41";
+            container.ExternalIds.ExternalId4 = "342";
+            container.BusinessData.VendorName = "vendorTest";
+            container.BusinessData.ClientName = "CLient Test";
+            container.BusinessData.Email = "test@clientTest.com";
+            container.BusinessData.Phone = "+48333222111";
+
+            await UpdateProcessInstanceContainer(container);
+
+
             return _testService.TestLogicMethod(i);
         }
 

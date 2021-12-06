@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cvl.ApplicationServer.Core.Model.Processes
 {
@@ -12,6 +13,7 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
     /// Process instances container
     /// </summary>
     [Table("ProcessInstanceContainer", Schema = "Processes")]
+    [Index(nameof(ProcessNumber))]
     public class ProcessInstanceContainer : BaseEntity
     {
         public ProcessInstanceContainer(string processNumber, string type, string statusName, string stepName, string stepDescription)
@@ -80,5 +82,10 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
         /// Extrenals Id
         /// </summary>
         public ExternalIdentifiers ExternalIds { get; set; }
+
+        /// <summary>
+        /// Data that has different meanings depending on the type of process
+        /// </summary>
+        public ProcessSpecificData ProcessSpecificData { get; set; } = null!;
     }
 }

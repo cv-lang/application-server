@@ -38,7 +38,7 @@ var serviceProvider = new ServiceCollection()
 var testController= serviceProvider.GetService<TestController>()!;
 var tt = await testController.TestStep1Async(new TestRequest());
 
-//for (int i = 0; i < 100; i++)
+for (int i = 0; i < 100; i++)
 {
     tt = await testController.TestStep1Async(new TestRequest());
 
