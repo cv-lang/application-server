@@ -29,10 +29,12 @@ namespace Cvl.ApplicationServer.Server.Setup
             .AddTransient<ProcessDiagnosticDataRepository, ProcessDiagnosticDataRepository>()
             .AddTransient<ProcessStepHistoryRepository, ProcessStepHistoryRepository>()
             .AddTransient<ProcessInstanceContainerService, ProcessInstanceContainerService>()
-            .AddTransient<ProcessService, ProcessService>()
+            .AddTransient<ProcessesApiService, ProcessesApiService>()
             .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
             .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
             .AddTransient<ApplicationServerProcesses, ApplicationServerProcesses>()
+            .AddTransient<ProcessActivityService, ProcessActivityService>()
+            .AddTransient<ProcessStepHistoryService,ProcessStepHistoryService>()
             .AddTransient<Core.ApplicationServer, Core.ApplicationServer>()
 
             .AddTransient<TestService, TestService>()

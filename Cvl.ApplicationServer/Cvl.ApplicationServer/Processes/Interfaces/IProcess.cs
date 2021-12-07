@@ -11,5 +11,6 @@ namespace Cvl.ApplicationServer.Processes.Interfaces
     public interface IProcess
     {
         long ProcessId { get; set; }
+        string ProcessNumber { get; set; }
     }
 }

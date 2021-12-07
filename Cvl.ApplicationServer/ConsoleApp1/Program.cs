@@ -40,13 +40,14 @@ var tt = await testController.TestStep1Async(new TestRequest());
 
 for (int i = 0; i < 100; i++)
 {
-    tt = await testController.TestStep1Async(new TestRequest());
+    var request = new TestRequest() { ProcessNumber = tt.ProcessNumber };
+    tt = await testController.TestStep1Async(request);
 
-    await testController.TestStep2Async(new TestRequest());
+    await testController.TestStep2Async(request);
 
     try
     {
-        await testController.TestStep3Async(new TestRequest());
+        await testController.TestStep3Async(request);
 
     }
     catch (Exception ex)
@@ -56,7 +57,7 @@ for (int i = 0; i < 100; i++)
 
     try
     {
-        await testController.TestStep4Async(new TestRequest());
+        await testController.TestStep4Async(request);
 
     }
     catch (Exception ex)
@@ -66,7 +67,7 @@ for (int i = 0; i < 100; i++)
 
     try
     {
-        await testController.TestStep5Async(new TestRequest());
+        await testController.TestStep5Async(request);
 
     }
     catch (Exception ex)

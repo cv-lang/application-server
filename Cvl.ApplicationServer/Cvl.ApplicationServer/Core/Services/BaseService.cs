@@ -1,6 +1,7 @@
 ﻿using Cvl.ApplicationServer.Core.Database.Contexts;
 using Cvl.ApplicationServer.Core.Model;
 using Cvl.ApplicationServer.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +26,8 @@ namespace Cvl.ApplicationServer.Core.Services
             return Repository.GetAll();
         }
 
-        public async Task<T> GetSingleAsync(long processId)
-        {
+        public async Task<T> GetSingleAsync(long processId, bool loadNestedObject = false)
+        {            
             return await Repository.GetSingleAsync(processId);
         }
 

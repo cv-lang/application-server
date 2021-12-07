@@ -21,7 +21,9 @@ namespace Cvl.ApplicationServer.Processes.Base
             _applicationServer = applicationServer;
         }
 
-        public long ProcessId { get; set; }        
+        public long ProcessId { get; set; }
+        public string ProcessNumber {get;set;}
+
         public abstract void ProcessDeserialization(IFullSerializer serializer, string serializedProcess);
 
         public abstract string ProcessSerizalization(IFullSerializer serializer);

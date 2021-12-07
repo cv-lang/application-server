@@ -8,13 +8,11 @@
 @using Kendo.Mvc
 @using Kendo.Mvc.UI
 
-<h1>PRoces</h1>
-
 @(Html.Kendo().Grid<ProcessListItemDto>()
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.Id).Width(12).ClientTemplate("<span title='ProcessId:#=Id#'>#=ProcessNumber#</span>");
+        columns.Bound(p => p.Id).Width(12).ClientTemplate("<span title='ProcessId:#=Id#'><a href='preview?ProcessId=#=Id#'>#=ProcessNumber#</a></span>");
         columns.Bound(p => p.Type).Title("Type").Width(66)
             .ClientTemplate("<span title='#=Type#'>#=TypeShortName#</span>");
         columns.Bound(p => p.StatusName).Title("Status").Width(99);
@@ -44,6 +42,5 @@
             model.Id(p => p.Id);           
         })
         .Read(x=> x.Action("Processes_Read", "Processes"))
-        //.Read( "Processes_Read", "api-processes")
     )
 )

@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Cvl.ApplicationServer\Cvl.ApplicationServer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\jsonTree\" />
+  </ItemGroup>
+
 </Project>

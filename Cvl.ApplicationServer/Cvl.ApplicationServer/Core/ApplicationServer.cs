@@ -21,7 +21,7 @@ namespace Cvl.ApplicationServer.Core
         private readonly IFullSerializer _fullSerializer;
         private readonly IJsonSerializer _jsonSerializer;
         private readonly ProcessInstanceContainerService _processInstanceContainerService;
-        private readonly ProcessService _processService;
+        private readonly ProcessesApiService _processService;
 
         public ApplicationServerProcesses Processes { get; private set; }
 
@@ -29,7 +29,7 @@ namespace Cvl.ApplicationServer.Core
 
         public ApplicationServer(IFullSerializer fullSerializer, IJsonSerializer jsonSerializer,
             ProcessInstanceContainerService processInstanceContainerService,
-            ProcessService processService, ApplicationServerProcesses processes)
+            ProcessesApiService processService, ApplicationServerProcesses processes)
         {
             this._processInstanceContainerService = processInstanceContainerService;
             this._processService = processService;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
         }
 
         public long ProcessInstanceId { get; set; }
+
+        [JsonIgnore]
         public virtual ProcessInstanceContainer ProcessInstance { get; set; } = null!;
 
         /// <summary>

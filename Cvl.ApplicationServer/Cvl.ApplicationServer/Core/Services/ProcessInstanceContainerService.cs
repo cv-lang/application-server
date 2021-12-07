@@ -5,6 +5,7 @@ using Cvl.ApplicationServer.Core.Model.Processes;
 using Cvl.ApplicationServer.Core.Repositories;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Cvl.ApplicationServer.Processes.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,10 +99,13 @@ namespace Cvl.ApplicationServer.Core.Services
                 throw new ArgumentException($"Could not create a process '{typeof(T)}'");
             }
 
-            process.ProcessId = processId;
             var processInstance = await Repository.GetSingleAsync(processId);
+            process.ProcessId = processId;
+            process.ProcessNumber = processInstance.ProcessNumber;
 
-            DeserializeProcess(process, processInstance.ProcessInstanceStateData.ProcessStateFullSerialization);
+            var processState = await _processInstanceStateDataRepository.GetSingleAsync(process.ProcessId);
+
+            DeserializeProcess(process, processState.ProcessStateFullSerialization);
 
             return process;
         }
@@ -117,11 +121,20 @@ namespace Cvl.ApplicationServer.Core.Services
             var processInstance = await Repository.GetSingleByNumberAsync(processNumber);
 
             process.ProcessId = processInstance.Id;
-            
+            process.ProcessNumber = processInstance.ProcessNumber;
 
-            DeserializeProcess(process, processInstance.ProcessInstanceStateData.ProcessStateFullSerialization);
+            var processState = await _processInstanceStateDataRepository.GetSingleAsync(process.ProcessId);
+            DeserializeProcess(process, processState.ProcessStateFullSerialization);
 
             return process;
+        }
+
+        public async Task<ProcessInstanceContainer> GetProcessInstanceContainerWithNestedObject(long processId)
+        {
+            return await Repository.GetAll()
+                .Include(x => x.ProcessDiagnosticData)
+                .Include(x=> x.ProcessInstanceStateData)
+                .SingleAsync(x => x.Id == processId);
         }
 
         internal async Task InsertProcessActivityAsync(ProcessActivity activity)

@@ -17,12 +17,12 @@ namespace Cvl.ApplicationServer.Core.Repositories
 
         public override async Task<ProcessInstanceContainer> GetSingleAsync(long processId)
         {
-            return await base.GetAll().Include(x=> x.ProcessInstanceStateData).SingleAsync(x=> x.Id == processId);
+            return await base.GetAll().SingleAsync(x=> x.Id == processId);
         }
 
         public async Task<ProcessInstanceContainer> GetSingleByNumberAsync(string processNumber)
         {
-            return await base.GetAll().Include(x => x.ProcessInstanceStateData).SingleAsync(x => x.ProcessNumber == processNumber);
+            return await base.GetAll().SingleAsync(x => x.ProcessNumber == processNumber);
         }
     }
 }

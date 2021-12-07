@@ -1,5 +1,6 @@
 ﻿using Cvl.ApplicationServer.Core.Database.Contexts;
 using Cvl.ApplicationServer.Core.Model.Processes;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace Cvl.ApplicationServer.Core.Repositories
     {
         public ProcessInstanceStateDataRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
+        }
+
+        public async Task<ProcessStateData> GetProcessInstanceStateDataByProcessIdAsync(long processId)
+        {
+            return await GetAll().SingleAsync(x => x.ProcessInstanceId == processId);
         }
     }
 }
