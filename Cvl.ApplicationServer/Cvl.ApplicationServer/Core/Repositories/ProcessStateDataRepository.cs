@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Core.Repositories
 {
-    public class ProcessInstanceStateDataRepository : Repository<ProcessStateData>
+    public class ProcessStateDataRepository : Repository<ProcessStateData>
     {
-        public ProcessInstanceStateDataRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public ProcessStateDataRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
 

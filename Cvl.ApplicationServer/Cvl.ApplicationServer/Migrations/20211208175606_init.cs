@@ -10,7 +10,35 @@ namespace Cvl.ApplicationServer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
+                name: "Temporary");
+
+            migrationBuilder.EnsureSchema(
                 name: "Processes");
+
+            migrationBuilder.CreateTable(
+                name: "LogElement",
+                schema: "Temporary",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    Host = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Source = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Logger = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExecutionNumber = table.Column<int>(type: "int", nullable: false),
+                    ParentNumber = table.Column<int>(type: "int", nullable: true),
+                    ProcessId = table.Column<long>(type: "bigint", nullable: false),
+                    Archival = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LogElement", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "ProcessActivityData",
@@ -232,6 +260,10 @@ namespace Cvl.ApplicationServer.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "LogElement",
+                schema: "Temporary");
+
             migrationBuilder.DropTable(
                 name: "ProcessActivity",
                 schema: "Processes");

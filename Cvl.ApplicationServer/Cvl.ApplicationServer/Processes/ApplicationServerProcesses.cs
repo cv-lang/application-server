@@ -3,6 +3,7 @@ using Cvl.ApplicationServer.Core.Model;
 using Cvl.ApplicationServer.Core.Model.Processes;
 using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Logging.Logger;
 using Cvl.ApplicationServer.Processes.Dtos;
 using Cvl.ApplicationServer.Processes.Infrastructure;
 using Cvl.ApplicationServer.Processes.Interfaces;
@@ -22,16 +23,22 @@ namespace Cvl.ApplicationServer.Processes
         private readonly IJsonSerializer _jsonSerializer;
         private readonly ProcessInstanceContainerService _processInstanceContainerService;
         private readonly ProcessActivityService _processActivityService;
-        private readonly ProcessesApiService _processesApiService;        
+        private readonly ProcessesApiService _processesApiService;
+        private readonly ProcessStateDataService _processStateDataService;
+        private readonly RequestLoggerScope _requestLoggerScope;
 
         public ApplicationServerProcesses(IFullSerializer fullSerializer, IJsonSerializer jsonSerializer,
             ProcessInstanceContainerService processInstanceContainerService,
             ProcessActivityService processActivityService,
-            ProcessesApiService processesApiService)
+            ProcessesApiService processesApiService,
+            ProcessStateDataService processStateDataService,
+            RequestLoggerScope requestLoggerScope)
         {
             this._processInstanceContainerService = processInstanceContainerService;
             this._processActivityService = processActivityService;
             this._processesApiService = processesApiService;
+            this._processStateDataService = processStateDataService;
+            this._requestLoggerScope = requestLoggerScope;
             this._fullSerializer = fullSerializer;
             this._jsonSerializer = jsonSerializer;
         }       
@@ -80,7 +87,11 @@ namespace Cvl.ApplicationServer.Processes
             where TProcesInterface : class, IProcess
         {
             var process = await _processInstanceContainerService.CreateProcessAsync<TProcesInterface>();
-            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, _fullSerializer, _jsonSerializer, _processInstanceContainerService);
+            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, 
+                _fullSerializer, _jsonSerializer, _processInstanceContainerService, _processStateDataService,
+                _requestLoggerScope);
+
+            _requestLoggerScope.ProcessId = process.ProcessId;
 
             var generator = new ProxyGenerator();
             var proxy = generator.CreateInterfaceProxyWithTarget<TProcesInterface>(process, processProxy);
@@ -92,8 +103,11 @@ namespace Cvl.ApplicationServer.Processes
         {
             var process = await _processInstanceContainerService.LoadProcessAsync<TProcesInterface>(processId);
 
-            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, _fullSerializer, _jsonSerializer, _processInstanceContainerService);
+            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, 
+                _fullSerializer, _jsonSerializer, _processInstanceContainerService, _processStateDataService,
+                _requestLoggerScope);
 
+            _requestLoggerScope.ProcessId = processId;
             var generator = new ProxyGenerator();
             var proxy = generator.CreateInterfaceProxyWithTarget<TProcesInterface>(process, processProxy);
             return proxy;
@@ -104,8 +118,11 @@ namespace Cvl.ApplicationServer.Processes
         {
             var process = await _processInstanceContainerService.LoadProcessAsync<TProcesInterface>(processNumber);
 
-            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, _fullSerializer, _jsonSerializer, _processInstanceContainerService);
+            var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, 
+                _fullSerializer, _jsonSerializer, _processInstanceContainerService, _processStateDataService,
+                _requestLoggerScope);
 
+            _requestLoggerScope.ProcessId = process.ProcessId;
             var generator = new ProxyGenerator();
             var proxy = generator.CreateInterfaceProxyWithTarget<TProcesInterface>(process, processProxy);
             return proxy;

@@ -2,11 +2,13 @@
 using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Logging.Logger;
 using Cvl.ApplicationServer.Processes;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.Services;
 using Cvl.ApplicationServer.Test;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +27,7 @@ namespace Cvl.ApplicationServer.Server.Setup
             .AddTransient<ProcessActivityDataRepository, ProcessActivityDataRepository>()
             .AddTransient<ProcessActivityRepository, ProcessActivityRepository>()
             .AddTransient<ProcessInstanceContainerRepository, ProcessInstanceContainerRepository>()
-            .AddTransient<ProcessInstanceStateDataRepository, ProcessInstanceStateDataRepository>()
+            .AddTransient<ProcessStateDataRepository, ProcessStateDataRepository>()
             .AddTransient<ProcessDiagnosticDataRepository, ProcessDiagnosticDataRepository>()
             .AddTransient<ProcessStepHistoryRepository, ProcessStepHistoryRepository>()
             .AddTransient<ProcessInstanceContainerService, ProcessInstanceContainerService>()
@@ -34,14 +36,19 @@ namespace Cvl.ApplicationServer.Server.Setup
             .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
             .AddTransient<ApplicationServerProcesses, ApplicationServerProcesses>()
             .AddTransient<ProcessActivityService, ProcessActivityService>()
-            .AddTransient<ProcessStepHistoryService,ProcessStepHistoryService>()
+            .AddTransient<ProcessStepHistoryService, ProcessStepHistoryService>()
+            .AddTransient<ProcessStateDataService, ProcessStateDataService>()
+            .AddTransient<LogElementRepository, LogElementRepository>()
+            .AddTransient<LogElementService, LogElementService>()
             .AddTransient<Core.ApplicationServer, Core.ApplicationServer>()
+            
+            //.AddScoped<RequestLoggerScope, RequestLoggerScope>()
 
             .AddTransient<TestService, TestService>()
             .AddTransient<ITestProcess, TestProcess>()
             .AddTransient<TestController, TestController>();
             
-
+            
             return services;
         }
     }

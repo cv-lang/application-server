@@ -74,6 +74,6 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
         /// <summary>
         /// Data that has different meanings depending on the type of process
         /// </summary>
-        public ProcessSpecificData ProcessSpecificData { get; set; } = null!;
+        public ProcessSpecificData ProcessSpecificData { get; set; } = new ProcessSpecificData();
     }
 }

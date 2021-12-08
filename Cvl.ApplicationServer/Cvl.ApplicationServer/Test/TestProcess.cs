@@ -3,6 +3,7 @@ using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Cvl.ApplicationServer.Processes.Base;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.Threading;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,20 +31,26 @@ namespace Cvl.ApplicationServer.Test
     public class TestProcess : BaseProcess, ITestProcess
     {
         private TestProcessState _processState = new TestProcessState();
+        private readonly ILogger<TestProcess> _logger;
         private TestService _testService;
 
-        public TestProcess(Core.ApplicationServer applicationServer, TestService testService)
+        public TestProcess(Core.ApplicationServer applicationServer, ILogger<TestProcess> logger,  TestService testService)
             :base(applicationServer)
         {
+            this._logger = logger;
             _testService = testService;
         }
 
         public async Task<int> TestMethod1Async(int i)
         {
+            using var log = _logger.BeginScope("TestMethod1Async");
+
+            _logger.LogWarning("Krok 1");
             await SetStepAsync("Step", "Step descrption");
 
             var container = await GetProcessInstanceContainer();
 
+            _logger.LogWarning("Krok 2");
             container.ExternalIds.ExternalId1 = "4443332211";
             container.ExternalIds.ExternalId2 = "+44111222333";
             container.ExternalIds.ExternalId3 = "41";
@@ -55,10 +62,21 @@ namespace Cvl.ApplicationServer.Test
 
             await UpdateProcessInstanceContainer(container);
 
+            _logger.LogWarning("Krok 3");
+            testMetod();
+            _logger.LogWarning("Krok 4");
+            testMetod();
 
             return _testService.TestLogicMethod(i);
         }
 
+        private void testMetod()
+        {
+            using var log = _logger.BeginScope("testMetod");
+            _logger.LogWarning("testowy 1");
+
+            _logger.LogWarning("testowy 2");
+        }
         
 
         public int TestMethod2WhitExeption(int i)

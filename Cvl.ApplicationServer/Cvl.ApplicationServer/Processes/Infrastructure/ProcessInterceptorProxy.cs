@@ -4,6 +4,7 @@ using Cvl.ApplicationServer.Core.Model;
 using Cvl.ApplicationServer.Core.Model.Processes;
 using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Logging.Logger;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -25,15 +26,20 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
         private readonly IFullSerializer _serializer;
         private readonly IJsonSerializer _jsonSerializer;
         private readonly ProcessInstanceContainerService _processService;
+        private readonly ProcessStateDataService _processStateDataService;
+        private readonly RequestLoggerScope _requestLoggerScope;
 
         public ProcessInterceptorProxy(IProcess process, ClientConnectionData clientConnectionData,
-            IFullSerializer serializer, IJsonSerializer jsonSerializer, ProcessInstanceContainerService processService)
+            IFullSerializer serializer, IJsonSerializer jsonSerializer, ProcessInstanceContainerService processService,
+            ProcessStateDataService processStateDataService, RequestLoggerScope requestLoggerScope)
         {
             _process = process;
             _clientConnectionData = clientConnectionData;
             _serializer = serializer;
             _jsonSerializer = jsonSerializer;
             _processService = processService;
+            _processStateDataService = processStateDataService;
+            _requestLoggerScope = requestLoggerScope;
         }
 
         protected override async Task InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func<IInvocation, IInvocationProceedInfo, Task> proceed)
@@ -51,6 +57,10 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
                 await execption(ex, activity);
                 //Log.Error($"Error calling {invocation.Method.Name}.", ex);
                 throw;
+            }
+            finally
+            {
+                await _requestLoggerScope.FlushAsync();
             }
         }
 
@@ -119,7 +129,7 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
                 activity.Item1, activity.Item2);
 
 
-            await _processService.SerializeProcessAsync(_process);
+            await _processStateDataService.SerializeProcessAsync(_process);
         }
 
         private async Task execption(Exception ex, Tuple<ProcessActivity, ProcessActivityData> activity)

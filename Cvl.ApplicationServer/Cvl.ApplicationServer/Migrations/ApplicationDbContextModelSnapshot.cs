@@ -275,6 +275,59 @@ namespace Cvl.ApplicationServer.Migrations
                     b.ToTable("ProcessStepHistory", "Processes");
                 });
 
+            modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.Temporary.LogElement", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<bool>("Archival")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ExecutionNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Host")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Logger")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ParentNumber")
+                        .HasColumnType("int");
+
+                    b.Property<long>("ProcessId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LogElement", "Temporary");
+                });
+
             modelBuilder.Entity("Cvl.ApplicationServer.Core.Model.Processes.ProcessActivity", b =>
                 {
                     b.HasOne("Cvl.ApplicationServer.Core.Model.Processes.ProcessActivityData", "ProcessActivityData")

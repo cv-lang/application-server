@@ -7,38 +7,70 @@ using Cvl.ApplicationServer.Core.Repositories;
 using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Logging.Logger;
 using Cvl.ApplicationServer.Server.Setup;
 using Cvl.ApplicationServer.Test;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System.Configuration;
 using System.Text.Json;
 using TestNS;
 
+//konfiguracja
+string ProcessesContextConnectionString = "";
+
+var hostBuilder = Host.CreateDefaultBuilder(args);
+hostBuilder.ConfigureAppConfiguration((hostingContext, configuration) =>
+    {
+        configuration.Sources.Clear();
+
+        IHostEnvironment env = hostingContext.HostingEnvironment;
+
+        configuration
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
+
+        IConfigurationRoot configurationRoot = configuration.Build();
+
+        ProcessesContextConnectionString = configurationRoot.GetConnectionString("ProcessesContext");        
+    });
+
+//serwisy
+hostBuilder.ConfigureServices(services =>
+{
+    services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ProcessesContextConnectionString));
+    services.UseRegisterApplicationServer();
+});
+
+//logging
+hostBuilder.ConfigureLogging(builder =>
+    builder
+    .ClearProviders()
+    .AddHierarchicalLogger()
+);
+
+
+
+var app = hostBuilder.Build();
+using var requestScope = app.Services.CreateScope();
+var serviceProvider = requestScope.ServiceProvider;// app.Services;
+
+
 Console.WriteLine("Hello, World!");
 
-var t = new Test("test",3);
-t.Project = new CProjekt() { Path = "sdfdf"};
-t.Projects["dupa"] = new CProjekt();
-t.Projects["a"] = new JsProject() { Path = "jspath" };
+//var t = new Test("test",3);
+//t.Project = new CProjekt() { Path = "sdfdf"};
+//t.Projects["dupa"] = new CProjekt();
+//t.Projects["a"] = new JsProject() { Path = "jspath" };
 
-var builder = new ConfigurationBuilder();
-builder.AddJsonFile("appsettings.json");
-var configuration = builder.Build();
-
-var ProcessesContextConnectionString = configuration.GetConnectionString("ProcessesContext");
-
-var serviceProvider = new ServiceCollection()
-            .AddLogging()
-            .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ProcessesContextConnectionString))
-            .UseRegisterApplicationServer()
-            .BuildServiceProvider();
 
 var testController= serviceProvider.GetService<TestController>()!;
 var tt = await testController.TestStep1Async(new TestRequest());
 
-for (int i = 0; i < 100; i++)
+//for (int i = 0; i < 100; i++)
 {
     var request = new TestRequest() { ProcessNumber = tt.ProcessNumber };
     tt = await testController.TestStep1Async(request);

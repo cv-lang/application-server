@@ -19,23 +19,22 @@ namespace Cvl.ApplicationServer.Core.Services
         private readonly IServiceProvider _serviceProvider;
         private readonly ProcessActivityDataRepository _processActivityDataRepository;
         private readonly ProcessActivityRepository _processActivityRepository;
-        private readonly ProcessInstanceStateDataRepository _processInstanceStateDataRepository;
+        private readonly ProcessStateDataRepository _processInstanceStateDataRepository;
         private readonly ProcessDiagnosticDataRepository _processDiagnosticDataRepository;
         private readonly ProcessStepHistoryRepository _processStepHistoryRepository;
-        private readonly IFullSerializer _fullSerializer;
         private readonly IProcessNumberGenerator _processNumberGenerator;
+        private readonly ProcessStateDataService _processStateDataService;
 
         public ProcessInstanceContainerService(ApplicationDbContext applicationDbContext, 
             IServiceProvider serviceProvider, 
             ProcessInstanceContainerRepository processInstanceRepository,
             ProcessActivityDataRepository processActivityDataRepository,
             ProcessActivityRepository processActivityRepository,
-            ProcessInstanceStateDataRepository processInstanceStateDataRepository,
+            ProcessStateDataRepository processInstanceStateDataRepository,
             ProcessDiagnosticDataRepository processDiagnosticDataRepository,
-            ProcessStepHistoryRepository processStepHistoryRepository,
-            IFullSerializer fullSerializer,
-            IProcessNumberGenerator processNumberGenerator
-
+            ProcessStepHistoryRepository processStepHistoryRepository,            
+            IProcessNumberGenerator processNumberGenerator,
+            ProcessStateDataService processStateDataService
             ) :base(processInstanceRepository)
         {
            _serviceProvider = serviceProvider;
@@ -43,9 +42,9 @@ namespace Cvl.ApplicationServer.Core.Services
             this._processActivityRepository = processActivityRepository;
             this._processInstanceStateDataRepository = processInstanceStateDataRepository;
             this._processDiagnosticDataRepository = processDiagnosticDataRepository;
-            this._processStepHistoryRepository = processStepHistoryRepository;
-            this._fullSerializer = fullSerializer;
+            this._processStepHistoryRepository = processStepHistoryRepository;            
             this._processNumberGenerator = processNumberGenerator;
+            this._processStateDataService = processStateDataService;
         }
 
         internal async Task UpdateProcessStepAsync(long processId, string stepName, string description, int? step)
@@ -87,6 +86,7 @@ namespace Cvl.ApplicationServer.Core.Services
             await Repository.SaveChangesAsync();
 
             process.ProcessId = processInstanceContainer.Id;
+            process.ProcessNumber = processInstanceContainer.ProcessNumber;
 
             return process;
         }
@@ -105,7 +105,7 @@ namespace Cvl.ApplicationServer.Core.Services
 
             var processState = await _processInstanceStateDataRepository.GetSingleAsync(process.ProcessId);
 
-            DeserializeProcess(process, processState.ProcessStateFullSerialization);
+            _processStateDataService.DeserializeProcess(process, processState.ProcessStateFullSerialization);
 
             return process;
         }
@@ -124,7 +124,7 @@ namespace Cvl.ApplicationServer.Core.Services
             process.ProcessNumber = processInstance.ProcessNumber;
 
             var processState = await _processInstanceStateDataRepository.GetSingleAsync(process.ProcessId);
-            DeserializeProcess(process, processState.ProcessStateFullSerialization);
+            _processStateDataService.DeserializeProcess(process, processState.ProcessStateFullSerialization);
 
             return process;
         }
@@ -206,28 +206,6 @@ namespace Cvl.ApplicationServer.Core.Services
         {
             _processActivityDataRepository.Update(activityData);
             await _processActivityDataRepository.SaveChangesAsync();
-        }
-
-        
-
-        internal async Task SerializeProcessAsync(IProcess process)
-        {
-            if (process is IProcessSerialization processSerialization)
-            {
-                var json = processSerialization.ProcessSerizalization(_fullSerializer);
-                var stateData = _processInstanceStateDataRepository.GetAll().Single(x => x.Id == process.ProcessId);
-                stateData.ModifiedDate = DateTime.Now;
-                stateData.ProcessStateFullSerialization = json;
-                await _processInstanceStateDataRepository.SaveChangesAsync();
-            }
-        }
-
-        internal void DeserializeProcess(IProcess process, string fullState)
-        {
-            if (process is IProcessSerialization processSerialization)
-            {
-                processSerialization.ProcessDeserialization(_fullSerializer, fullState);
-            }
         }
     }
 }

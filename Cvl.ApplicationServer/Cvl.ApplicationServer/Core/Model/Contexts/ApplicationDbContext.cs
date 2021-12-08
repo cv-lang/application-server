@@ -1,5 +1,6 @@
 ﻿using Cvl.ApplicationServer.Core.Model;
 using Cvl.ApplicationServer.Core.Model.Processes;
+using Cvl.ApplicationServer.Core.Model.Temporary;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,5 +26,6 @@ namespace Cvl.ApplicationServer.Core.Database.Contexts
         public DbSet<ProcessActivityData> ProcessActivityDaties => Set<ProcessActivityData>();
         public DbSet<ProcessStateData> ProcessStates => Set<ProcessStateData>();
         public DbSet<ProcessStepHistory> StepHistories => Set<ProcessStepHistory>();
+        public DbSet<LogElement> LogElements => Set<LogElement>();
     }
 }

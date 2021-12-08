@@ -36,5 +36,11 @@ namespace Cvl.ApplicationServer.Core.Services
             Repository.Update(entity);
             await Repository.SaveChangesAsync();
         }
+
+        public async Task InsertAsync(T entity)
+        {
+            Repository.Insert(entity);
+            await Repository.SaveChangesAsync();
+        }
     }
 }

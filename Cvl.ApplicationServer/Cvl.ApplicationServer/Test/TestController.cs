@@ -1,4 +1,5 @@
 ﻿using Cvl.ApplicationServer.Core.Model;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +11,24 @@ namespace Cvl.ApplicationServer.Test
     public class TestController
     {
         private readonly Core.ApplicationServer _applicationServer;
+        private readonly ILogger<TestController> _logger;
 
-        public TestController(Core.ApplicationServer applicationServer)
+        public TestController(Core.ApplicationServer applicationServer, ILogger<TestController> logger)
         {
             _applicationServer = applicationServer;
+            this._logger = logger;
         }
 
 
         public async Task<TestResponse> TestStep1Async(TestRequest request)
         {
+            using var log = _logger.BeginScope("TestStep1Async");
+
+            _logger.LogWarning("Create process");
             var process = await _applicationServer.Processes.CreateProcessAsync<ITestProcess>(GetConnectionData());
-                       
+
+
+            _logger.LogWarning("Invoke process.TestMethod1Async");
             await process.TestMethod1Async(2);
 
             await Task.Delay(50);
