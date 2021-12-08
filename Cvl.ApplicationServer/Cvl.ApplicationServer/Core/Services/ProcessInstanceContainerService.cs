@@ -54,13 +54,13 @@ namespace Cvl.ApplicationServer.Core.Services
 
             if (step != null)
             {
-                processInstance.Step = step.Value;
+                processInstance.Step.Step = step.Value;
             }
             processInstance.StatusName = stepName;
-            processInstance.StepDescription = description;
+            processInstance.Step.StepDescription = description;
             Repository.Update(processInstance);
 
-            var procesStepHistory = new ProcessStepHistory(processId, step, stepName, description);
+            var procesStepHistory = new ProcessStepHistory(processId) { Step = new ProcessStepData(step, stepName, description) };
             _processStepHistoryRepository.Insert(procesStepHistory);
             await _processStepHistoryRepository.SaveChangesAsync();
         }
@@ -73,7 +73,7 @@ namespace Cvl.ApplicationServer.Core.Services
                 throw new ArgumentException($"Could not create a process '{typeof(T)}'");
             }
 
-            var processInstanceContainer = new ProcessInstanceContainer("", process.GetType().FullName!, "new", "init","");
+            var processInstanceContainer = new ProcessInstanceContainer("", process.GetType().FullName!, "new");
 
             processInstanceContainer.ProcessInstanceStateData = new ProcessStateData(string.Empty);
             processInstanceContainer.ProcessDiagnosticData = new ProcessDiagnosticData();

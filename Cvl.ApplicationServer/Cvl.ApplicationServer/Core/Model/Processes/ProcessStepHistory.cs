@@ -11,18 +11,20 @@ namespace Cvl.ApplicationServer.Core.Model
     [Table("ProcessStepHistory", Schema = "Processes")]
     public class ProcessStepHistory : BaseEntity
     {
-        public ProcessStepHistory(long? processInstanceId, int? step, string stepName, string stepDescription)
+        public ProcessStepHistory(long? processInstanceId)
         {
             ProcessInstanceId = processInstanceId;
-            Step = step;
-            StepName = stepName;
-            StepDescription = stepDescription;
+            Step = new ProcessStepData(null, "new", "new");
         }
+
+        //public ProcessStepHistory(long? processInstanceId, ProcessStepData step)
+        //{
+        //    ProcessInstanceId = processInstanceId;
+        //    Step = step;
+        //}
 
         public long? ProcessInstanceId { get; set; }
         public virtual ProcessInstanceContainer? ProcessInstance { get; set; }
-        public int? Step { get; set; }
-        public string StepName { get; set; }
-        public string StepDescription { get; set; }
+        public ProcessStepData Step { get; set; } = null!;
     }
 }

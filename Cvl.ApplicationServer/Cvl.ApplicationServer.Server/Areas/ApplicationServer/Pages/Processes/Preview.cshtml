@@ -89,9 +89,9 @@
                     .Name("gridSteps")
                     .Columns(columns =>
                     {
-                    columns.Bound(p => p.StepHistory.StepName).Width(12);
+                    columns.Bound(p => p.StepHistory.Step.StepName).Width(12);
                     columns.Bound(p => p.StepHistory.CreatedDate).Width(12);
-                    columns.Bound(p => p.StepHistory.StepDescription).Width(12);
+                    columns.Bound(p => p.StepHistory.Step.StepDescription).Width(12);
                     columns.Bound(p => p.StepHistory.Step).Width(99);
                     })
                     .ToolBar(tools =>

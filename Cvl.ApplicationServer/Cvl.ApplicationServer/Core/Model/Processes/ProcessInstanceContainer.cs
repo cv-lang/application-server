@@ -16,16 +16,11 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
     [Index(nameof(ProcessNumber))]
     public class ProcessInstanceContainer : BaseEntity
     {
-        public ProcessInstanceContainer(string processNumber, string type, string statusName, string stepName, string stepDescription)
+        public ProcessInstanceContainer(string processNumber, string type, string statusName)
         {
             ProcessNumber = processNumber;
             Type = type;
             StatusName = statusName;
-            StepName = stepName;
-            StepDescription = stepDescription;
-            ProcessThreadData = new ProcessThreadData();
-            BusinessData = new ProcessBusinessData();
-            ExternalIds = new ExternalIdentifiers();
         }        
 
 
@@ -44,19 +39,7 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
         /// </summary>
         public string StatusName { get; set; }
 
-        /// <summary>
-        /// process step
-        /// </summary>
-        public int Step { get; set; }
-        /// <summary>
-        /// User-friendly process step name
-        /// </summary>
-        public string StepName { get; set; }
-
-        /// <summary>
-        /// User-friendly process step description
-        /// </summary>
-        public string StepDescription { get; set; }
+        
 
         /// <summary>
         /// Object with proces state (serialized)
@@ -71,17 +54,22 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
         /// <summary>
         /// Main(single) thread state 
         /// </summary>
-        public ProcessThreadData ProcessThreadData { get; set; }
+        public ProcessThreadData ThreadData { get; set; } = new ProcessThreadData();
 
         /// <summary>
         /// Business specific data
         /// </summary>
-        public ProcessBusinessData BusinessData { get; set; }
+        public ProcessBusinessData BusinessData { get; set; } = new ProcessBusinessData();
+
+        /// <summary>
+        /// Current step
+        /// </summary>
+        public ProcessStepData Step { get; set; } = new ProcessStepData(null, "new", "new");
 
         /// <summary>
         /// Extrenals Id
         /// </summary>
-        public ExternalIdentifiers ExternalIds { get; set; }
+        public ExternalIdentifiers ExternalIds { get; set; } = new ExternalIdentifiers();
 
         /// <summary>
         /// Data that has different meanings depending on the type of process

@@ -21,9 +21,9 @@ namespace Cvl.ApplicationServer.Processes.Dtos
             TypeShortName = processInstance.Type.Split('.').LastOrDefault() ?? processInstance.Type;
             Type = processInstance.Type;
             StatusName = processInstance.StatusName;
-            StepName = processInstance.StepName;
-            StepDescription = processInstance.StepDescription + "jakiś opis";
-            MainThreadState = processInstance.ProcessThreadData.MainThreadState.ToString();
+            StepName = processInstance.Step.StepName;
+            StepDescription = processInstance.Step.StepDescription + "jakiś opis";
+            MainThreadState = processInstance.ThreadData.MainThreadState.ToString();
             BusinessData = processInstance.BusinessData;
             ExternalIds = processInstance.ExternalIds;
             NumberOfActivities = processInstance.ProcessDiagnosticData.NumberOfActivities;
