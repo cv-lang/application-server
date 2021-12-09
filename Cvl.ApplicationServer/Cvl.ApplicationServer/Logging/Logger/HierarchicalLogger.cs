@@ -28,19 +28,33 @@ namespace Cvl.ApplicationServer.Logging.Logger
         private Guid id = Guid.NewGuid();
         private readonly string _name;
         private readonly Func<ColorConsoleLoggerConfiguration> _getCurrentConfig;
-        private readonly IServiceProvider serviceProvider;
+        private readonly HierarchicalLoggerScope serviceProvider;
 
         public HierarchicalLogger(
             string name,
-            Func<ColorConsoleLoggerConfiguration> getCurrentConfig,
-            IServiceProvider serviceProvider
+            Func<ColorConsoleLoggerConfiguration> getCurrentConfig
+            
             )
         {
             (_name, _getCurrentConfig) = (name, getCurrentConfig);
             this.serviceProvider = serviceProvider;
         }
 
-        public IDisposable BeginScope<TState>(TState state) => default!;
+        private static AsyncLocal<Stack<HierarchicalLoggerScope>> scopes 
+            = new AsyncLocal<Stack<HierarchicalLoggerScope>>() { Value = new Stack<HierarchicalLoggerScope>()};
+
+        public IDisposable BeginScope<TState>(TState state)
+        {
+            var scope = new HierarchicalLoggerScope(this, state);
+            scopes.Value.Push(scope);
+
+            return scope;
+        }
+
+        internal void EndScope()
+        {
+            scopes.Value.Pop();
+        }
 
         public bool IsEnabled(LogLevel logLevel) =>
             _getCurrentConfig().LogLevels.ContainsKey(logLevel);
@@ -58,10 +72,10 @@ namespace Cvl.ApplicationServer.Logging.Logger
             }
 
             
-            var log = new LogElement(DateTime.Now, logLevel, "", "_name", state.ToString(), formatter(state, exception));
+            var log = new LogElement(DateTime.Now, logLevel, "", "_name", state.ToString() ??"", formatter(state, exception));
 
-            var requestLoggerScope = serviceProvider.GetRequiredService<RequestLoggerScope>();
-            requestLoggerScope.AddLog(log);
+            //var requestLoggerScope = serviceProvider.GetRequiredService<RequestLoggerScope>();
+            //requestLoggerScope.AddLog(log);
 
             ColorConsoleLoggerConfiguration config = _getCurrentConfig();
             if (config.EventId == 0 || config.EventId == eventId.Id)
@@ -71,6 +85,10 @@ namespace Cvl.ApplicationServer.Logging.Logger
                 Console.ForegroundColor = config.LogLevels[logLevel];
                 Console.WriteLine($"[{eventId.Id,2}: {logLevel,-12}]");
 
+                if(scopes.Value.Count > 0)
+                {
+                    Console.WriteLine($"{scopes.Value.Peek()}");
+                }
                 Console.ForegroundColor = originalColor;
                 Console.WriteLine($"     {_name} - {formatter(state, exception)}");
             }

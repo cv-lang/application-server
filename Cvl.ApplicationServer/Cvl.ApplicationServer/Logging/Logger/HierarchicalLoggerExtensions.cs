@@ -12,9 +12,9 @@ namespace Cvl.ApplicationServer.Logging.Logger
         this ILoggingBuilder builder)
         {
             builder.Services.AddScoped<RequestLoggerScope, RequestLoggerScope>();
-            builder.Services.TryAddEnumerable(
-                ServiceDescriptor.Singleton<ILoggerProvider, HierarchicalLoggerProvider>());            
-            
+            builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, HierarchicalLoggerProvider>());
+            //builder.Services.AddScoped<ILoggerProvider, HierarchicalLoggerProvider>();
+
             LoggerProviderOptions.RegisterProviderOptions
             <ColorConsoleLoggerConfiguration, HierarchicalLoggerProvider>(builder.Services);
 

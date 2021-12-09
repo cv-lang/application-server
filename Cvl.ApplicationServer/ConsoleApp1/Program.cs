@@ -43,6 +43,7 @@ hostBuilder.ConfigureServices(services =>
 {
     services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ProcessesContextConnectionString));
     services.UseRegisterApplicationServer();
+    services.AddScoped<Test2, Test2>();
 });
 
 //logging
@@ -54,17 +55,36 @@ hostBuilder.ConfigureLogging(builder =>
 
 
 
+
 var app = hostBuilder.Build();
 using var requestScope = app.Services.CreateScope();
 var serviceProvider = requestScope.ServiceProvider;// app.Services;
 
+var logger = serviceProvider.GetService<ILogger<Program>>(); ;
+logger.LogWarning("sdfsfd");
+using (var scop = logger.BeginScope("scope1"))
+{
+    var test = serviceProvider.GetService<Test2>();
+    logger.LogWarning("sdfsfd w scope1");
+    using (var scop2 = logger.BeginScope("scope2"))
+    {
+        logger.LogWarning("sdfsfd w scope2");
+        test.TestowaMetoda();
+    }
+    logger.LogWarning("sdfsfd2 w scope1");
+}
 
-Console.WriteLine("Hello, World!");
+    Console.WriteLine("Hello, World!");
 
 //var t = new Test("test",3);
 //t.Project = new CProjekt() { Path = "sdfdf"};
 //t.Projects["dupa"] = new CProjekt();
+
 //t.Projects["a"] = new JsProject() { Path = "jspath" };
+
+
+
+
 
 
 var testController= serviceProvider.GetService<TestController>()!;
@@ -114,6 +134,21 @@ Console.WriteLine(tt);
 
 namespace TestNS
 {
+    public class Test2
+    {
+        private readonly ILogger<Test> logger;
+        public Test2(ILogger<Test> logger)
+        {
+            logger.LogWarning("z klasy test2");
+            this.logger = logger;
+        }
+
+        internal void TestowaMetoda()
+        {
+            logger.LogWarning("z klasy test2 TestowaMetoda");
+        }
+    }
+
     public class Test
     {
 

@@ -12,23 +12,34 @@ namespace Cvl.ApplicationServer.Logging.Logger
 {
     internal class HierarchicalLoggerProvider : ILoggerProvider
     {
+        private Guid _id= Guid.NewGuid();
         private readonly IDisposable _onChangeToken;
         private ColorConsoleLoggerConfiguration _currentConfig;
         private readonly ConcurrentDictionary<string, HierarchicalLogger> _loggers = new();
         private readonly IServiceProvider _serviceProvider;
 
+        //public HierarchicalLoggerProvider(
+        //    IOptionsMonitor<ColorConsoleLoggerConfiguration> config
+        //    , RequestLoggerScope requestLoggerScope)
+        //{
+        //    _currentConfig = config.CurrentValue;
+        //    _onChangeToken = config.OnChange(updatedConfig => _currentConfig = updatedConfig);
+        //    //_serviceProvider = serviceProvider;
+        //}
+
         public HierarchicalLoggerProvider(
-            IOptionsMonitor<ColorConsoleLoggerConfiguration> config,
-            IServiceProvider serviceProvider)
+            IOptionsMonitor<ColorConsoleLoggerConfiguration> config
+            
+            )
         {
             _currentConfig = config.CurrentValue;
             _onChangeToken = config.OnChange(updatedConfig => _currentConfig = updatedConfig);
-            _serviceProvider = serviceProvider;
+            //_serviceProvider = serviceProvider;
         }
 
         public ILogger CreateLogger(string categoryName)
         {            
-            return _loggers.GetOrAdd(categoryName, name => new HierarchicalLogger(name, GetCurrentConfig, _serviceProvider));
+            return _loggers.GetOrAdd(categoryName, name => new HierarchicalLogger(name, GetCurrentConfig));
         }
 
         private ColorConsoleLoggerConfiguration GetCurrentConfig() => _currentConfig;

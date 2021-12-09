@@ -1,4 +1,5 @@
 using Cvl.ApplicationServer.Core.Database.Contexts;
+using Cvl.ApplicationServer.Logging.Logger;
 using Cvl.ApplicationServer.Server.Setup;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,8 @@ var processesContextConnectionString = builder.Configuration.GetConnectionString
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(processesContextConnectionString));
 builder.Services.UseApplicationServer();
-
+builder.Logging.ClearProviders();
+builder.Logging.AddHierarchicalLogger();
 
 builder.Services.AddKendo();
 builder.Services.AddMvc();
