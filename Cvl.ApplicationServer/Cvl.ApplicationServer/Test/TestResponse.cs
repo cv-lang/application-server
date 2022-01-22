@@ -2,6 +2,6 @@
 {
     public class TestResponse
     {
-        public string ProcessNumber { get; internal set; }
+        public string ProcessNumber { get; set; }
     }
 }

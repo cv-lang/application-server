@@ -35,16 +35,22 @@ hostBuilder.ConfigureAppConfiguration((hostingContext, configuration) =>
 
         IConfigurationRoot configurationRoot = configuration.Build();
 
-        ProcessesContextConnectionString = configurationRoot.GetConnectionString("ProcessesContext");        
+        ProcessesContextConnectionString = configurationRoot.GetConnectionString("ProcessesContext");
+
     });
+
 
 //serwisy
 hostBuilder.ConfigureServices(services =>
 {
+    var _optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+    _optionsBuilder.UseSqlServer(ProcessesContextConnectionString);
     services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ProcessesContextConnectionString));
     services.UseRegisterApplicationServer();
-    services.AddScoped<Test2, Test2>();
+    //services.AddScoped<Test2, Test2>();
+    
 });
+
 
 //logging
 hostBuilder.ConfigureLogging(builder =>
@@ -76,6 +82,8 @@ using (var scop = logger.BeginScope("scope1"))
 
     Console.WriteLine("Hello, World!");
 
+
+
 //var t = new Test("test",3);
 //t.Project = new CProjekt() { Path = "sdfdf"};
 //t.Projects["dupa"] = new CProjekt();
@@ -83,7 +91,7 @@ using (var scop = logger.BeginScope("scope1"))
 //t.Projects["a"] = new JsProject() { Path = "jspath" };
 
 
-
+var s =new Polenter.Serialization.SharpSerializer();
 
 
 
@@ -143,7 +151,7 @@ namespace TestNS
             this.logger = logger;
         }
 
-        internal void TestowaMetoda()
+        public void TestowaMetoda()
         {
             logger.LogWarning("z klasy test2 TestowaMetoda");
         }

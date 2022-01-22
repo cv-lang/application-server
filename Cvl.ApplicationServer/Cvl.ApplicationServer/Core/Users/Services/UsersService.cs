@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cvl.ApplicationServer.Processes.Interfaces2
+namespace Cvl.ApplicationServer.Core.Users.Services
 {
-    public interface IProcess
+    public class UsersService
     {
-        long ProcessId { get; }
+
     }
 }
