@@ -19,16 +19,16 @@ namespace Cvl.ApplicationServer.Processes.Infrastructure
 
 
     public class ProcessInterceptorProxy<T> : AsyncInterceptorBase
-        where T : IProcess
+        where T : IProcessOld
     {
-        private IProcess _process;
+        private IProcessOld _process;
         private readonly ClientConnectionData _clientConnectionData;
         private readonly IFullSerializer _serializer;
         private readonly IJsonSerializer _jsonSerializer;
         private readonly ProcessInstanceContainerService _processService;
         private readonly ProcessStateDataService _processStateDataService;
         
-        public ProcessInterceptorProxy(IProcess process, ClientConnectionData clientConnectionData,
+        public ProcessInterceptorProxy(IProcessOld process, ClientConnectionData clientConnectionData,
             IFullSerializer serializer, IJsonSerializer jsonSerializer, ProcessInstanceContainerService processService,
             ProcessStateDataService processStateDataService
             //, RequestLoggerScope requestLoggerScope

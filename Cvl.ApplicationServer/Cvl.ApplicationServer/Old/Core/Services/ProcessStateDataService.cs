@@ -26,7 +26,7 @@ namespace Cvl.ApplicationServer.Core.Services
             return await Repository.GetAll().SingleAsync(x=> x.ProcessInstanceId == processId);
         }
 
-        public async Task SerializeProcessAsync(IProcess process)
+        public async Task SerializeProcessAsync(IProcessOld process)
         {
             if (process is IProcessSerialization processSerialization)
             {
@@ -38,7 +38,7 @@ namespace Cvl.ApplicationServer.Core.Services
             }
         }
 
-        public void DeserializeProcess(IProcess process, string fullState)
+        public void DeserializeProcess(IProcessOld process, string fullState)
         {
             if (process is IProcessSerialization processSerialization)
             {

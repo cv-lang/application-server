@@ -64,7 +64,7 @@ namespace Cvl.ApplicationServer.Core.Services
             await _processStepHistoryRepository.SaveChangesAsync();
         }
 
-        public async Task<T> CreateProcessAsync<T>() where T : class, IProcess
+        public async Task<T> CreateProcessAsync<T>() where T : class, IProcessOld
         {
             var process = _serviceProvider.GetService(typeof(T)) as T;
             if (process == null)
@@ -91,7 +91,7 @@ namespace Cvl.ApplicationServer.Core.Services
             return process;
         }
 
-        public async Task<T> LoadProcessAsync<T>(long processId) where T : class, IProcess
+        public async Task<T> LoadProcessAsync<T>(long processId) where T : class, IProcessOld
         {
             var process = _serviceProvider.GetService(typeof(T)) as T;
             if (process == null)
@@ -110,7 +110,7 @@ namespace Cvl.ApplicationServer.Core.Services
             return process;
         }
 
-        public async Task<T> LoadProcessAsync<T>(string processNumber) where T : class, IProcess
+        public async Task<T> LoadProcessAsync<T>(string processNumber) where T : class, IProcessOld
         {
             var process = _serviceProvider.GetService(typeof(T)) as T;
             if (process == null)

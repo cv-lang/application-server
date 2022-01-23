@@ -81,7 +81,7 @@ namespace Cvl.ApplicationServer.Processes
         }
 
         public async Task<TProcesInterface> CreateProcessAsync<TProcesInterface>(ClientConnectionData clientConnectionData)
-            where TProcesInterface : class, IProcess
+            where TProcesInterface : class, IProcessOld
         {
             var process = await _processInstanceContainerService.CreateProcessAsync<TProcesInterface>();
             var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData, 
@@ -96,7 +96,7 @@ namespace Cvl.ApplicationServer.Processes
         }
 
         public async Task<TProcesInterface> LoadProcessAsync<TProcesInterface>(long processId, ClientConnectionData clientConnectionData)
-             where TProcesInterface : class, IProcess
+             where TProcesInterface : class, IProcessOld
         {
             var process = await _processInstanceContainerService.LoadProcessAsync<TProcesInterface>(processId);
 
@@ -111,7 +111,7 @@ namespace Cvl.ApplicationServer.Processes
         }
 
         public async Task<TProcesInterface> LoadProcessAsync<TProcesInterface>(string processNumber, ClientConnectionData clientConnectionData)
-             where TProcesInterface : class, IProcess
+             where TProcesInterface : class, IProcessOld
         {
             var process = await _processInstanceContainerService.LoadProcessAsync<TProcesInterface>(processNumber);
 

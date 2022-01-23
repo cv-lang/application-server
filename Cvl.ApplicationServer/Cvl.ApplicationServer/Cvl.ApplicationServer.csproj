@@ -16,11 +16,14 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="6.0.0" />
+    <PackageReference Include="Mono.Reflection" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="SharpSerializer" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Files\Commands\" />
+    <Folder Include="Old\Core\Tools\" />
     <Folder Include="Tools\" />
     <Folder Include="Old\Core\Dtos\" />
     <Folder Include="Migrations\" />

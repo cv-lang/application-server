@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Processes.Interfaces
 {
-    public interface IProcess
+    public interface IProcessOld
     {
         long ProcessId { get; set; }
         string ProcessNumber { get; set; }

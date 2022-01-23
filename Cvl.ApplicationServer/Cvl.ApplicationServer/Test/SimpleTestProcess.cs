@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.Emails;
+using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Cvl.ApplicationServer.Core.Users.Interfaces;
 using Cvl.ApplicationServer.Processes;
 
@@ -28,7 +29,7 @@ namespace Cvl.ApplicationServer.Test
         public string? Password { get; set; }
     }
 
-    public class SimpleTestProcess : BaseProcess
+    public class SimpleTestProcess : BaseLongRunningProcess
     {
         private readonly IUsersService _usersService;
         private readonly IEmailSender _emailSender;
@@ -42,12 +43,14 @@ namespace Cvl.ApplicationServer.Test
         }
 
 
-        public void Start()
+        public override object Start(object inputParam)
         {
             Step1(new Step1Registration() { Email = "test@test.com" });
             VirtualMachine.VirtualMachine.Hibernate();
 
             Step2("1234");
+
+            return 1;
         }
 
         public void Step1(Step1Registration request)
@@ -64,6 +67,14 @@ namespace Cvl.ApplicationServer.Test
                .Wait();
         }
 
+        //public override void LoadProcessState(object processState)
+        //{
+        //    this.State = (AddNewUserProcessState)processState;
+        //}
 
+        //public override object GetProcessState()
+        //{
+        //    return State;
+        //}
     }
 }

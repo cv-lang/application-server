@@ -19,7 +19,9 @@ using System.Configuration;
 using System.Text;
 using System.Text.Json;
 using System.Xml.Serialization;
+using Cvl.ApplicationServer.Core.Interfaces;
 using Cvl.ApplicationServer.Core.Users.Interfaces;
+using Newtonsoft.Json;
 using Polenter.Serialization;
 using Polenter.Serialization.Core;
 using TestNS;
@@ -74,15 +76,33 @@ var serviceProvider = requestScope.ServiceProvider;// app.Services;
 var userCommand = serviceProvider.GetService<IUsersService>();
 await userCommand.AddRootUserAsync();
 
-var testProcess = serviceProvider.GetService<SimpleTestProcess>();
+
+
+var appServer = serviceProvider.GetService<IApplicationServer>();
+
+var t1 = appServer.Processes.StartProcess<SimpleTestProcess>(4);
+
+
+var testProcess = appServer.Processes.CreateProcess<SimpleTestProcess>();
+
+
+
+//var testProcess = serviceProvider.GetService<SimpleTestProcess>();
 
 testProcess.Step1(new Step1Registration(){Email = "sdf", Password = "sdf"});
+
+appServer.Processes.SaveProcess(testProcess);
+
+testProcess = (SimpleTestProcess) appServer.Processes.LoadProcess(testProcess.ProcessData.ProcessNumber);
+
+testProcess.Step2("sdfsdf");
+
 
 
 
 var serializer = new SharpSerializer();
 
-serializer.InstanceCreator = new ServiceProviderInstanceCreator(serviceProvider, serializer.InstanceCreator);
+serializer.InstanceCreator = new ServiceProviderInstanceCreator(serviceProvider);
 
 serializer.PropertyProvider.AttributesToIgnore.Clear();
 // remove default ExcludeFromSerializationAttribute for performance gain
@@ -105,6 +125,19 @@ using (var ms = new MemoryStream(bajty))
 
     testProcess = obiekt as SimpleTestProcess;
 }
+
+
+var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+var json = JsonConvert.SerializeObject(testProcess, settings);
+
+
+settings = new JsonSerializerSettings
+{
+    TypeNameHandling = TypeNameHandling.All,
+    TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
+};
+testProcess = JsonConvert.DeserializeObject<object>(json, settings) as SimpleTestProcess;
+
 
 testProcess.Step2("sdfsdf");
 

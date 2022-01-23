@@ -18,7 +18,7 @@ namespace Cvl.ApplicationServer.Test
         public int Dane { get; set; }
     }
 
-    public interface ITestProcess : IProcess
+    public interface ITestProcess : IProcessOld
     {
         Task<int> TestMethod1Async(int i);
         int TestMethod2WhitExeption(int i);
@@ -28,7 +28,7 @@ namespace Cvl.ApplicationServer.Test
         Task TestMethod4WithExeptionAsync(int i);
     }
 
-    public class TestProcess : BaseProcess, ITestProcess
+    public class TestProcess : BaseProcessOld, ITestProcess
     {
         private TestProcessState _processState = new TestProcessState();
         private readonly ILogger<TestProcess> _logger;

@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 namespace Cvl.ApplicationServer.Processes.Base
 {
     [ThreadType(ThreadType = ThreadType.Multithreaded)]
-    public abstract class BaseProcess : IProcess, IProcessSerialization
+    public abstract class BaseProcessOld : IProcessOld, IProcessSerialization
     {
         protected Core.ApplicationServer _applicationServer;
 
-        public BaseProcess(Core.ApplicationServer applicationServer)
+        public BaseProcessOld(Core.ApplicationServer applicationServer)
         {
             _applicationServer = applicationServer;
         }
