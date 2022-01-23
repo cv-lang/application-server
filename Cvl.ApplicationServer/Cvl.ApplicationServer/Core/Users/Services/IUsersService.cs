@@ -8,6 +8,7 @@ namespace Cvl.ApplicationServer.Core.Users.Interfaces
 {
     public interface IUsersService
     {
-        void RegisterNewUser(string email, string password);
+        Task RegisterNewUserAsync(string email, string password);
+        Task AddRootUserAsync();
     }
 }

@@ -11,7 +11,7 @@ namespace Cvl.ApplicationServer.Core.Repositories
 {
     public class ProcessStateDataRepository : Repository<ProcessStateData>
     {
-        public ProcessStateDataRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public ProcessStateDataRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
 

@@ -9,7 +9,7 @@ builder.Configuration.AddJsonFile("appsettings.json");
 var processesContextConnectionString = builder.Configuration.GetConnectionString("ProcessesContext");
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(processesContextConnectionString));
+builder.Services.AddDbContext<ApplicationServerDbContext>(options => options.UseSqlServer(processesContextConnectionString));
 builder.Services.UseApplicationServer();
 builder.Logging.ClearProviders();
 builder.Logging.AddHierarchicalLogger();

@@ -28,8 +28,8 @@ namespace Cvl.ApplicationServer.Logging.Logger
 
         public void Test()
         {
-            var dbOptions = serviceProvider.GetService<DbContextOptions<ApplicationDbContext>>();
-            using (var db = new ApplicationDbContext(dbOptions))
+            var dbOptions = serviceProvider.GetService<DbContextOptions<ApplicationServerDbContext>>();
+            using (var db = new ApplicationServerDbContext(dbOptions))
             {
                 try
                 {

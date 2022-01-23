@@ -12,12 +12,12 @@ namespace Cvl.ApplicationServer.Core.Repositories
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         #region property  
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly ApplicationServerDbContext _applicationDbContext;
         private readonly DbSet<T> entities;
         #endregion
 
         #region Constructor  
-        public Repository(ApplicationDbContext applicationDbContext)
+        public Repository(ApplicationServerDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
             entities = _applicationDbContext.Set<T>();

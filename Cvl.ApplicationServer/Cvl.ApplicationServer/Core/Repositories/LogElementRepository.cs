@@ -10,7 +10,7 @@ namespace Cvl.ApplicationServer.Core.Repositories
 {
     public class LogElementRepository : Repository<LogElement>
     {
-        public LogElementRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public LogElementRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
     }

@@ -11,7 +11,7 @@ namespace Cvl.ApplicationServer.Core.Repositories
 {
     public class ProcessStepHistoryRepository : Repository<ProcessStepHistory>
     {
-        public ProcessStepHistoryRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public ProcessStepHistoryRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
     }

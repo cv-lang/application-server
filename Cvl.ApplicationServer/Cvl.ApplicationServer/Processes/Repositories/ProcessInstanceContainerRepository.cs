@@ -11,7 +11,7 @@ namespace Cvl.ApplicationServer.Core.Repositories
 {
     public class ProcessInstanceContainerRepository : Repository<ProcessInstanceContainer>
     {
-        public ProcessInstanceContainerRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public ProcessInstanceContainerRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
 

@@ -17,7 +17,7 @@ namespace Cvl.ApplicationServer.Core.Users.Commands
             _repository = repository;
         }
 
-        public async Task AddUser(User user)
+        public async Task AddUserAsync(User user)
         {
             _repository.Insert(user);
             await _repository.SaveChangesAsync();

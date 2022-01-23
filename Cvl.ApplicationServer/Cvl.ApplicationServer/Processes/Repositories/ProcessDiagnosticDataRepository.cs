@@ -10,7 +10,7 @@ namespace Cvl.ApplicationServer.Core.Repositories
 {
     public class ProcessDiagnosticDataRepository : Repository<ProcessDiagnosticData>
     {
-        public ProcessDiagnosticDataRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public ProcessDiagnosticDataRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
 

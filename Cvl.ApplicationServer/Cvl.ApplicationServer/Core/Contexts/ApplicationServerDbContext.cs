@@ -11,9 +11,9 @@ using Cvl.ApplicationServer.Core.Users.Model;
 
 namespace Cvl.ApplicationServer.Core.Database.Contexts
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationServerDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+        public ApplicationServerDbContext(DbContextOptions options) : base(options)
         {
         }
 

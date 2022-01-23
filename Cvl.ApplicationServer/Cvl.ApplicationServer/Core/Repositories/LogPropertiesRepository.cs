@@ -10,7 +10,7 @@ namespace Cvl.ApplicationServer.Core.Repositories
 {
     public class LogPropertiesRepository : Repository<LogProperties>
     {
-        public LogPropertiesRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public LogPropertiesRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
     }

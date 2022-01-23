@@ -25,7 +25,7 @@ namespace Cvl.ApplicationServer.Core.Services
         private readonly IProcessNumberGenerator _processNumberGenerator;
         private readonly ProcessStateDataService _processStateDataService;
 
-        public ProcessInstanceContainerService(ApplicationDbContext applicationDbContext, 
+        public ProcessInstanceContainerService(ApplicationServerDbContext applicationDbContext, 
             IServiceProvider serviceProvider, 
             ProcessInstanceContainerRepository processInstanceRepository,
             ProcessActivityDataRepository processActivityDataRepository,

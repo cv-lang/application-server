@@ -16,11 +16,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Configuration;
+using System.Text;
 using System.Text.Json;
+using System.Xml.Serialization;
+using Cvl.ApplicationServer.Core.Users.Interfaces;
+using Polenter.Serialization;
+using Polenter.Serialization.Core;
 using TestNS;
 
 //konfiguracja
-string ProcessesContextConnectionString = "";
+string ApplicationServerContextConnectionString = "";
 
 var hostBuilder = Host.CreateDefaultBuilder(args);
 hostBuilder.ConfigureAppConfiguration((hostingContext, configuration) =>
@@ -35,7 +40,7 @@ hostBuilder.ConfigureAppConfiguration((hostingContext, configuration) =>
 
         IConfigurationRoot configurationRoot = configuration.Build();
 
-        ProcessesContextConnectionString = configurationRoot.GetConnectionString("ProcessesContext");
+        ApplicationServerContextConnectionString = configurationRoot.GetConnectionString("ApplicationServerContext");
 
     });
 
@@ -43,21 +48,21 @@ hostBuilder.ConfigureAppConfiguration((hostingContext, configuration) =>
 //serwisy
 hostBuilder.ConfigureServices(services =>
 {
-    var _optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-    _optionsBuilder.UseSqlServer(ProcessesContextConnectionString);
-    services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ProcessesContextConnectionString));
+    var _optionsBuilder = new DbContextOptionsBuilder<ApplicationServerDbContext>();
+    _optionsBuilder.UseSqlServer(ApplicationServerContextConnectionString);
+    services.AddDbContext<ApplicationServerDbContext>(options => options.UseSqlServer(ApplicationServerContextConnectionString));
     services.UseRegisterApplicationServer();
     //services.AddScoped<Test2, Test2>();
-    
+
 });
 
 
 //logging
-hostBuilder.ConfigureLogging(builder =>
-    builder
-    .ClearProviders()
-    .AddHierarchicalLogger()
-);
+//hostBuilder.ConfigureLogging(builder =>
+//    builder
+//    .ClearProviders()
+//    .AddHierarchicalLogger()
+//);
 
 
 
@@ -65,6 +70,48 @@ hostBuilder.ConfigureLogging(builder =>
 var app = hostBuilder.Build();
 using var requestScope = app.Services.CreateScope();
 var serviceProvider = requestScope.ServiceProvider;// app.Services;
+
+var userCommand = serviceProvider.GetService<IUsersService>();
+await userCommand.AddRootUserAsync();
+
+var testProcess = serviceProvider.GetService<SimpleTestProcess>();
+
+testProcess.Step1(new Step1Registration(){Email = "sdf", Password = "sdf"});
+
+
+
+var serializer = new SharpSerializer();
+
+serializer.InstanceCreator = new ServiceProviderInstanceCreator(serviceProvider, serializer.InstanceCreator);
+
+serializer.PropertyProvider.AttributesToIgnore.Clear();
+// remove default ExcludeFromSerializationAttribute for performance gain
+serializer.PropertyProvider.AttributesToIgnore.Add(typeof(XmlIgnoreAttribute));
+var xml = "";
+byte[] bajty = null;
+using (var ms = new MemoryStream())
+{
+    serializer.Serialize(testProcess, ms);
+    ms.Position = 0;
+    bajty = ms.ToArray();
+    xml = Encoding.UTF8.GetString(bajty, 0, bajty.Length);
+}
+
+
+bajty = Encoding.UTF8.GetBytes(xml);
+using (var ms = new MemoryStream(bajty))
+{
+    object obiekt = serializer.Deserialize(ms);
+
+    testProcess = obiekt as SimpleTestProcess;
+}
+
+testProcess.Step2("sdfsdf");
+
+
+
+
+
 
 var logger = serviceProvider.GetService<ILogger<Program>>(); ;
 logger.LogWarning("sdfsfd");
@@ -91,7 +138,6 @@ using (var scop = logger.BeginScope("scope1"))
 //t.Projects["a"] = new JsProject() { Path = "jspath" };
 
 
-var s =new Polenter.Serialization.SharpSerializer();
 
 
 

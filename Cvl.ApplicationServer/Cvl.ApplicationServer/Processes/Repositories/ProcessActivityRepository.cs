@@ -5,7 +5,7 @@ namespace Cvl.ApplicationServer.Core.Repositories
 {
     public class ProcessActivityRepository : Repository<ProcessActivity>
     {
-        public ProcessActivityRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public ProcessActivityRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
     }
