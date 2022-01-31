@@ -11,7 +11,9 @@ using Cvl.ApplicationServer.Processes.Commands;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.Interfaces2;
 using Cvl.ApplicationServer.Processes.Queries;
+using Cvl.ApplicationServer.Processes.UI;
 using Cvl.VirtualMachine.Core;
+using Cvl.VirtualMachine.Core.Variables.Values;
 
 namespace Cvl.ApplicationServer.ApplicationServers.Internals
 {
@@ -43,22 +45,28 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
             _processCommands.SaveProcessStateAsync(process).Wait();
         }
 
-        public object StartProcess<T>(object inputParameter) where T : IProcess
+        public ProcessStatus StartProcess<T>(object inputParameter) where T : ILongRunningProcess
         {
+            var processStatus = new ProcessStatus();
+
             var process = CreateProcess<T>();
 
-            var vw = new VirtualMachine.VirtualMachine();
-            vw.Start<object>("Start", process, inputParameter);
-            if (vw.Thread.Status == VirtualMachineState.Hibernated)
+            var vm = new VirtualMachine.VirtualMachine();
+            
+            var result = vm.Start<object>("Start", process);
+            if (vm.Thread.Status == VirtualMachineState.Hibernated)
             {
-                //vw.Serializer();
+                var xml = VirtualMachine.VirtualMachine.SerializeVirtualMachine(vm);
+                var processHibernateParams =  vm.GetHibernateParams();
+                var threadState = (Processes.Threading.ThreadState)processHibernateParams[0];
+                var view = (View)processHibernateParams[1];
             }
             else
             {
-                
+                processStatus.Status = ProcessExecutionStaus.Succes;
             }
 
-            return process;
+            return processStatus;
         }
     }
 }

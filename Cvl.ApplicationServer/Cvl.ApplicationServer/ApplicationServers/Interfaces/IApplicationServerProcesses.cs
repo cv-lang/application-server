@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cvl.ApplicationServer.ApplicationServers.Internals;
 using Cvl.ApplicationServer.Processes;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.Interfaces2;
@@ -15,6 +16,6 @@ namespace Cvl.ApplicationServer.Core.Interfaces
         T CreateProcess<T>() where T : IProcess;
         void SaveProcess(IProcess process);
         IProcess LoadProcess(string processNumber);
-        object StartProcess<T>(object inputParameter) where T : IProcess;
+        ProcessStatus StartProcess<T>(object inputParameter) where T : ILongRunningProcess;
     }
 }
