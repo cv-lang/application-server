@@ -80,143 +80,144 @@ await userCommand.AddRootUserAsync();
 
 var appServer = serviceProvider.GetService<IApplicationServer>();
 
-var t1 = appServer.Processes.StartProcess<SimpleTestProcess>(4);
+var t1 = appServer.Processes.StartLongRunningProcess<SimpleTestProcess>(4);
 
+appServer.Processes.RunProcesses();
 
-var testProcess = appServer.Processes.CreateProcess<SimpleTestProcess>();
+//var testProcess = appServer.Processes.CreateProcess<SimpleTestProcess>();
 
 
 
 //var testProcess = serviceProvider.GetService<SimpleTestProcess>();
 
-testProcess.Step1(new Step1Registration(){Email = "sdf", Password = "sdf"});
+//testProcess.Step1(new Step1Registration(){Email = "sdf", Password = "sdf"});
 
-appServer.Processes.SaveProcess(testProcess);
+//appServer.Processes.SaveProcess(testProcess);
 
-testProcess = (SimpleTestProcess) appServer.Processes.LoadProcess(testProcess.ProcessData.ProcessNumber);
+//testProcess = (SimpleTestProcess) appServer.Processes.LoadProcess(testProcess.ProcessData.ProcessNumber);
 
-testProcess.Step2("sdfsdf");
-
-
-
-
-var serializer = new SharpSerializer();
-
-serializer.InstanceCreator = new ServiceProviderInstanceCreator(serviceProvider);
-
-serializer.PropertyProvider.AttributesToIgnore.Clear();
-// remove default ExcludeFromSerializationAttribute for performance gain
-serializer.PropertyProvider.AttributesToIgnore.Add(typeof(XmlIgnoreAttribute));
-var xml = "";
-byte[] bajty = null;
-using (var ms = new MemoryStream())
-{
-    serializer.Serialize(testProcess, ms);
-    ms.Position = 0;
-    bajty = ms.ToArray();
-    xml = Encoding.UTF8.GetString(bajty, 0, bajty.Length);
-}
-
-
-bajty = Encoding.UTF8.GetBytes(xml);
-using (var ms = new MemoryStream(bajty))
-{
-    object obiekt = serializer.Deserialize(ms);
-
-    testProcess = obiekt as SimpleTestProcess;
-}
-
-
-var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-var json = JsonConvert.SerializeObject(testProcess, settings);
-
-
-settings = new JsonSerializerSettings
-{
-    TypeNameHandling = TypeNameHandling.All,
-    TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
-};
-testProcess = JsonConvert.DeserializeObject<object>(json, settings) as SimpleTestProcess;
-
-
-testProcess.Step2("sdfsdf");
+//testProcess.Step2("sdfsdf");
 
 
 
 
+//var serializer = new SharpSerializer();
+
+//serializer.InstanceCreator = new ServiceProviderInstanceCreator(serviceProvider);
+
+//serializer.PropertyProvider.AttributesToIgnore.Clear();
+//// remove default ExcludeFromSerializationAttribute for performance gain
+//serializer.PropertyProvider.AttributesToIgnore.Add(typeof(XmlIgnoreAttribute));
+//var xml = "";
+//byte[] bajty = null;
+//using (var ms = new MemoryStream())
+//{
+//    serializer.Serialize(testProcess, ms);
+//    ms.Position = 0;
+//    bajty = ms.ToArray();
+//    xml = Encoding.UTF8.GetString(bajty, 0, bajty.Length);
+//}
 
 
-var logger = serviceProvider.GetService<ILogger<Program>>(); ;
-logger.LogWarning("sdfsfd");
-using (var scop = logger.BeginScope("scope1"))
-{
-    var test = serviceProvider.GetService<Test2>();
-    logger.LogWarning("sdfsfd w scope1");
-    using (var scop2 = logger.BeginScope("scope2"))
-    {
-        logger.LogWarning("sdfsfd w scope2");
-        test.TestowaMetoda();
-    }
-    logger.LogWarning("sdfsfd2 w scope1");
-}
+//bajty = Encoding.UTF8.GetBytes(xml);
+//using (var ms = new MemoryStream(bajty))
+//{
+//    object obiekt = serializer.Deserialize(ms);
 
-    Console.WriteLine("Hello, World!");
+//    testProcess = obiekt as SimpleTestProcess;
+//}
 
 
+//var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+//var json = JsonConvert.SerializeObject(testProcess, settings);
 
-//var t = new Test("test",3);
-//t.Project = new CProjekt() { Path = "sdfdf"};
-//t.Projects["dupa"] = new CProjekt();
 
-//t.Projects["a"] = new JsProject() { Path = "jspath" };
+//settings = new JsonSerializerSettings
+//{
+//    TypeNameHandling = TypeNameHandling.All,
+//    TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
+//};
+//testProcess = JsonConvert.DeserializeObject<object>(json, settings) as SimpleTestProcess;
+
+
+//testProcess.Step2("sdfsdf");
 
 
 
 
 
-var testController= serviceProvider.GetService<TestController>()!;
-var tt = await testController.TestStep1Async(new TestRequest());
 
-//for (int i = 0; i < 100; i++)
-{
-    var request = new TestRequest() { ProcessNumber = tt.ProcessNumber };
-    tt = await testController.TestStep1Async(request);
+//var logger = serviceProvider.GetService<ILogger<Program>>(); ;
+//logger.LogWarning("sdfsfd");
+//using (var scop = logger.BeginScope("scope1"))
+//{
+//    var test = serviceProvider.GetService<Test2>();
+//    logger.LogWarning("sdfsfd w scope1");
+//    using (var scop2 = logger.BeginScope("scope2"))
+//    {
+//        logger.LogWarning("sdfsfd w scope2");
+//        test.TestowaMetoda();
+//    }
+//    logger.LogWarning("sdfsfd2 w scope1");
+//}
 
-    await testController.TestStep2Async(request);
-
-    try
-    {
-        await testController.TestStep3Async(request);
-
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex.ToString());
-    }
-
-    try
-    {
-        await testController.TestStep4Async(request);
-
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex.ToString());
-    }
-
-    try
-    {
-        await testController.TestStep5Async(request);
-
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex.ToString());
-    }
-}
+//    Console.WriteLine("Hello, World!");
 
 
-Console.WriteLine(tt);
+
+////var t = new Test("test",3);
+////t.Project = new CProjekt() { Path = "sdfdf"};
+////t.Projects["dupa"] = new CProjekt();
+
+////t.Projects["a"] = new JsProject() { Path = "jspath" };
+
+
+
+
+
+//var testController= serviceProvider.GetService<TestController>()!;
+//var tt = await testController.TestStep1Async(new TestRequest());
+
+////for (int i = 0; i < 100; i++)
+//{
+//    var request = new TestRequest() { ProcessNumber = tt.ProcessNumber };
+//    tt = await testController.TestStep1Async(request);
+
+//    await testController.TestStep2Async(request);
+
+//    try
+//    {
+//        await testController.TestStep3Async(request);
+
+//    }
+//    catch (Exception ex)
+//    {
+//        Console.WriteLine(ex.ToString());
+//    }
+
+//    try
+//    {
+//        await testController.TestStep4Async(request);
+
+//    }
+//    catch (Exception ex)
+//    {
+//        Console.WriteLine(ex.ToString());
+//    }
+
+//    try
+//    {
+//        await testController.TestStep5Async(request);
+
+//    }
+//    catch (Exception ex)
+//    {
+//        Console.WriteLine(ex.ToString());
+//    }
+//}
+
+
+//Console.WriteLine(tt);
 
 
 namespace TestNS

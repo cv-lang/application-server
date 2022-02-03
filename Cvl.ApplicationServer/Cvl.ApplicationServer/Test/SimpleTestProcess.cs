@@ -45,7 +45,7 @@ namespace Cvl.ApplicationServer.Test
 
         public override object Start(object inputParam)
         {
-            Step1(new Step1Registration() { Email = "test@test.com" });
+            Step1(new Step1Registration() { Email = "test@test.com", Password = "sdf"});
             VirtualMachine.VirtualMachine.Hibernate();
 
             Step2("1234");

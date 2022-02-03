@@ -12,20 +12,25 @@ namespace Cvl.ApplicationServer.Processes
 
     public abstract class BaseLongRunningProcess : BaseProcess, ILongRunningProcess
     {
+        public LongRunningProcessData LongRunningProcessData { get; set; } = new LongRunningProcessData();
+
         public abstract object Start(object inputParam);
 
-        internal VirtualMachine.VirtualMachine virtualMachine { get; set; }
-        
+        public virtual void Resume()
+        {
+            LongRunningProcessData.VirtualMachine.Resume<object>();
+        }
+
         #region Process state serialization/deserializaton
 
         public override object GetProcessState()
         {
-            return virtualMachine;
+            return LongRunningProcessData.VirtualMachine;
         }
 
         public override void LoadProcessState(object processState)
         {
-            virtualMachine = (VirtualMachine.VirtualMachine)processState;
+            LongRunningProcessData.VirtualMachine = (VirtualMachine.VirtualMachine)processState;
         }
 
         #endregion

@@ -16,6 +16,7 @@ namespace Cvl.ApplicationServer.Core.Interfaces
         T CreateProcess<T>() where T : IProcess;
         void SaveProcess(IProcess process);
         IProcess LoadProcess(string processNumber);
-        ProcessStatus StartProcess<T>(object inputParameter) where T : ILongRunningProcess;
+        ProcessStatus StartLongRunningProcess<T>(object inputParameter) where T : ILongRunningProcess;
+        void RunProcesses();
     }
 }

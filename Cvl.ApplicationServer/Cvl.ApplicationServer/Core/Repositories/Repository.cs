@@ -40,7 +40,7 @@ namespace Cvl.ApplicationServer.Core.Repositories
 
         public IQueryable<T> GetAll()
         {
-            return entities;
+            return entities.Where(x=> x.Archival == false);
         }
 
         public void Insert(T entity)

@@ -59,5 +59,10 @@ namespace Cvl.ApplicationServer.Processes.Queries
             //var proxy = generator.CreateInterfaceProxyWithTarget<TProcesInterface>(process, processProxy);
             //return proxy;
         }
+
+        internal async Task<List<string>> GetWaitingForExecutionProcessesNumbersAsync()
+        {
+            return await _processInstanceContainerQueries.GetWaitingForExecutionProcessesNumbersAsync();
+        }
     }
 }

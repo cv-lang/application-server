@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using ConsoleApp1.TTeeesd;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.VirtualMachine.Core.Serializers;
 using Polenter.Serialization;
 
 namespace Cvl.ApplicationServer.Core.Serializers
@@ -35,7 +35,8 @@ namespace Cvl.ApplicationServer.Core.Serializers
 
 
             var serializer = new SharpSerializer();
-            serializer.InstanceCreator = new ServiceProviderInstanceCreator(_serviceProvider);
+            var instanceCreator = new SimpleInstanceCreator(_serviceProvider);
+            serializer.InstanceCreator = instanceCreator;
             serializer.PropertyProvider.AttributesToIgnore.Clear();
             // remove default ExcludeFromSerializationAttribute for performance gain
             serializer.PropertyProvider.AttributesToIgnore.Add(typeof(XmlIgnoreAttribute));
@@ -43,7 +44,7 @@ namespace Cvl.ApplicationServer.Core.Serializers
             using (var ms = new MemoryStream(bajty))
             {
                 object obiekt = serializer.Deserialize(ms);
-
+                instanceCreator.RunDeserializationInicaializer();
                 return (T)obiekt;
             }
         }

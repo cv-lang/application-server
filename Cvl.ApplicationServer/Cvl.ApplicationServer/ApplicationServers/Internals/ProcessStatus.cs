@@ -15,5 +15,7 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
     public class ProcessStatus
     {
         public ProcessExecutionStaus Status { get; internal set; }
+        public long ProcessId { get; set; }
+        public string ProcessNumber { get; internal set; }
     }
 }

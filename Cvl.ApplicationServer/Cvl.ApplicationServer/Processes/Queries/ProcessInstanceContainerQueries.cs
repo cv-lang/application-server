@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.Model.Processes;
 using Cvl.ApplicationServer.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using ThreadState = Cvl.ApplicationServer.Processes.Threading.ThreadState;
 
 namespace Cvl.ApplicationServer.Processes.Queries
 {
@@ -32,6 +33,16 @@ namespace Cvl.ApplicationServer.Processes.Queries
                 .Include(x => x.ProcessDiagnosticData)
                 .Include(x => x.ProcessInstanceStateData)
                 .SingleAsync(x => x.ProcessNumber == processNumber);
+        }
+
+        internal async Task<List<string>> GetWaitingForExecutionProcessesNumbersAsync()
+        {
+            var now = DateTime.UtcNow;
+            return await _processInstanceContainerRepository.GetAll()
+                .Where(x => x.ThreadData.MainThreadState == ThreadState.WaitingForExecution)
+                .Where(x => x.ThreadData.NextExecutionDate == null || (x.ThreadData.NextExecutionDate < now))
+                .Select(x => x.ProcessNumber)
+                .ToListAsync();
         }
     }
 }

@@ -9,6 +9,9 @@ namespace Cvl.ApplicationServer.Processes.Interfaces
 {
     public interface ILongRunningProcess : IProcess
     {
+        LongRunningProcessData LongRunningProcessData { get; set; }
         object Start(object inputParam);
+
+        void Resume();
     }
 }

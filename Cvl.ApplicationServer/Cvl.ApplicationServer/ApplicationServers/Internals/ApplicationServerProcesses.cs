@@ -23,13 +23,14 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
         private readonly ProcessQueries _processQueries;
         private readonly IFullSerializer _fullSerializer;
 
-        public ApplicationServerProcesses(ProcessCommands processCommands, ProcessQueries processQueries, 
+        public ApplicationServerProcesses(ProcessCommands processCommands, ProcessQueries processQueries,
             IFullSerializer fullSerializer)
         {
             _processCommands = processCommands;
             _processQueries = processQueries;
             _fullSerializer = fullSerializer;
         }
+
         public T CreateProcess<T>() where T : IProcess
         {
             return _processCommands.CreateProcessAsync<T>().Result;
@@ -37,7 +38,7 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
 
         public IProcess LoadProcess(string processNumber)
         {
-            return (BaseProcess) _processQueries.LoadProcessAsync<BaseProcess>(processNumber).Result;
+            return (BaseProcess)_processQueries.LoadProcessAsync<BaseProcess>(processNumber).Result;
         }
 
         public void SaveProcess(IProcess process)
@@ -45,28 +46,45 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
             _processCommands.SaveProcessStateAsync(process).Wait();
         }
 
-        public ProcessStatus StartProcess<T>(object inputParameter) where T : ILongRunningProcess
+        public ProcessStatus StartLongRunningProcess<T>(object inputParameter) where T : ILongRunningProcess
         {
             var processStatus = new ProcessStatus();
 
             var process = CreateProcess<T>();
 
             var vm = new VirtualMachine.VirtualMachine();
-            
+            process.LongRunningProcessData.VirtualMachine = vm;
+
             var result = vm.Start<object>("Start", process);
             if (vm.Thread.Status == VirtualMachineState.Hibernated)
             {
-                var xml = VirtualMachine.VirtualMachine.SerializeVirtualMachine(vm);
-                var processHibernateParams =  vm.GetHibernateParams();
-                var threadState = (Processes.Threading.ThreadState)processHibernateParams[0];
-                var view = (View)processHibernateParams[1];
+                
+                process.ProcessData.ThreadStatus = Processes.Threading.ThreadState.WaitingForExecution;
+
+                SaveProcess(process);
+
+                processStatus.Status = ProcessExecutionStaus.Pending;
+                processStatus.ProcessId = process.ProcessData.ProcessId;
+                processStatus.ProcessNumber = process.ProcessData.ProcessNumber;
+                
+
+                return processStatus;
             }
             else
             {
-                processStatus.Status = ProcessExecutionStaus.Succes;
+                throw new Exception("Process end immediately. It should use hibernation for long running process");
             }
+        }
 
-            return processStatus;
+        public void RunProcesses()
+        {
+            var processesNumbers = _processQueries.GetWaitingForExecutionProcessesNumbersAsync().Result;
+
+            foreach (var processesNumber in processesNumbers)
+            {
+                var process = LoadProcess(processesNumber) as ILongRunningProcess;
+                process.Resume();
+            }
         }
     }
 }
