@@ -11,6 +11,6 @@ namespace Cvl.ApplicationServer.Processes.Interfaces2
     {
         ProcessData ProcessData { get; set; }
         object GetProcessState();
-        void LoadProcessState(object serializedState);
+        void LoadProcessState(object? serializedState);
     }
 }

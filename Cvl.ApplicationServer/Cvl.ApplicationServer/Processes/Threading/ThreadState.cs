@@ -10,7 +10,9 @@ namespace Cvl.ApplicationServer.Processes.Threading
     {
         Idle,
         WaitingForExecution,
+        WaitForExternalData,
         WaitingForUserInterface,
-        Error
+        Error,
+        Executed
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.Model.Processes;
 using Cvl.ApplicationServer.Core.Repositories;
 using Cvl.ApplicationServer.Processes.Interfaces;
+using Cvl.ApplicationServer.Processes.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cvl.ApplicationServer.Processes.Commands
@@ -29,6 +30,7 @@ namespace Cvl.ApplicationServer.Processes.Commands
 
             processInstanceContainer.ProcessInstanceStateData = new ProcessStateData(string.Empty);
             processInstanceContainer.ProcessDiagnosticData = new ProcessDiagnosticData();
+            processInstanceContainer.ProcessExternalData = new ProcessExternalData();
 
             _processInstanceContainerRepository.Insert(processInstanceContainer);
             await _processInstanceContainerRepository.SaveChangesAsync();

@@ -7,6 +7,8 @@ using Cvl.ApplicationServer.Core.Emails;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Cvl.ApplicationServer.Core.Users.Interfaces;
 using Cvl.ApplicationServer.Processes;
+using Cvl.ApplicationServer.Processes.UI;
+using Cvl.VirtualMachine.Core.Attributes;
 
 namespace Cvl.ApplicationServer.Test
 {
@@ -43,14 +45,25 @@ namespace Cvl.ApplicationServer.Test
         }
 
 
+        [Interpret]
         public override object Start(object inputParam)
         {
             Step1(new Step1Registration() { Email = "test@test.com", Password = "sdf"});
-            VirtualMachine.VirtualMachine.Hibernate();
+            Delay(DateTime.Now.AddSeconds(1));
 
             Step2("1234");
+            var dataFromOutside = WaitForExternalData(new View("test"));
+            CheckResult(dataFromOutside);
 
+            WaitForExternalData($"Test data from extrenalSource " +dataFromOutside);
+
+            Delay(DateTime.Now.AddSeconds(1));
             return 1;
+        }
+
+        private void CheckResult(object o)
+        {
+
         }
 
         public void Step1(Step1Registration request)

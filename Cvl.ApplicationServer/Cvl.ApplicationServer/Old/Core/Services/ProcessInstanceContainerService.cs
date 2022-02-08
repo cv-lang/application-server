@@ -76,6 +76,7 @@ namespace Cvl.ApplicationServer.Core.Services
 
             processInstanceContainer.ProcessInstanceStateData = new ProcessStateData(string.Empty);
             processInstanceContainer.ProcessDiagnosticData = new ProcessDiagnosticData();
+            
 
             Repository.Insert(processInstanceContainer);
             await Repository.SaveChangesAsync();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using Cvl.ApplicationServer.Processes.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cvl.ApplicationServer.Core.Model.Processes
@@ -50,6 +51,11 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
         /// Proces diagnostic data (number of request, last error...)
         /// </summary>
         public virtual ProcessDiagnosticData ProcessDiagnosticData { get; set; } = null!;
+
+        /// <summary>
+        /// Process external data
+        /// </summary>
+        public virtual ProcessExternalData ProcessExternalData { get; set; } = null!;
 
         /// <summary>
         /// Main(single) thread state 

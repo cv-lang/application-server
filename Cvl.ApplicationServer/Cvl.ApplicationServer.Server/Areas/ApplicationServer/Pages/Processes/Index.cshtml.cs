@@ -7,9 +7,9 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Pages.Processes
 {
     public class IndexModel : PageModel
     {        
-        private readonly Core.ApplicationServer _applicationServer;
+        private readonly Core.ApplicationServerOld _applicationServer;
 
-        public IndexModel(Core.ApplicationServer applicationServer)
+        public IndexModel(Core.ApplicationServerOld applicationServer)
         {
             this._applicationServer = applicationServer;
         }

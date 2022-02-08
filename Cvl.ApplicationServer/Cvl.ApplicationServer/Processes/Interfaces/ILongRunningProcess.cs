@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Processes.Interfaces2;
+using Cvl.VirtualMachine;
 
 namespace Cvl.ApplicationServer.Processes.Interfaces
 {
@@ -12,6 +13,6 @@ namespace Cvl.ApplicationServer.Processes.Interfaces
         LongRunningProcessData LongRunningProcessData { get; set; }
         object Start(object inputParam);
 
-        void Resume();
+        VirtualMachineResult<object> Resume(object? inputData);
     }
 }

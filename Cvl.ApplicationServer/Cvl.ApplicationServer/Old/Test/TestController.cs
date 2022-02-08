@@ -10,10 +10,10 @@ namespace Cvl.ApplicationServer.Test
 {
     public class TestController
     {
-        private readonly Core.ApplicationServer _applicationServer;
+        private readonly Core.ApplicationServerOld _applicationServer;
         private readonly ILogger<TestController> _logger;
 
-        public TestController(Core.ApplicationServer applicationServer, ILogger<TestController> logger)
+        public TestController(Core.ApplicationServerOld applicationServer, ILogger<TestController> logger)
         {
             _applicationServer = applicationServer;
             this._logger = logger;

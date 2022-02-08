@@ -14,9 +14,9 @@ namespace Cvl.ApplicationServer.Processes.Base
     [ThreadType(ThreadType = ThreadType.Multithreaded)]
     public abstract class BaseProcessOld : IProcessOld, IProcessSerialization
     {
-        protected Core.ApplicationServer _applicationServer;
+        protected Core.ApplicationServerOld _applicationServer;
 
-        public BaseProcessOld(Core.ApplicationServer applicationServer)
+        public BaseProcessOld(Core.ApplicationServerOld applicationServer)
         {
             _applicationServer = applicationServer;
         }

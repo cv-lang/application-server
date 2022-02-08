@@ -24,6 +24,7 @@ using Cvl.ApplicationServer.Core.Users.Queries;
 using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.ApplicationServer.Processes.Commands;
 using Cvl.ApplicationServer.Processes.Queries;
+using Cvl.ApplicationServer.Processes.Repositories;
 
 namespace Cvl.ApplicationServer.Server.Setup
 {    
@@ -34,31 +35,26 @@ namespace Cvl.ApplicationServer.Server.Setup
         {
             services.AddTransient<IFullSerializer, XmlFullSerializer>()
                 .AddTransient<IJsonSerializer, Cvl.ApplicationServer.Core.Tools.Serializers.JsonSerializer>()
-
-
+                
                 .AddTransient<ProcessActivityDataRepository, ProcessActivityDataRepository>()
                 .AddTransient<ProcessActivityRepository, ProcessActivityRepository>()
                 .AddTransient<ProcessInstanceContainerRepository, ProcessInstanceContainerRepository>()
                 .AddTransient<ProcessStateDataRepository, ProcessStateDataRepository>()
                 .AddTransient<ProcessDiagnosticDataRepository, ProcessDiagnosticDataRepository>()
                 .AddTransient<ProcessStepHistoryRepository, ProcessStepHistoryRepository>()
+                .AddTransient<ProcessExternalDataRepository, ProcessExternalDataRepository>()
                 .AddTransient<ProcessInstanceContainerService, ProcessInstanceContainerService>()
-                .AddTransient<ProcessesApiService, ProcessesApiService>()
-                .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
-                .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
-                .AddTransient<ApplicationServerProcesses, ApplicationServerProcesses>()
-                .AddTransient<ProcessActivityService, ProcessActivityService>()
-                .AddTransient<ProcessStepHistoryService, ProcessStepHistoryService>()
-                .AddTransient<ProcessStateDataService, ProcessStateDataService>()
-                .AddTransient<ProcessStateDataService, ProcessStateDataService>()
+
                 .AddTransient<ProcessCommands, ProcessCommands>()
                 .AddTransient<ProcessInstanceContainerCommands, ProcessInstanceContainerCommands>()
                 .AddTransient<ProcessInstanceContainerQueries, ProcessInstanceContainerQueries>()
                 .AddTransient<ProcessStateDataCommands, ProcessStateDataCommands>()
                 .AddTransient<ProcessQueries, ProcessQueries>()
+                .AddTransient<ProcessExternalDataCommands, ProcessExternalDataCommands>()
 
                 .AddTransient<IApplicationServer, ApplicationServers.ApplicationServer>()
-                .AddTransient<Cvl.ApplicationServer.Core.Interfaces.IApplicationServerProcesses, Cvl.ApplicationServer.ApplicationServers.Internals.ApplicationServerProcesses>()
+                .AddTransient<Cvl.ApplicationServer.Core.Interfaces.IApplicationServerProcesses,
+                    Cvl.ApplicationServer.ApplicationServers.Internals.ApplicationServerProcesses>()
 
                 .AddTransient<Repository<User>, Repository<User>>()
                 .AddTransient<UserCommands, UserCommands>()
@@ -73,10 +69,18 @@ namespace Cvl.ApplicationServer.Server.Setup
                 .AddTransient<LogPropertiesRepository, LogPropertiesRepository>()
                 .AddTransient<LogElementService, LogElementService>()
 
-                .AddTransient<TestService, TestService>()
-                .AddTransient<ITestProcess, TestProcess>()
-                .AddTransient<TestController, TestController>()
-                .AddTransient<SimpleTestProcess, SimpleTestProcess>();
+                .AddTransient<SimpleTestProcess, SimpleTestProcess>()
+
+
+                //old - to delete
+                .AddTransient<ProcessesApiService, ProcessesApiService>()
+                .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
+                .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
+                .AddTransient<ApplicationServerProcesses, ApplicationServerProcesses>()
+                .AddTransient<ProcessActivityService, ProcessActivityService>()
+                .AddTransient<ProcessStepHistoryService, ProcessStepHistoryService>()
+                .AddTransient<ProcessStateDataService, ProcessStateDataService>()
+                .AddTransient<ProcessStateDataService, ProcessStateDataService>();
 
             return services;
         }

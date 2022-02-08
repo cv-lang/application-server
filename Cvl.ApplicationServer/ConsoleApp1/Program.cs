@@ -82,7 +82,21 @@ var appServer = serviceProvider.GetService<IApplicationServer>();
 
 var t1 = appServer.Processes.StartLongRunningProcess<SimpleTestProcess>(4);
 
-appServer.Processes.RunProcesses();
+var numberOfExecutedProcesses = 0;
+numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+
+await Task.Delay(1001);
+numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+
+var e1 = appServer.Processes.GetExternalData(t1.ProcessNumber);
+numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+appServer.Processes.SetExternalData(t1.ProcessNumber, "Testowe dane wejścowe dla procesu");
+numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+
+var e2 = appServer.Processes.GetExternalData(t1.ProcessNumber);
+
+
+Console.WriteLine("sdf");
 
 //var testProcess = appServer.Processes.CreateProcess<SimpleTestProcess>();
 

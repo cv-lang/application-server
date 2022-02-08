@@ -24,6 +24,7 @@ namespace Cvl.ApplicationServer.Processes.Queries
             return await _processInstanceContainerRepository.GetAll()
                 .Include(x => x.ProcessDiagnosticData)
                 .Include(x => x.ProcessInstanceStateData)
+                .Include(x => x.ProcessExternalData)
                 .SingleAsync(x => x.Id == processId);
         }
 
@@ -32,12 +33,13 @@ namespace Cvl.ApplicationServer.Processes.Queries
             return await _processInstanceContainerRepository.GetAll()
                 .Include(x => x.ProcessDiagnosticData)
                 .Include(x => x.ProcessInstanceStateData)
+                .Include(x=> x.ProcessExternalData)
                 .SingleAsync(x => x.ProcessNumber == processNumber);
         }
 
         internal async Task<List<string>> GetWaitingForExecutionProcessesNumbersAsync()
         {
-            var now = DateTime.UtcNow;
+            var now = DateTime.Now;
             return await _processInstanceContainerRepository.GetAll()
                 .Where(x => x.ThreadData.MainThreadState == ThreadState.WaitingForExecution)
                 .Where(x => x.ThreadData.NextExecutionDate == null || (x.ThreadData.NextExecutionDate < now))

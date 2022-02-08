@@ -7,10 +7,10 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Pages.Processes
 {
     public class PreviewModel : PageModel
     {
-        private readonly Core.ApplicationServer _applicationServer;
+        private readonly Core.ApplicationServerOld _applicationServer;
         private readonly ISerializer _serializer;
 
-        public PreviewModel(Core.ApplicationServer applicationServer, IJsonSerializer serializer)
+        public PreviewModel(Core.ApplicationServerOld applicationServer, IJsonSerializer serializer)
         {
             this._applicationServer = applicationServer;
             this._serializer = serializer;

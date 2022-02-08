@@ -34,7 +34,7 @@ namespace Cvl.ApplicationServer.Test
         private readonly ILogger<TestProcess> _logger;
         private TestService _testService;
 
-        public TestProcess(Core.ApplicationServer applicationServer, ILogger<TestProcess> logger,  TestService testService)
+        public TestProcess(Core.ApplicationServerOld applicationServer, ILogger<TestProcess> logger,  TestService testService)
             :base(applicationServer)
         {
             this._logger = logger;

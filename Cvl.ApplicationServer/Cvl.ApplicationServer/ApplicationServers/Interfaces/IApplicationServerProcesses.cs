@@ -17,6 +17,8 @@ namespace Cvl.ApplicationServer.Core.Interfaces
         void SaveProcess(IProcess process);
         IProcess LoadProcess(string processNumber);
         ProcessStatus StartLongRunningProcess<T>(object inputParameter) where T : ILongRunningProcess;
-        void RunProcesses();
+        int RunProcesses();
+        void SetExternalData(string processNumber, object externalData);
+        object GetExternalData(string processNumber);
     }
 }

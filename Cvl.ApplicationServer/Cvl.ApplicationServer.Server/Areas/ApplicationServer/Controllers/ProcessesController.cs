@@ -14,9 +14,9 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Controllers
     [Route("api/[controller]")]
     public class ProcessesController : ControllerBase
     {
-        private readonly Core.ApplicationServer _applicationServer;
+        private readonly Core.ApplicationServerOld _applicationServer;
 
-        public ProcessesController(Core.ApplicationServer applicationServer)
+        public ProcessesController(Core.ApplicationServerOld applicationServer)
         {
             this._applicationServer = applicationServer;
         }

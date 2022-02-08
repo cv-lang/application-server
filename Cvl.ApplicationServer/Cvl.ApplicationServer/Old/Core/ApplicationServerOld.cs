@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Core
 {
-    public class ApplicationServer
+    public class ApplicationServerOld
     {
         private readonly IFullSerializer _fullSerializer;
         private readonly IJsonSerializer _jsonSerializer;
@@ -27,7 +27,7 @@ namespace Cvl.ApplicationServer.Core
 
 
 
-        public ApplicationServer(IFullSerializer fullSerializer, IJsonSerializer jsonSerializer,
+        public ApplicationServerOld(IFullSerializer fullSerializer, IJsonSerializer jsonSerializer,
             ProcessInstanceContainerService processInstanceContainerService,
             ProcessesApiService processService, ApplicationServerProcesses processes)
         {
