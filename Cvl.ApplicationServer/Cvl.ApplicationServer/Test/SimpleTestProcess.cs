@@ -57,6 +57,8 @@ namespace Cvl.ApplicationServer.Test
 
             WaitForExternalData($"Test data from extrenalSource " +dataFromOutside);
 
+            ShowView(new View("rejestration"))
+
             Delay(DateTime.Now.AddSeconds(1));
             return 1;
         }

@@ -129,6 +129,7 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
             {
                 var vmParams = process.LongRunningProcessData.VirtualMachine.GetHibernateParams();
                 var type = (ProcessHibernationType)vmParams[0];
+                string xml = "";
 
                 switch (type)
                 {
@@ -142,7 +143,13 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
                         process.ProcessData.ThreadStatus = ThreadState.WaitForExternalData;
                         var externalOutputData = vmParams[1];
 
-                        var xml = _fullSerializer.Serialize(externalOutputData);
+                        xml = _fullSerializer.Serialize(externalOutputData);
+                        process.ProcessData.ProcessInstanceContainer
+                            .ProcessExternalData.ProcessOutputDataFullSerialization = xml;
+                        break;
+                    case ProcessHibernationType.WaitingForUserInterface:
+                        process.ProcessData.ThreadStatus = ThreadState.WaitingForUserInterface;
+                        xml = _fullSerializer.Serialize(vmParams[1]);
                         process.ProcessData.ProcessInstanceContainer
                             .ProcessExternalData.ProcessOutputDataFullSerialization = xml;
                         break;
@@ -168,6 +175,16 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
                 .ProcessExternalData.ExternalInputDataFullSerialization = xml;
             process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.WaitingForExecution;
             SaveProcess(process);
+        }
+
+        public View GetViewData(string processNumber)
+        {
+            return (View)GetExternalData(processNumber);
+        }
+
+        public void SetViewResponse(string processNumbr, ViewResponse viewResponse)
+        {
+            SetExternalData(processNumbr, viewResponse);
         }
     }
 }

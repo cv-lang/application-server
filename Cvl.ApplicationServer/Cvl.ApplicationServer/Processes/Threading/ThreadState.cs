@@ -8,7 +8,7 @@ namespace Cvl.ApplicationServer.Processes.Threading
 {
     public enum ThreadState
     {
-        Idle,
+        Idle = 0,
         WaitingForExecution,
         WaitForExternalData,
         WaitingForUserInterface,

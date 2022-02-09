@@ -94,8 +94,8 @@ appServer.Processes.SetExternalData(t1.ProcessNumber, "Testowe dane wejścowe dl
 numberOfExecutedProcesses = appServer.Processes.RunProcesses();
 
 var e2 = appServer.Processes.GetExternalData(t1.ProcessNumber);
-
-
+appServer.Processes.SetExternalData(t1.ProcessNumber);
+numberOfExecutedProcesses = appServer.Processes.RunProcesses();
 Console.WriteLine("sdf");
 
 //var testProcess = appServer.Processes.CreateProcess<SimpleTestProcess>();
