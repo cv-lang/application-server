@@ -7,6 +7,7 @@ using Cvl.ApplicationServer.ApplicationServers.Internals;
 using Cvl.ApplicationServer.Processes;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.Interfaces2;
+using Cvl.ApplicationServer.Processes.UI;
 using Cvl.ApplicationServer.Test;
 
 namespace Cvl.ApplicationServer.Core.Interfaces
@@ -20,5 +21,7 @@ namespace Cvl.ApplicationServer.Core.Interfaces
         int RunProcesses();
         void SetExternalData(string processNumber, object externalData = null);
         object GetExternalData(string processNumber);
+        View GetViewData(string processNumber);
+        void SetViewResponse(string processNumbr, ViewResponse viewResponse);
     }
 }

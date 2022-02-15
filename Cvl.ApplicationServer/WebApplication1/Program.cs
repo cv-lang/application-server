@@ -11,8 +11,8 @@ var processesContextConnectionString = builder.Configuration.GetConnectionString
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationServerDbContext>(options => options.UseSqlServer(processesContextConnectionString));
 builder.Services.UseApplicationServer();
-builder.Logging.ClearProviders();
-builder.Logging.AddHierarchicalLogger();
+//builder.Logging.ClearProviders();
+//builder.Logging.AddHierarchicalLogger();
 
 builder.Services.AddKendo();
 builder.Services.AddMvc();

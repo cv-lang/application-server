@@ -21,6 +21,7 @@ using System.Text.Json;
 using System.Xml.Serialization;
 using Cvl.ApplicationServer.Core.Interfaces;
 using Cvl.ApplicationServer.Core.Users.Interfaces;
+using Cvl.ApplicationServer.Processes.UI;
 using Newtonsoft.Json;
 using Polenter.Serialization;
 using Polenter.Serialization.Core;
@@ -96,6 +97,12 @@ numberOfExecutedProcesses = appServer.Processes.RunProcesses();
 var e2 = appServer.Processes.GetExternalData(t1.ProcessNumber);
 appServer.Processes.SetExternalData(t1.ProcessNumber);
 numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+
+var viewData= appServer.Processes.GetViewData(t1.ProcessNumber);
+appServer.Processes.SetViewResponse(t1.ProcessNumber,new ViewResponse(){SelectedAction = "test"});
+numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+
 Console.WriteLine("sdf");
 
 //var testProcess = appServer.Processes.CreateProcess<SimpleTestProcess>();
