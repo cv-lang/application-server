@@ -44,13 +44,15 @@ namespace Cvl.ApplicationServer.Server.Setup
                 .AddTransient<ProcessStepHistoryRepository, ProcessStepHistoryRepository>()
                 .AddTransient<ProcessExternalDataRepository, ProcessExternalDataRepository>()
                 .AddTransient<ProcessInstanceContainerService, ProcessInstanceContainerService>()
-
+                
                 .AddTransient<ProcessCommands, ProcessCommands>()
                 .AddTransient<ProcessInstanceContainerCommands, ProcessInstanceContainerCommands>()
                 .AddTransient<ProcessInstanceContainerQueries, ProcessInstanceContainerQueries>()
                 .AddTransient<ProcessStateDataCommands, ProcessStateDataCommands>()
                 .AddTransient<ProcessQueries, ProcessQueries>()
                 .AddTransient<ProcessExternalDataCommands, ProcessExternalDataCommands>()
+                .AddTransient<ProcessStepQueries, ProcessStepQueries>()
+                .AddTransient<ProcessActivityQueries>()
 
                 .AddTransient<IApplicationServer, ApplicationServers.ApplicationServer>()
                 .AddTransient<Cvl.ApplicationServer.Core.Interfaces.IApplicationServerProcesses,
@@ -76,7 +78,7 @@ namespace Cvl.ApplicationServer.Server.Setup
                 .AddTransient<ProcessesApiService, ProcessesApiService>()
                 .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
                 .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
-                .AddTransient<ApplicationServerProcesses, ApplicationServerProcesses>()
+                //.AddTransient<ApplicationServerProcesses, ApplicationServerProcesses>()
                 .AddTransient<ProcessActivityService, ProcessActivityService>()
                 .AddTransient<ProcessStepHistoryService, ProcessStepHistoryService>()
                 .AddTransient<ProcessStateDataService, ProcessStateDataService>()

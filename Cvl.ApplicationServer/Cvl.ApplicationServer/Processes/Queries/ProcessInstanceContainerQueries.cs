@@ -46,5 +46,10 @@ namespace Cvl.ApplicationServer.Processes.Queries
                 .Select(x => x.ProcessNumber)
                 .ToListAsync();
         }
+
+        public IQueryable<ProcessInstanceContainer> GetAll()
+        {
+            return _processInstanceContainerRepository.GetAll();
+        }
     }
 }

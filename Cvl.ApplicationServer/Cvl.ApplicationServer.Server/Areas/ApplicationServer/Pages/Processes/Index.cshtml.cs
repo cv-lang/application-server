@@ -1,3 +1,4 @@
+using Cvl.ApplicationServer.Core.Interfaces;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +8,9 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Pages.Processes
 {
     public class IndexModel : PageModel
     {        
-        private readonly Core.ApplicationServerOld _applicationServer;
+        private readonly IApplicationServer _applicationServer;
 
-        public IndexModel(Core.ApplicationServerOld applicationServer)
+        public IndexModel(IApplicationServer applicationServer)
         {
             this._applicationServer = applicationServer;
         }

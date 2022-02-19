@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.Interfaces;
 using Cvl.ApplicationServer.Core.Model;
+using Cvl.ApplicationServer.Core.Model.Processes;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Cvl.ApplicationServer.Migrations;
 using Cvl.ApplicationServer.Processes;
 using Cvl.ApplicationServer.Processes.Commands;
+using Cvl.ApplicationServer.Processes.Dtos;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.Interfaces2;
 using Cvl.ApplicationServer.Processes.Queries;
@@ -16,6 +18,7 @@ using Cvl.ApplicationServer.Processes.UI;
 using Cvl.VirtualMachine;
 using Cvl.VirtualMachine.Core;
 using Cvl.VirtualMachine.Core.Variables.Values;
+using Microsoft.EntityFrameworkCore;
 using ThreadState = Cvl.ApplicationServer.Processes.Threading.ThreadState;
 
 namespace Cvl.ApplicationServer.ApplicationServers.Internals
@@ -26,15 +29,22 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
         private readonly ProcessQueries _processQueries;
         private readonly IFullSerializer _fullSerializer;
         private readonly ProcessExternalDataCommands _processExternalDataCommands;
+        private readonly ProcessActivityQueries _processActivityQueries;
+        private readonly ProcessStepQueries _processStepQueries;
 
         public ApplicationServerProcesses(ProcessCommands processCommands, ProcessQueries processQueries,
             IFullSerializer fullSerializer,
-            ProcessExternalDataCommands processExternalDataCommands)
+            ProcessExternalDataCommands processExternalDataCommands,
+            ProcessActivityQueries processActivityQueries,
+            ProcessStepQueries processStepQueries
+            )
         {
             _processCommands = processCommands;
             _processQueries = processQueries;
             _fullSerializer = fullSerializer;
             _processExternalDataCommands = processExternalDataCommands;
+            _processActivityQueries = processActivityQueries;
+            _processStepQueries = processStepQueries;
         }
 
         public T CreateProcess<T>() where T : IProcess
@@ -45,6 +55,11 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
         public IProcess LoadProcess(string processNumber)
         {
             return (BaseProcess)_processQueries.LoadProcessAsync<BaseProcess>(processNumber).Result;
+        }
+
+        public T LoadProcess<T>(string processNumber) where T : IProcess
+        {
+            return (T)LoadProcess(processNumber);
         }
 
         public void SaveProcess(IProcess process)
@@ -185,6 +200,30 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
         public void SetViewResponse(string processNumbr, ViewResponse viewResponse)
         {
             SetExternalData(processNumbr, viewResponse);
+        }
+
+        public IQueryable<ProcessInstanceContainer> GetAllProcesses()
+        {
+            return _processQueries.GetAllProcessInstanceContainers();
+        }
+
+        public IQueryable<ProcessListItemDto> GetAllProcessesDto()
+        {
+            var list = _processQueries.GetAllProcessInstanceContainers();
+
+            var listDto = list.Include(x => x.ProcessDiagnosticData)
+                .Select(x => new ProcessListItemDto(x));
+            return listDto;
+        }
+
+        public IQueryable<ProcessActivity> GetProcessActivities(long processId)
+        {
+            return _processActivityQueries.GetAll();
+        }
+
+        public IQueryable<ProcessStepHistory> GetProcessSteps(long processId)
+        {
+            return _processStepQueries.GetAll();
         }
     }
 }

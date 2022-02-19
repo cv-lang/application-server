@@ -64,5 +64,10 @@ namespace Cvl.ApplicationServer.Processes.Queries
         {
             return await _processInstanceContainerQueries.GetWaitingForExecutionProcessesNumbersAsync();
         }
+
+        internal IQueryable<Core.Model.Processes.ProcessInstanceContainer> GetAllProcessInstanceContainers()
+        {
+            return _processInstanceContainerQueries.GetAll();
+        }
     }
 }

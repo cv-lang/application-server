@@ -12,7 +12,8 @@
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(p => p.Id).Width(12).ClientTemplate("<span title='ProcessId:#=Id#'><a href='preview?ProcessId=#=Id#'>#=ProcessNumber#</a></span>");
+        columns.Bound(p => p.Id).Width(12)
+            .ClientTemplate("<span title='processNumber:#=Id#'><a href='processes/preview?processNumber=#=ProcessNumber#'>#=ProcessNumber#</a></span>");
         columns.Bound(p => p.Type).Title("Type").Width(66)
             .ClientTemplate("<span title='#=Type#'>#=TypeShortName#</span>");
         columns.Bound(p => p.StatusName).Title("Status").Width(99);

@@ -10,10 +10,10 @@ namespace Cvl.ApplicationServer.Test
 {
     public class TestController
     {
-        private readonly Core.ApplicationServerOld _applicationServer;
+        private readonly ApplicationServers.ApplicationServer _applicationServer;
         private readonly ILogger<TestController> _logger;
 
-        public TestController(Core.ApplicationServerOld applicationServer, ILogger<TestController> logger)
+        public TestController(ApplicationServers.ApplicationServer applicationServer, ILogger<TestController> logger)
         {
             _applicationServer = applicationServer;
             this._logger = logger;
@@ -25,19 +25,19 @@ namespace Cvl.ApplicationServer.Test
             using var log = _logger.BeginScope("TestStep1Async");
 
             _logger.LogWarning("Create process");
-            var process = await _applicationServer.Processes.CreateProcessAsync<ITestProcess>(GetConnectionData());
+            var process = _applicationServer.Processes.CreateProcess<ITestProcess>();
 
 
             _logger.LogWarning("Invoke process.TestMethod1Async");
             await process.TestMethod1Async(2);
 
             await Task.Delay(50);
-            return new TestResponse() { ProcessNumber = process.ProcessNumber};
+            return new TestResponse() { ProcessNumber = process.ProcessData.ProcessNumber};
         }
 
         public async Task<TestResponse> TestStep2Async(TestRequest request)
         {
-            var process = await _applicationServer.Processes.LoadProcessAsync<ITestProcess>(request.ProcessNumber, GetConnectionData());
+            var process = _applicationServer.Processes.LoadProcess<ITestProcess>(request.ProcessNumber);
             await process.TestMethod1Async(2);
 
             await Task.Delay(50);
@@ -46,7 +46,7 @@ namespace Cvl.ApplicationServer.Test
 
         public async Task<TestResponse> TestStep3Async(TestRequest request)
         {
-            var process = await _applicationServer.Processes.LoadProcessAsync<ITestProcess>(request.ProcessNumber, GetConnectionData());
+            var process = _applicationServer.Processes.LoadProcess<ITestProcess>(request.ProcessNumber);
             process.TestMethod2WhitExeption(2);
 
             await Task.Delay(50);
@@ -55,7 +55,7 @@ namespace Cvl.ApplicationServer.Test
 
         public async Task<TestResponse> TestStep4Async(TestRequest request)
         {
-            var process = await _applicationServer.Processes.LoadProcessAsync<ITestProcess>(request.ProcessNumber, GetConnectionData());
+            var process = _applicationServer.Processes.LoadProcess<ITestProcess>(request.ProcessNumber);
             await process.TestMethod3WithExeptionAsync(2);
 
             await Task.Delay(50);
@@ -64,7 +64,7 @@ namespace Cvl.ApplicationServer.Test
 
         public async Task<TestResponse> TestStep5Async(TestRequest request)
         {
-            var process = await _applicationServer.Processes.LoadProcessAsync<ITestProcess>(2, GetConnectionData());
+            var process = _applicationServer.Processes.LoadProcess<ITestProcess>(request.ProcessNumber);
             await process.TestMethod4WithExeptionAsync(2);
 
             await Task.Delay(50);

@@ -7,16 +7,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cvl.ApplicationServer.Core.Interfaces;
 
 namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/applicationserver/[controller]")]
     public class ProcessesController : ControllerBase
     {
-        private readonly Core.ApplicationServerOld _applicationServer;
+        private readonly IApplicationServer _applicationServer;
 
-        public ProcessesController(Core.ApplicationServerOld applicationServer)
+        public ProcessesController(IApplicationServer applicationServer)
         {
             this._applicationServer = applicationServer;
         }
@@ -24,7 +25,7 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Controllers
         [Route("Processes_Read")]
         public DataSourceResult Processes_Read([DataSourceRequest] DataSourceRequest request)
         {
-            var objects = _applicationServer.Processes.GetAllProcesses();
+            var objects = _applicationServer.Processes.GetAllProcessesDto();
             return objects.ToDataSourceResult(request);
         }
 

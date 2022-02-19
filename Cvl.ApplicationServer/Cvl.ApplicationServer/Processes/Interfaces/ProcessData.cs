@@ -11,7 +11,7 @@ namespace Cvl.ApplicationServer.Old.Processes.Infrastructure
 {
     public class ProcessData
     {
-        internal ProcessInstanceContainer ProcessInstanceContainer { get; set; }
+        public ProcessInstanceContainer ProcessInstanceContainer { get; set; }
         public long ProcessId => ProcessInstanceContainer.Id;
         public string ProcessNumber => ProcessInstanceContainer.ProcessNumber;
 
@@ -21,6 +21,14 @@ namespace Cvl.ApplicationServer.Old.Processes.Infrastructure
         {
             get { return ProcessInstanceContainer.ThreadData.MainThreadState; }
             set { ProcessInstanceContainer.ThreadData.MainThreadState = value; }
+        }
+
+
+        public void SetStep(string stepName, string description, Enum step)
+        {
+            ProcessInstanceContainer.Step.Step = Convert.ToInt32(step);
+            ProcessInstanceContainer.Step.StepName = stepName;
+            ProcessInstanceContainer.Step.StepDescription = description;
         }
     }
 }

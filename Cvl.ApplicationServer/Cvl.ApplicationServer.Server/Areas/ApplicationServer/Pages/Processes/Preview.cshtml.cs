@@ -1,3 +1,4 @@
+using Cvl.ApplicationServer.Core.Interfaces;
 using Cvl.ApplicationServer.Core.Model.Processes;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -7,10 +8,10 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Pages.Processes
 {
     public class PreviewModel : PageModel
     {
-        private readonly Core.ApplicationServerOld _applicationServer;
+        private readonly IApplicationServer _applicationServer;
         private readonly ISerializer _serializer;
 
-        public PreviewModel(Core.ApplicationServerOld applicationServer, IJsonSerializer serializer)
+        public PreviewModel(IApplicationServer applicationServer, IJsonSerializer serializer)
         {
             this._applicationServer = applicationServer;
             this._serializer = serializer;
@@ -18,31 +19,32 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Pages.Processes
 
         public string ProcessInstanceContainer { get; set; }
         public string ProcessState { get; set; }
+        public string ProcessNumber { get; set; }
         public long ProcessId { get; set; }
 
-        public async Task OnGet(long processId)
+        public async Task OnGet(string processNumber)
         {
-            ProcessId = processId;
-            var processContainer = await _applicationServer.Processes.GetProcessInstanceContainerWithNestedObject(processId);
-            if (processContainer == null)
+            ProcessNumber = processNumber;
+            var process = _applicationServer.Processes.LoadProcess(processNumber);
+            if (process == null)
             {
-                throw new Exception($"There is no process with processId={processId}");
+                throw new Exception($"There is no process with processId={processNumber}");
             }
 
-            ProcessState = processContainer.ProcessInstanceStateData.ProcessStateFullSerialization;
-
-            //w serializacji kontenera nie chcemy stanu procesu
-            processContainer.ProcessInstanceStateData.ProcessStateFullSerialization = string.Empty;
-            ProcessInstanceContainer = _serializer.Serialize(processContainer);
-
+            ProcessInstanceContainer = _serializer.Serialize(process.ProcessData.ProcessInstanceContainer);
+            ProcessId = process.ProcessData.ProcessId;
 
 
             //remove $type from full serialization
             ProcessInstanceContainer = ProcessInstanceContainer
+                .Replace("\\\"","`").Replace("\r","").Replace("\n","")
                 .Replace("\"{", "{").Replace("}\"","}").Replace("\\","");
+                
+            ProcessState = _serializer.Serialize(process);
+           ProcessState = ProcessState
+               .Replace("\\\"", "`").Replace("\r", "").Replace("\n", "")
+               .Replace("\"{", "{").Replace("}\"", "}").Replace("\\", "");
 
-            ProcessState = ProcessState
-                .Replace("\"{", "{").Replace("}\"", "}").Replace("\\", "");
 
         }
     }

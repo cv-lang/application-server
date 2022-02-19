@@ -1,6 +1,5 @@
 ﻿using Cvl.ApplicationServer.Core;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
-using Cvl.ApplicationServer.Processes.Base;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.Threading;
 using Microsoft.Extensions.Logging;
@@ -9,16 +8,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cvl.ApplicationServer.Processes;
+using Cvl.ApplicationServer.Processes.Interfaces2;
 
 namespace Cvl.ApplicationServer.Test
 {
+    public enum TestProcessStep
+    {
+        Init,
+        Test1,
+        Test2,
+    }
     public class TestProcessState
     {
         public string Request { get; set; } = string.Empty;
         public int Dane { get; set; }
     }
 
-    public interface ITestProcess : IProcessOld
+    public interface ITestProcess : IProcess
     {
         Task<int> TestMethod1Async(int i);
         int TestMethod2WhitExeption(int i);
@@ -28,14 +35,14 @@ namespace Cvl.ApplicationServer.Test
         Task TestMethod4WithExeptionAsync(int i);
     }
 
-    public class TestProcess : BaseProcessOld, ITestProcess
+    public class TestProcess : BaseProcess, ITestProcess
     {
         private TestProcessState _processState = new TestProcessState();
         private readonly ILogger<TestProcess> _logger;
         private TestService _testService;
 
-        public TestProcess(Core.ApplicationServerOld applicationServer, ILogger<TestProcess> logger,  TestService testService)
-            :base(applicationServer)
+        public TestProcess(ApplicationServers.ApplicationServer applicationServer, ILogger<TestProcess> logger,  TestService testService)
+            :base()
         {
             this._logger = logger;
             _testService = testService;
@@ -46,9 +53,9 @@ namespace Cvl.ApplicationServer.Test
             using var log = _logger.BeginScope("TestMethod1Async");
 
             _logger.LogWarning("Krok 1");
-            await SetStepAsync("Step", "Step descrption");
+            ProcessData.SetStep("Step", "Step descrption", TestProcessStep.Init);
 
-            var container = await GetProcessInstanceContainer();
+            var container = ProcessData.ProcessInstanceContainer;
 
             _logger.LogWarning("Krok 2");
             container.ExternalIds.ExternalId1 = "4443332211";
@@ -59,9 +66,7 @@ namespace Cvl.ApplicationServer.Test
             container.BusinessData.ClientName = "CLient Test";
             container.BusinessData.Email = "test@clientTest.com";
             container.BusinessData.Phone = "+48333222111";
-
-            await UpdateProcessInstanceContainer(container);
-
+            
             _logger.LogWarning("Krok 3");
             testMetod();
             _logger.LogWarning("Krok 4");
@@ -107,16 +112,14 @@ namespace Cvl.ApplicationServer.Test
             await Task.Delay(50);
         }
 
-        public override void ProcessDeserialization(IFullSerializer serializer, string serializedProcess)
+        public override object GetProcessState()
         {
-            _processState = serializer.Deserialize<TestProcessState>(serializedProcess) ?? throw new Exception("Could not deserialize process state");
+            return _processState;
         }
 
-        public override string ProcessSerizalization(IFullSerializer serializer)
+        public override void LoadProcessState(object processState)
         {
-            return serializer.Serialize(_processState);
+            _processState = (TestProcessState)processState;
         }
-
-        
     }
 }
