@@ -19,7 +19,7 @@ namespace Cvl.ApplicationServer.Test
         public long EmailVerificationCode { get; set; }
     }
 
-    public enum AddNewUserProcessStep
+    public enum SimpleLongRunningTestProcessStep
     {
         Init = 0,
         Registration = 1,
@@ -48,12 +48,12 @@ namespace Cvl.ApplicationServer.Test
         [Interpret]
         public override object Start(object inputParam)
         {
-            ProcessData.SetStep("start", "start", TestProcessStep.Init);
+            ProcessData.SetStep("start", "start", SimpleLongRunningTestProcessStep.Init);
 
             Step1(new Step1Registration() { Email = "test@test.com", Password = "sdf"});
             Delay(DateTime.Now.AddSeconds(1));
 
-            ProcessData.SetStep("Step 2", "Step 2 descrption", TestProcessStep.Test1);
+            ProcessData.SetStep("Step 2", "Step 2 descrption", SimpleLongRunningTestProcessStep.Registration);
 
             Step2("1234");
             var dataFromOutside = WaitForExternalData(new View("test"));
@@ -62,7 +62,7 @@ namespace Cvl.ApplicationServer.Test
             WaitForExternalData($"Test data from extrenalSource " +dataFromOutside);
 
 
-            ProcessData.SetStep("Step 3", "Step 3 descrption", TestProcessStep.Test2);
+            ProcessData.SetStep("Step 3", "Step 3 descrption", SimpleLongRunningTestProcessStep.EmailVerification);
             //Delay(DateTime.Now.AddSeconds(1));
 
             var response = ShowView(new View("registration"));

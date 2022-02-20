@@ -4,7 +4,6 @@ using ConsoleApp1.TTeeesd;
 using Cvl.ApplicationServer.Core;
 using Cvl.ApplicationServer.Core.Database.Contexts;
 using Cvl.ApplicationServer.Core.Repositories;
-using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Cvl.ApplicationServer.Logging.Logger;

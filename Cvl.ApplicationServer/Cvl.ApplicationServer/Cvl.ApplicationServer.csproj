@@ -11,6 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Old\**" />
+    <EmbeddedResource Remove="Old\**" />
+    <None Remove="Old\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.1" />
     <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
@@ -24,12 +30,9 @@
 
   <ItemGroup>
     <Folder Include="Files\Commands\" />
-    <Folder Include="Old\Core\Tools\" />
+    <Folder Include="Processes\Services\" />
     <Folder Include="Tools\" />
-    <Folder Include="Old\Core\Dtos\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Old\Core\Model\Processes\" />
-    <Folder Include="Old\Processes\Interfaces\" />
     <Folder Include="Processes\Nowy folder\" />
   </ItemGroup>
 

@@ -1,5 +1,4 @@
 ﻿using Cvl.ApplicationServer.Core.Repositories;
-using Cvl.ApplicationServer.Core.Services;
 using Cvl.ApplicationServer.Core.Tools.Serializers;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Cvl.ApplicationServer.Logging.Logger;
@@ -35,7 +34,7 @@ namespace Cvl.ApplicationServer.Server.Setup
         {
             services.AddTransient<IFullSerializer, XmlFullSerializer>()
                 .AddTransient<IJsonSerializer, Cvl.ApplicationServer.Core.Tools.Serializers.JsonSerializer>()
-                
+
                 .AddTransient<ProcessActivityDataRepository, ProcessActivityDataRepository>()
                 .AddTransient<ProcessActivityRepository, ProcessActivityRepository>()
                 .AddTransient<ProcessInstanceContainerRepository, ProcessInstanceContainerRepository>()
@@ -43,8 +42,7 @@ namespace Cvl.ApplicationServer.Server.Setup
                 .AddTransient<ProcessDiagnosticDataRepository, ProcessDiagnosticDataRepository>()
                 .AddTransient<ProcessStepHistoryRepository, ProcessStepHistoryRepository>()
                 .AddTransient<ProcessExternalDataRepository, ProcessExternalDataRepository>()
-                .AddTransient<ProcessInstanceContainerService, ProcessInstanceContainerService>()
-                
+
                 .AddTransient<ProcessCommands, ProcessCommands>()
                 .AddTransient<ProcessInstanceContainerCommands, ProcessInstanceContainerCommands>()
                 .AddTransient<ProcessInstanceContainerQueries, ProcessInstanceContainerQueries>()
@@ -69,20 +67,10 @@ namespace Cvl.ApplicationServer.Server.Setup
 
                 .AddTransient<LogElementRepository, LogElementRepository>()
                 .AddTransient<LogPropertiesRepository, LogPropertiesRepository>()
-                .AddTransient<LogElementService, LogElementService>()
 
-                .AddTransient<SimpleLongRunningTestProcess, SimpleLongRunningTestProcess>()
-
-
-                //old - to delete
-                .AddTransient<ProcessesApiService, ProcessesApiService>()
-                .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
-                .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
-                //.AddTransient<ApplicationServerProcesses, ApplicationServerProcesses>()
-                .AddTransient<ProcessActivityService, ProcessActivityService>()
-                .AddTransient<ProcessStepHistoryService, ProcessStepHistoryService>()
-                .AddTransient<ProcessStateDataService, ProcessStateDataService>()
-                .AddTransient<ProcessStateDataService, ProcessStateDataService>();
+                .AddTransient<SimpleLongRunningTestProcess, SimpleLongRunningTestProcess>();
+                
+                
 
             return services;
         }

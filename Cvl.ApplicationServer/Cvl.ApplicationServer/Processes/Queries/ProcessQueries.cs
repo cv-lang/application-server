@@ -8,7 +8,6 @@ using Cvl.ApplicationServer.Core.Model;
 using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Cvl.ApplicationServer.Old.Processes.Infrastructure;
 using Cvl.ApplicationServer.Processes.Commands;
-using Cvl.ApplicationServer.Processes.Infrastructure;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.Interfaces2;
 using Cvl.ApplicationServer.Processes.Model.OwnedClasses;
