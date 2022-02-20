@@ -1,3 +1,19 @@
+# .NET application-server 6
+
+## Process type
+
+- Step base process - Process running in native job-worker and api. After execution of part od task, change his step. Buisness logic depend on step.
+- Long running process - Process running in virtual-machine it's execution can by hibernatet (stopped) and resume later. 
+
+
+
+
+
+
+
+
+# Previous version
+
 # .NET application-server
 <img src="https://raw.githubusercontent.com/cv-lang/application-server/master/wiki/dotnet-application-server-process.png" alt=".net application server"/> 
 
