@@ -26,7 +26,7 @@ namespace Cvl.ApplicationServer.Core.Serializers
                 xmlOfAnObject = xmlOfAnObject.Remove(0, 1);
             }
 
-            if (xmlOfAnObject.Equals("<null/>"))
+            if (xmlOfAnObject.Equals("<null/>") || string.IsNullOrEmpty(xmlOfAnObject))
             {
                 return default;
             }

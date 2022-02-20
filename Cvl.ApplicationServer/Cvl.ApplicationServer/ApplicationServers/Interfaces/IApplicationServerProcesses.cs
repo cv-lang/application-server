@@ -23,13 +23,15 @@ namespace Cvl.ApplicationServer.Core.Interfaces
         T LoadProcess<T>(string processNumber) where T : IProcess;
         ProcessStatus StartLongRunningProcess<T>(object inputParameter) where T : ILongRunningProcess;
         int RunProcesses();
-        void SetExternalData(string processNumber, object externalData = null);
-        object GetExternalData(string processNumber);
+        void SetExternalDataInput(string processNumber, object externalData = null);
+        object GetExternalDataOutput(string processNumber);
+        object GetExternalDataInput(string processNumber);
         View GetViewData(string processNumber);
         void SetViewResponse(string processNumbr, ViewResponse viewResponse);
         IQueryable<ProcessInstanceContainer> GetAllProcesses();
         IQueryable<ProcessListItemDto> GetAllProcessesDto();
         IQueryable<ProcessActivity> GetProcessActivities(long processId);
         IQueryable<ProcessStepHistory> GetProcessSteps(long processId);
+        public T StartProcess<T>() where T : IProcess;
     }
 }

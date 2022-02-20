@@ -32,14 +32,17 @@ namespace Cvl.ApplicationServer.Processes.Commands
 
         public async Task<T> CreateProcessAsync<T>() where T : IProcess
         {
-            var process = (T)_serviceProvider.GetService(typeof(T));
+            var process = (T?)_serviceProvider.GetService(typeof(T));
             if (process == null)
             {
                 throw new ArgumentException($"Could not create a process '{typeof(T)}'");
             }
 
+            var state = process.GetProcessState();
+            var stringState = _fullSerializer.Serialize(state);
+
             var processInstanceContainer = await _processInstanceContainerCommands
-                .CreateProcessInstanceContainer(process.GetType());
+                .CreateProcessInstanceContainer(process.GetType(), stringState);
 
             process.ProcessData = new ProcessData();
             process.ProcessData.ProcessInstanceContainer = processInstanceContainer;

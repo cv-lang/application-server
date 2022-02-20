@@ -23,13 +23,13 @@ namespace Cvl.ApplicationServer.Processes.Commands
             _processNumberGenerator = processNumberGenerator;
         }
 
-        public async Task<ProcessInstanceContainer> CreateProcessInstanceContainer(Type processType)
+        public async Task<ProcessInstanceContainer> CreateProcessInstanceContainer(Type processType, string processState)
         {
             var processInstanceContainer = new ProcessInstanceContainer("",
                 "new");
 
             processInstanceContainer.ProcessTypeData.ProcessTypeFullName = processType.FullName!;
-            processInstanceContainer.ProcessInstanceStateData = new ProcessStateData(string.Empty);
+            processInstanceContainer.ProcessInstanceStateData = new ProcessStateData(processState);
             processInstanceContainer.ProcessDiagnosticData = new ProcessDiagnosticData();
             processInstanceContainer.ProcessExternalData = new ProcessExternalData();
             

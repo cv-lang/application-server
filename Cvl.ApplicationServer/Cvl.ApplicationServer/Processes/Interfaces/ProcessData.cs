@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using Cvl.ApplicationServer.Core.Model;
 using Cvl.ApplicationServer.Core.Model.Processes;
 using Newtonsoft.Json;
+using ThreadState = Cvl.ApplicationServer.Processes.Threading.ThreadState;
 
 namespace Cvl.ApplicationServer.Old.Processes.Infrastructure
 {
@@ -37,6 +38,11 @@ namespace Cvl.ApplicationServer.Old.Processes.Infrastructure
             s.Step.StepDescription = description;
             
             ProcessInstanceContainer.ProcessStepHistories.Add(s);
+        }
+
+        public void SetToJobThread()
+        {
+            ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.WaitingForExecution;
         }
     }
 }

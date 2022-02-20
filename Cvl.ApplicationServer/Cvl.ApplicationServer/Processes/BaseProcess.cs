@@ -20,5 +20,9 @@ namespace Cvl.ApplicationServer.Processes
         public abstract void LoadProcessState(object processState);
 
         public abstract object GetProcessState();
+
+        public virtual void JobEntry()
+        {
+        }
     }
 }

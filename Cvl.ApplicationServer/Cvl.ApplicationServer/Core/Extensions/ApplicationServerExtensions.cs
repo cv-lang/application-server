@@ -43,6 +43,7 @@ namespace Cvl.ApplicationServer.Server.Setup
                 .AddTransient<ProcessStepHistoryRepository, ProcessStepHistoryRepository>()
                 .AddTransient<ProcessExternalDataRepository, ProcessExternalDataRepository>()
 
+                .AddTransient<IProcessNumberGenerator, ProcessNumberGenerator>()
                 .AddTransient<ProcessCommands, ProcessCommands>()
                 .AddTransient<ProcessInstanceContainerCommands, ProcessInstanceContainerCommands>()
                 .AddTransient<ProcessInstanceContainerQueries, ProcessInstanceContainerQueries>()
@@ -68,9 +69,9 @@ namespace Cvl.ApplicationServer.Server.Setup
                 .AddTransient<LogElementRepository, LogElementRepository>()
                 .AddTransient<LogPropertiesRepository, LogPropertiesRepository>()
 
-                .AddTransient<SimpleLongRunningTestProcess, SimpleLongRunningTestProcess>();
-                
-                
+                .AddTransient<SimpleLongRunningTestProcess, SimpleLongRunningTestProcess>()
+                .AddTransient<SimpleStepBaseTestProcess, SimpleStepBaseTestProcess>();
+
 
             return services;
         }

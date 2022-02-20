@@ -68,8 +68,13 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
         #endregion
 
 
+        public T StartProcess<T>() where T : IProcess
+        {
+            var process = CreateProcess<T>();
 
-        
+            return process;
+        }
+
 
         public ProcessStatus StartLongRunningProcess<T>(object inputParameter) where T : ILongRunningProcess
         {
@@ -115,12 +120,18 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
 
             foreach (var processNumber in processesNumbers)
             {
-                var process = LoadProcess(processNumber) as ILongRunningProcess;
+                var process = LoadProcess(processNumber);
 
-
-                var externalData = BeforeRunProcess(process);
-                var result = process.Resume(externalData);
-                AfterRunProcess(process, result);
+                if (process is ILongRunningProcess processLongRunningProcess)
+                {
+                    var externalData = BeforeRunProcess(processLongRunningProcess);
+                    var result = processLongRunningProcess.ResumeLongRunningProcess(externalData);
+                    AfterRunProcess(processLongRunningProcess, result);
+                }
+                else
+                {
+                    process.JobEntry();
+                }
 
                 //zapisuje stan procesu
                 SaveProcess(process);
@@ -184,18 +195,28 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
             }
         }
 
-        public object GetExternalData(string processNumber)
+        public object GetExternalDataOutput(string processNumber)
         {
-            var process = LoadProcess(processNumber) as ILongRunningProcess;
+            var process = LoadProcess(processNumber);
             var externalDataXml = process.ProcessData.ProcessInstanceContainer
                 .ProcessExternalData.ProcessOutputDataFullSerialization;
             var externalData = _fullSerializer.Deserialize<object>(externalDataXml);
 
             return externalData;
         }
-        public void SetExternalData(string processNumber, object externalData)
+
+        public object GetExternalDataInput(string processNumber)
         {
-            var process = LoadProcess(processNumber) as ILongRunningProcess;
+            var process = LoadProcess(processNumber);
+            var externalDataXml = process.ProcessData.ProcessInstanceContainer
+                .ProcessExternalData.ExternalInputDataFullSerialization;
+            var externalData = _fullSerializer.Deserialize<object>(externalDataXml);
+
+            return externalData;
+        }
+        public void SetExternalDataInput(string processNumber, object externalData)
+        {
+            var process = LoadProcess(processNumber);
 
             var xml = _fullSerializer.Serialize(externalData);
             process.ProcessData.ProcessInstanceContainer
@@ -206,12 +227,12 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
 
         public View GetViewData(string processNumber)
         {
-            return (View)GetExternalData(processNumber);
+            return (View)GetExternalDataOutput(processNumber);
         }
 
         public void SetViewResponse(string processNumbr, ViewResponse viewResponse)
         {
-            SetExternalData(processNumbr, viewResponse);
+            SetExternalDataInput(processNumbr, viewResponse);
         }
 
         public IQueryable<ProcessInstanceContainer> GetAllProcesses()

@@ -13,6 +13,6 @@ namespace Cvl.ApplicationServer.Processes.Interfaces
         LongRunningProcessData LongRunningProcessData { get; set; }
         object Start(object inputParam);
 
-        VirtualMachineResult<object> Resume(object? inputData);
+        VirtualMachineResult<object> ResumeLongRunningProcess(object? inputData);
     }
 }

@@ -21,6 +21,7 @@ using System.Xml.Serialization;
 using Cvl.ApplicationServer.Core.Interfaces;
 using Cvl.ApplicationServer.Core.Users.Interfaces;
 using Cvl.ApplicationServer.Processes.UI;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json;
 using Polenter.Serialization;
 using Polenter.Serialization.Core;
@@ -54,7 +55,7 @@ hostBuilder.ConfigureServices(services =>
     _optionsBuilder.UseSqlServer(ApplicationServerContextConnectionString);
     services.AddDbContext<ApplicationServerDbContext>(options => options.UseSqlServer(ApplicationServerContextConnectionString));
     services.UseRegisterApplicationServer();
-    //services.AddScoped<Test2, Test2>();
+    
 
 });
 
@@ -80,6 +81,26 @@ await userCommand.AddRootUserAsync();
 
 var appServer = serviceProvider.GetService<IApplicationServer>();
 
+
+var t2 = appServer.Processes.CreateProcess<SimpleStepBaseTestProcess>();
+t2.Step1FromApi();
+appServer.Processes.SaveProcess(t2);
+
+
+
+appServer.Processes.SetExternalDataInput(t2.ProcessData.ProcessNumber, "Jakieś testowe dane");
+
+appServer.Processes.RunProcesses();
+
+t2.Step1FromApi();
+appServer.Processes.SaveProcess(t2);
+
+
+
+
+
+
+
 var t1 = appServer.Processes.StartLongRunningProcess<SimpleLongRunningTestProcess>(4);
 
 var numberOfExecutedProcesses = 0;
@@ -88,13 +109,13 @@ numberOfExecutedProcesses = appServer.Processes.RunProcesses();
 await Task.Delay(1001);
 numberOfExecutedProcesses = appServer.Processes.RunProcesses();
 
-var e1 = appServer.Processes.GetExternalData(t1.ProcessNumber);
+var e1 = appServer.Processes.GetExternalDataOutput(t1.ProcessNumber);
 numberOfExecutedProcesses = appServer.Processes.RunProcesses();
-appServer.Processes.SetExternalData(t1.ProcessNumber, "Testowe dane wejścowe dla procesu");
+appServer.Processes.SetExternalDataInput(t1.ProcessNumber, "Testowe dane wejścowe dla procesu");
 numberOfExecutedProcesses = appServer.Processes.RunProcesses();
 
-var e2 = appServer.Processes.GetExternalData(t1.ProcessNumber);
-appServer.Processes.SetExternalData(t1.ProcessNumber);
+var e2 = appServer.Processes.GetExternalDataOutput(t1.ProcessNumber);
+appServer.Processes.SetExternalDataInput(t1.ProcessNumber);
 numberOfExecutedProcesses = appServer.Processes.RunProcesses();
 numberOfExecutedProcesses = appServer.Processes.RunProcesses();
 

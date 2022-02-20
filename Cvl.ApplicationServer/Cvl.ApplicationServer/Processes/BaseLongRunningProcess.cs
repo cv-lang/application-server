@@ -29,7 +29,7 @@ namespace Cvl.ApplicationServer.Processes
         [Interpret]
         public abstract object Start(object inputParam);
 
-        public virtual VirtualMachineResult<object> Resume(object inputData)
+        public virtual VirtualMachineResult<object> ResumeLongRunningProcess(object inputData)
         {
             var vmResult = LongRunningProcessData.VirtualMachine.Resume<object>(inputData);
             return vmResult;
