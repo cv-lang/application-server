@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Cvl.ApplicationServer.Core.Model;
 using Cvl.ApplicationServer.Core.Model.Processes;
 using Newtonsoft.Json;
 
@@ -24,11 +25,18 @@ namespace Cvl.ApplicationServer.Old.Processes.Infrastructure
         }
 
 
-        public void SetStep(string stepName, string description, Enum step)
+        public void SetStep(string stepName, string description, object step)
         {
             ProcessInstanceContainer.Step.Step = Convert.ToInt32(step);
             ProcessInstanceContainer.Step.StepName = stepName;
             ProcessInstanceContainer.Step.StepDescription = description;
+
+            var s = new ProcessStepHistory(ProcessId);
+            s.Step.Step = Convert.ToInt32(step);
+            s.Step.StepName = stepName;
+            s.Step.StepDescription = description;
+            
+            ProcessInstanceContainer.ProcessStepHistories.Add(s);
         }
     }
 }

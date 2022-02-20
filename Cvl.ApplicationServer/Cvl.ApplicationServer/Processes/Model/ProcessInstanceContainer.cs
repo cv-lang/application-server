@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using Cvl.ApplicationServer.Processes.Model;
+using Cvl.ApplicationServer.Processes.Model.OwnedClasses;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cvl.ApplicationServer.Core.Model.Processes
@@ -17,13 +18,11 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
     [Index(nameof(ProcessNumber))]
     public class ProcessInstanceContainer : BaseEntity
     {
-        public ProcessInstanceContainer(string processNumber, string type, string statusName)
+        public ProcessInstanceContainer(string processNumber, string statusName)
         {
             ProcessNumber = processNumber;
-            Type = type;
             StatusName = statusName;
-        }        
-
+        }
 
         /// <summary>
         /// User-friendly process number
@@ -31,17 +30,10 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
         public string ProcessNumber { get; set; }
 
         /// <summary>
-        /// Process full type name
-        /// </summary>
-        public string Type { get; set; }
-
-        /// <summary>
         /// User-friendly process status
         /// </summary>
         public string StatusName { get; set; }
-
         
-
         /// <summary>
         /// Object with proces state (serialized)
         /// </summary>
@@ -56,6 +48,10 @@ namespace Cvl.ApplicationServer.Core.Model.Processes
         /// Process external data
         /// </summary>
         public virtual ProcessExternalData ProcessExternalData { get; set; } = null!;
+
+        public virtual ICollection<ProcessStepHistory> ProcessStepHistories { get; set; } = new HashSet<ProcessStepHistory>();
+
+        public ProcessTypeData ProcessTypeData { get; set; } = new ProcessTypeData();
 
         /// <summary>
         /// Main(single) thread state 

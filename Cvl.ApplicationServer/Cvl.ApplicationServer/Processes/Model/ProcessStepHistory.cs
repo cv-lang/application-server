@@ -5,15 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cvl.ApplicationServer.Processes.Model.OwnedClasses;
 
 namespace Cvl.ApplicationServer.Core.Model
 {
     [Table("ProcessStepHistory", Schema = "Processes")]
     public class ProcessStepHistory : BaseEntity
     {
-        public ProcessStepHistory(long? processInstanceId)
+        public ProcessStepHistory(long? ProcessInstanceContainerId)
         {
-            ProcessInstanceId = processInstanceId;
+            ProcessInstanceContainerId = ProcessInstanceContainerId;
             Step = new ProcessStepData(0, "new", "new");
         }
 
@@ -23,8 +24,8 @@ namespace Cvl.ApplicationServer.Core.Model
         //    Step = step;
         //}
 
-        public long? ProcessInstanceId { get; set; }
-        public virtual ProcessInstanceContainer? ProcessInstance { get; set; }
+        public long? ProcessInstanceContainerId { get; set; }
+        public virtual ProcessInstanceContainer? ProcessInstanceContainer { get; set; }
         public ProcessStepData Step { get; set; } = null!;
     }
 }

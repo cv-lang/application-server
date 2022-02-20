@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cvl.ApplicationServer.Processes.Model.OwnedClasses;
 
 namespace Cvl.ApplicationServer.Processes.Dtos
 {
@@ -18,8 +19,8 @@ namespace Cvl.ApplicationServer.Processes.Dtos
         {
             Id = processInstance.Id;
             ProcessNumber = processInstance.ProcessNumber;
-            TypeShortName = processInstance.Type.Split('.').LastOrDefault() ?? processInstance.Type;
-            Type = processInstance.Type;
+            TypeShortName = processInstance.ProcessTypeData.ProcessTypeFullName.Split('.').LastOrDefault() ?? processInstance.ProcessTypeData.ProcessTypeFullName;
+            Type = processInstance.ProcessTypeData.ProcessTypeFullName;
             StatusName = processInstance.StatusName;
             StepName = processInstance.Step.StepName;
             StepDescription = processInstance.Step.StepDescription + "jakiś opis";

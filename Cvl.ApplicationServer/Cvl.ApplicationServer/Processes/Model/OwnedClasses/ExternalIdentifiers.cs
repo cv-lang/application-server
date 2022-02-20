@@ -1,12 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
-namespace Cvl.ApplicationServer.Core.Model.Processes
+namespace Cvl.ApplicationServer.Processes.Model.OwnedClasses
 {
     [Owned]
     public class ExternalIdentifiers

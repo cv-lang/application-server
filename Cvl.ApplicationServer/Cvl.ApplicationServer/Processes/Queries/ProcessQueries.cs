@@ -11,6 +11,7 @@ using Cvl.ApplicationServer.Processes.Commands;
 using Cvl.ApplicationServer.Processes.Infrastructure;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.Interfaces2;
+using Cvl.ApplicationServer.Processes.Model.OwnedClasses;
 
 namespace Cvl.ApplicationServer.Processes.Queries
 {
@@ -34,30 +35,35 @@ namespace Cvl.ApplicationServer.Processes.Queries
             var processInstanceContainer = await _processInstanceContainerQueries
                 .GetProcessInstanceContainerByProcessNumber(processNumber);
 
-            var processType = Type.GetType(processInstanceContainer.Type);
-
-            var process = (TProcesInterface)_serviceProvider.GetService(processType) ;
-            if (process == null)
+            if (processInstanceContainer.ProcessTypeData.ProcessType == ProcessType.StepBaseProcess)
             {
-                throw new ArgumentException($"Could not create a process '{typeof(TProcesInterface)}'");
+                var processType = Type.GetType(processInstanceContainer.ProcessTypeData.ProcessTypeFullName);
+
+                var process = (TProcesInterface)_serviceProvider.GetService(processType);
+                if (process == null)
+                {
+                    throw new ArgumentException($"Could not create a process '{typeof(TProcesInterface)}'");
+                }
+
+                process.ProcessData = new ProcessData() { ProcessInstanceContainer = processInstanceContainer };
+
+                var state = _fullSerializer.Deserialize<object>(processInstanceContainer.ProcessInstanceStateData.ProcessStateFullSerialization);
+                process.LoadProcessState(state);
+
+                return process;
+            }
+            else if(processInstanceContainer.ProcessTypeData.ProcessType == ProcessType.LongRunningProcess)
+            {
+                var vm = _fullSerializer.Deserialize<VirtualMachine.VirtualMachine>(processInstanceContainer.ProcessInstanceStateData.ProcessStateFullSerialization);
+                var process = (ILongRunningProcess)vm.Instance;
+                process.ProcessData = new ProcessData() { ProcessInstanceContainer = processInstanceContainer };
+                process.LongRunningProcessData = new LongRunningProcessData() { VirtualMachine = vm };
+
+                return (TProcesInterface)process;
             }
 
-            process.ProcessData = new ProcessData();
-            process.ProcessData.ProcessInstanceContainer = processInstanceContainer;
-
-            var state = _fullSerializer.Deserialize<object>(processInstanceContainer.ProcessInstanceStateData.ProcessStateFullSerialization);
-            process.LoadProcessState(state);
-
-            return process;
-
-            //var processProxy = new ProcessInterceptorProxy<TProcesInterface>(process, clientConnectionData,
-            //    _fullSerializer, _jsonSerializer, _processInstanceContainerService, _processStateDataService
-            //);
-
-            ////_requestLoggerScope.ProcessId = process.ProcessId;
-            //var generator = new ProxyGenerator();
-            //var proxy = generator.CreateInterfaceProxyWithTarget<TProcesInterface>(process, processProxy);
-            //return proxy;
+            throw new NotSupportedException(
+                $"Process type not suported: {processInstanceContainer.ProcessTypeData.ProcessType}");
         }
 
         internal async Task<List<string>> GetWaitingForExecutionProcessesNumbersAsync()

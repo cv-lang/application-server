@@ -13,6 +13,7 @@ using Cvl.ApplicationServer.Processes.Commands;
 using Cvl.ApplicationServer.Processes.Dtos;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.Interfaces2;
+using Cvl.ApplicationServer.Processes.Model.OwnedClasses;
 using Cvl.ApplicationServer.Processes.Queries;
 using Cvl.ApplicationServer.Processes.UI;
 using Cvl.VirtualMachine;
@@ -47,6 +48,8 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
             _processStepQueries = processStepQueries;
         }
 
+        #region Simple process
+
         public T CreateProcess<T>() where T : IProcess
         {
             return _processCommands.CreateProcessAsync<T>().Result;
@@ -62,16 +65,20 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
             return (T)LoadProcess(processNumber);
         }
 
-        public void SaveProcess(IProcess process)
-        {
-            _processCommands.SaveProcessStateAsync(process).Wait();
-        }
+        #endregion
+
+
+
+        
 
         public ProcessStatus StartLongRunningProcess<T>(object inputParameter) where T : ILongRunningProcess
         {
             
 
             var process = CreateProcess<T>();
+
+            process.ProcessData.ProcessInstanceContainer.ProcessTypeData
+                .ProcessType = ProcessType.LongRunningProcess;
 
             var vm = new VirtualMachine.VirtualMachine();
             process.LongRunningProcessData.VirtualMachine = vm;
@@ -96,7 +103,11 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
             }
         }
 
-        
+
+        public void SaveProcess(IProcess process)
+        {
+            _processCommands.SaveProcessStateAsync(process).Wait();
+        }
 
         public int RunProcesses()
         {
@@ -105,7 +116,8 @@ namespace Cvl.ApplicationServer.ApplicationServers.Internals
             foreach (var processNumber in processesNumbers)
             {
                 var process = LoadProcess(processNumber) as ILongRunningProcess;
-                
+
+
                 var externalData = BeforeRunProcess(process);
                 var result = process.Resume(externalData);
                 AfterRunProcess(process, result);

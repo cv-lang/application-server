@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.UI;
 using Cvl.VirtualMachine;
 using Cvl.VirtualMachine.Core.Attributes;
+using Newtonsoft.Json;
 
 namespace Cvl.ApplicationServer.Processes
 {
@@ -19,6 +21,8 @@ namespace Cvl.ApplicationServer.Processes
 
     public abstract class BaseLongRunningProcess : BaseProcess, ILongRunningProcess
     {
+        [JsonIgnore]
+        [XmlIgnore]
         public LongRunningProcessData LongRunningProcessData { get; set; } = new LongRunningProcessData();
         
 
@@ -41,6 +45,7 @@ namespace Cvl.ApplicationServer.Processes
         public override void LoadProcessState(object processState)
         {
             LongRunningProcessData.VirtualMachine = (VirtualMachine.VirtualMachine)processState;
+            LongRunningProcessData.VirtualMachine.Instance = this;
         }
 
         #endregion
@@ -66,7 +71,7 @@ namespace Cvl.ApplicationServer.Processes
         public ViewResponse ShowView(View view)
         {
             var response = (ViewResponse)VirtualMachine.VirtualMachine.Hibernate(
-                ProcessHibernationType.WaitingForUserInterface, view);
+                ProcessHibernationType.WaitingForUserInterface, view)!;
             return response;
         }
 

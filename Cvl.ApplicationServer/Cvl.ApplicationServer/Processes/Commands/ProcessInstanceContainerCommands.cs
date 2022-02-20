@@ -25,12 +25,14 @@ namespace Cvl.ApplicationServer.Processes.Commands
 
         public async Task<ProcessInstanceContainer> CreateProcessInstanceContainer(Type processType)
         {
-            var processInstanceContainer = new ProcessInstanceContainer("", processType.FullName!,
+            var processInstanceContainer = new ProcessInstanceContainer("",
                 "new");
 
+            processInstanceContainer.ProcessTypeData.ProcessTypeFullName = processType.FullName!;
             processInstanceContainer.ProcessInstanceStateData = new ProcessStateData(string.Empty);
             processInstanceContainer.ProcessDiagnosticData = new ProcessDiagnosticData();
             processInstanceContainer.ProcessExternalData = new ProcessExternalData();
+            
 
             _processInstanceContainerRepository.Insert(processInstanceContainer);
             await _processInstanceContainerRepository.SaveChangesAsync();

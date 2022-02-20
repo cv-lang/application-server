@@ -16,7 +16,7 @@ namespace Cvl.ApplicationServer.Core.Services
 
         public IQueryable<ProcessStepHistory> GetProcessSteps(long procesId)
         {
-            return Repository.GetAll().Where(x => x.ProcessInstanceId == procesId);
+            return Repository.GetAll().Where(x => x.ProcessInstanceContainerId == procesId);
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cvl.ApplicationServer.Processes.Model.OwnedClasses;
 
 namespace Cvl.ApplicationServer.Core.Services
 {
@@ -72,8 +73,9 @@ namespace Cvl.ApplicationServer.Core.Services
                 throw new ArgumentException($"Could not create a process '{typeof(T)}'");
             }
 
-            var processInstanceContainer = new ProcessInstanceContainer("", process.GetType().FullName!, "new");
+            var processInstanceContainer = new ProcessInstanceContainer("", "new");
 
+            processInstanceContainer.ProcessTypeData.ProcessTypeFullName = process.GetType().FullName!;
             processInstanceContainer.ProcessInstanceStateData = new ProcessStateData(string.Empty);
             processInstanceContainer.ProcessDiagnosticData = new ProcessDiagnosticData();
             

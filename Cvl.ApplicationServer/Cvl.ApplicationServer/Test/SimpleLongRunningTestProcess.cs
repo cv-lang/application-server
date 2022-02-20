@@ -31,13 +31,13 @@ namespace Cvl.ApplicationServer.Test
         public string? Password { get; set; }
     }
 
-    public class SimpleTestProcess : BaseLongRunningProcess
+    public class SimpleLongRunningTestProcess : BaseLongRunningProcess
     {
         private readonly IUsersService _usersService;
         private readonly IEmailSender _emailSender;
         public AddNewUserProcessState State { get; set; }
         
-        public SimpleTestProcess(IUsersService usersService, IEmailSender emailSender)
+        public SimpleLongRunningTestProcess(IUsersService usersService, IEmailSender emailSender)
         {
             _usersService = usersService;
             _emailSender = emailSender;
@@ -48,15 +48,21 @@ namespace Cvl.ApplicationServer.Test
         [Interpret]
         public override object Start(object inputParam)
         {
+            ProcessData.SetStep("start", "start", TestProcessStep.Init);
+
             Step1(new Step1Registration() { Email = "test@test.com", Password = "sdf"});
             Delay(DateTime.Now.AddSeconds(1));
+
+            ProcessData.SetStep("Step 2", "Step 2 descrption", TestProcessStep.Test1);
 
             Step2("1234");
             var dataFromOutside = WaitForExternalData(new View("test"));
             CheckResult(dataFromOutside);
 
             WaitForExternalData($"Test data from extrenalSource " +dataFromOutside);
-            
+
+
+            ProcessData.SetStep("Step 3", "Step 3 descrption", TestProcessStep.Test2);
             //Delay(DateTime.Now.AddSeconds(1));
 
             var response = ShowView(new View("registration"));

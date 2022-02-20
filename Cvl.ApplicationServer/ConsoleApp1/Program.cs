@@ -81,7 +81,7 @@ await userCommand.AddRootUserAsync();
 
 var appServer = serviceProvider.GetService<IApplicationServer>();
 
-var t1 = appServer.Processes.StartLongRunningProcess<SimpleTestProcess>(4);
+var t1 = appServer.Processes.StartLongRunningProcess<SimpleLongRunningTestProcess>(4);
 
 var numberOfExecutedProcesses = 0;
 numberOfExecutedProcesses = appServer.Processes.RunProcesses();

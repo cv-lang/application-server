@@ -71,7 +71,7 @@ namespace Cvl.ApplicationServer.Server.Setup
                 .AddTransient<LogPropertiesRepository, LogPropertiesRepository>()
                 .AddTransient<LogElementService, LogElementService>()
 
-                .AddTransient<SimpleTestProcess, SimpleTestProcess>()
+                .AddTransient<SimpleLongRunningTestProcess, SimpleLongRunningTestProcess>()
 
 
                 //old - to delete
