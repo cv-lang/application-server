@@ -55,9 +55,12 @@ namespace Cvl.ApplicationServer.Test
 
         public void Step2FromJob()
         {
-            State.StepName = "Processing extrenral data";
+            ProcessData.SetStep("Processing extrenral data", "Processing extrenral data", SimpleStepBaseTestProcessStep.Step3);
+
             var externalData = _applicationServer.Processes.GetExternalDataInput(this.ProcessData.ProcessNumber);
-            State.StepName = $"externalData: {externalData}";
+           
+            ProcessData.SetStep($"externalData: {externalData}", "Processing extrenral data", SimpleStepBaseTestProcessStep.Step3);
+
         }
 
         public override void JobEntry()
