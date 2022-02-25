@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Interfaces;
-using Cvl.ApplicationServer.Processes;
-using ThreadState = Cvl.ApplicationServer.Processes.Threading.ThreadState;
+using Cvl.ApplicationServer.Core.Processes;
+using ThreadState = Cvl.ApplicationServer.Core.Processes.Threading.ThreadState;
 
 namespace Cvl.ApplicationServer.Test
 {

@@ -1,13 +1,7 @@
 ﻿using Cvl.ApplicationServer.Core.Model.Temporary;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Cvl.ApplicationServer.Logging.Logger
+namespace Cvl.ApplicationServer.Core.Logging.Logger
 {
 
     public class ColorConsoleLoggerConfiguration

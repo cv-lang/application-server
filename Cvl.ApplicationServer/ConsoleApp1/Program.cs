@@ -2,12 +2,7 @@
 
 using ConsoleApp1.TTeeesd;
 using Cvl.ApplicationServer.Core;
-using Cvl.ApplicationServer.Core.Database.Contexts;
 using Cvl.ApplicationServer.Core.Repositories;
-using Cvl.ApplicationServer.Core.Tools.Serializers;
-using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
-using Cvl.ApplicationServer.Logging.Logger;
-using Cvl.ApplicationServer.Server.Setup;
 using Cvl.ApplicationServer.Test;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,9 +13,11 @@ using System.Configuration;
 using System.Text;
 using System.Text.Json;
 using System.Xml.Serialization;
-using Cvl.ApplicationServer.Core.Interfaces;
-using Cvl.ApplicationServer.Core.Users.Interfaces;
-using Cvl.ApplicationServer.Processes.UI;
+using Cvl.ApplicationServer;
+using Cvl.ApplicationServer.Core.Extensions;
+using Cvl.ApplicationServer.Core.Model.Contexts;
+using Cvl.ApplicationServer.Core.Processes.UI;
+using Cvl.ApplicationServer.Core.Users.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json;
 using Polenter.Serialization;

@@ -1,10 +1,10 @@
-﻿using Cvl.ApplicationServer.Core.Database.Contexts;
-using Cvl.ApplicationServer.Core.Model.Temporary;
+﻿using Cvl.ApplicationServer.Core.Model.Temporary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cvl.ApplicationServer.Core.Model.Contexts;
 
 namespace Cvl.ApplicationServer.Core.Repositories
 {

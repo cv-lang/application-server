@@ -1,15 +1,8 @@
-﻿using Cvl.ApplicationServer.Core.Database.Contexts;
-using Cvl.ApplicationServer.Core.Model.Temporary;
-using Cvl.ApplicationServer.Core.Repositories;
+﻿using Cvl.ApplicationServer.Core.Model.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Cvl.ApplicationServer.Logging.Logger
+namespace Cvl.ApplicationServer.Core.Logging.Logger
 {
     /// <summary>
     /// Zarządza logami

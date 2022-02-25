@@ -1,6 +1,4 @@
-using Cvl.ApplicationServer.Core.Interfaces;
-using Cvl.ApplicationServer.Core.Model.Processes;
-using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

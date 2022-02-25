@@ -2,11 +2,9 @@
 @model Cvl.ApplicationServer.Server.Areas.ApplicationServer.Pages.Processes.IndexModel
 @{
 }
-
-@using Cvl.ApplicationServer.Core.Model.Processes
-@using Cvl.ApplicationServer.Processes.Dtos
 @using Kendo.Mvc
 @using Kendo.Mvc.UI
+@using Cvl.ApplicationServer.Core.Processes.Dtos
 
 @(Html.Kendo().Grid<ProcessListItemDto>()
     .Name("grid")

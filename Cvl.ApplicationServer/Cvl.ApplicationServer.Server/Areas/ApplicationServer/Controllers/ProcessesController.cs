@@ -1,5 +1,4 @@
-﻿using Cvl.ApplicationServer.Core.Model.Processes;
-using Kendo.Mvc.Extensions;
+﻿using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -7,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Interfaces;
 
 namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Controllers
 {

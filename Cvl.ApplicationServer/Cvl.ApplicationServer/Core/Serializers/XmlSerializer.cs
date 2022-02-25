@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 using Polenter.Serialization;
 
 namespace Cvl.ApplicationServer.Core.Serializers

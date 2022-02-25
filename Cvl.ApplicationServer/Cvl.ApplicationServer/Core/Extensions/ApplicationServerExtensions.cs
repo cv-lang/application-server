@@ -1,31 +1,22 @@
-﻿using Cvl.ApplicationServer.Core.Repositories;
-using Cvl.ApplicationServer.Core.Tools.Serializers;
-using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
-using Cvl.ApplicationServer.Logging.Logger;
-using Cvl.ApplicationServer.Processes;
-using Cvl.ApplicationServer.Processes.Interfaces;
-using Cvl.ApplicationServer.Processes.Services;
-using Cvl.ApplicationServer.Test;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Emails;
-using Cvl.ApplicationServer.Core.Interfaces;
+﻿using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
+using Cvl.ApplicationServer.Core.ExternalServices.Emails;
+using Cvl.ApplicationServer.Core.Processes.Commands;
+using Cvl.ApplicationServer.Core.Processes.Interfaces;
+using Cvl.ApplicationServer.Core.Processes.Queries;
+using Cvl.ApplicationServer.Core.Processes.Repositories;
+using Cvl.ApplicationServer.Core.Processes.Services;
+using Cvl.ApplicationServer.Core.Repositories;
 using Cvl.ApplicationServer.Core.Serializers;
+using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 using Cvl.ApplicationServer.Core.Users.Commands;
-using Cvl.ApplicationServer.Core.Users.Interfaces;
 using Cvl.ApplicationServer.Core.Users.Model;
 using Cvl.ApplicationServer.Core.Users.Queries;
 using Cvl.ApplicationServer.Core.Users.Services;
-using Cvl.ApplicationServer.Processes.Commands;
-using Cvl.ApplicationServer.Processes.Queries;
-using Cvl.ApplicationServer.Processes.Repositories;
+using Cvl.ApplicationServer.Processes;
+using Cvl.ApplicationServer.Test;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Cvl.ApplicationServer.Server.Setup
+namespace Cvl.ApplicationServer.Core.Extensions
 {    
 
     public static class ApplicationServerExtensions
@@ -33,7 +24,7 @@ namespace Cvl.ApplicationServer.Server.Setup
         public static IServiceCollection UseRegisterApplicationServer(this IServiceCollection services)
         {
             services.AddTransient<IFullSerializer, XmlFullSerializer>()
-                .AddTransient<IJsonSerializer, Cvl.ApplicationServer.Core.Tools.Serializers.JsonSerializer>()
+                .AddTransient<IJsonSerializer, JsonSerializer>()
 
                 .AddTransient<ProcessActivityDataRepository, ProcessActivityDataRepository>()
                 .AddTransient<ProcessActivityRepository, ProcessActivityRepository>()
@@ -54,8 +45,8 @@ namespace Cvl.ApplicationServer.Server.Setup
                 .AddTransient<ProcessActivityQueries>()
 
                 .AddTransient<IApplicationServer, ApplicationServers.ApplicationServer>()
-                .AddTransient<Cvl.ApplicationServer.Core.Interfaces.IApplicationServerProcesses,
-                    Cvl.ApplicationServer.ApplicationServers.Internals.ApplicationServerProcesses>()
+                .AddTransient<IApplicationServerProcesses,
+                    ApplicationServerProcesses>()
 
                 .AddTransient<Repository<User>, Repository<User>>()
                 .AddTransient<UserCommands, UserCommands>()

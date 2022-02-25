@@ -1,5 +1,4 @@
-﻿using Cvl.ApplicationServer.Core.Database.Contexts;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace ConsoleApp1

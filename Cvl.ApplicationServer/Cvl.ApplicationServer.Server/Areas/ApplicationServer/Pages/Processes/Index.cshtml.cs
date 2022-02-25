@@ -1,4 +1,3 @@
-using Cvl.ApplicationServer.Core.Interfaces;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces
+﻿namespace Cvl.ApplicationServer.Core.Serializers.Interfaces
 {
     /// <summary>
     /// Object serializer

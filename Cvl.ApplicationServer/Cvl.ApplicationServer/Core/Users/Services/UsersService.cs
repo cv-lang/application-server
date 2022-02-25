@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.Users.Commands;
-using Cvl.ApplicationServer.Core.Users.Interfaces;
 using Cvl.ApplicationServer.Core.Users.Model;
 
 namespace Cvl.ApplicationServer.Core.Users.Services

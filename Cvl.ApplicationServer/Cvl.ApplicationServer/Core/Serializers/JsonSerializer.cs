@@ -1,12 +1,7 @@
-﻿using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+﻿using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Cvl.ApplicationServer.Core.Tools.Serializers
+namespace Cvl.ApplicationServer.Core.Serializers
 {
     /// <summary>
     /// Json serializer

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Database.Contexts;
 using Cvl.ApplicationServer.Core.Repositories;
 using Cvl.ApplicationServer.Core.Users.Model;
 using Microsoft.EntityFrameworkCore;

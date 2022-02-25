@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Configuration;
+
 //using Microsoft.Extensions.Logging.Configuration;
 
-namespace Cvl.ApplicationServer.Logging.Logger
+namespace Cvl.ApplicationServer.Core.Logging.Logger
 {
     public static class HierarchicalLoggerExtensions
     {

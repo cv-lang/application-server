@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Emails;
-using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
-using Cvl.ApplicationServer.Core.Users.Interfaces;
-using Cvl.ApplicationServer.Processes;
-using Cvl.ApplicationServer.Processes.UI;
+using Cvl.ApplicationServer.Core.ExternalServices.Emails;
+using Cvl.ApplicationServer.Core.Processes;
+using Cvl.ApplicationServer.Core.Processes.UI;
+using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.VirtualMachine.Core.Attributes;
 
 namespace Cvl.ApplicationServer.Test

@@ -1,5 +1,4 @@
-using Cvl.ApplicationServer.Core.Database.Contexts;
-using Cvl.ApplicationServer.Logging.Logger;
+using Cvl.ApplicationServer.Core.Model.Contexts;
 using Cvl.ApplicationServer.Server.Setup;
 using Microsoft.EntityFrameworkCore;
 

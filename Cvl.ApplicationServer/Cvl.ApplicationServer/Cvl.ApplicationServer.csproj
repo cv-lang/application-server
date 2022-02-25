@@ -29,11 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Files\Commands\" />
-    <Folder Include="Processes\Services\" />
-    <Folder Include="Tools\" />
+    <Folder Include="Core\ApplicationServers\Interfaces\" />
+    <Folder Include="Core\Files\Commands\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Processes\Nowy folder\" />
+    <Folder Include="Core\Processes\Nowy folder\" />
   </ItemGroup>
 
   <ItemGroup>
