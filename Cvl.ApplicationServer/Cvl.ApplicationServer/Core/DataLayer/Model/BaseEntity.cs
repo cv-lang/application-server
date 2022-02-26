@@ -26,7 +26,7 @@ namespace Cvl.ApplicationServer.Core.Model
         /// <summary>
         /// date of object creation
         /// </summary>
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public DateTime ModifiedDate { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime ModifiedDate { get; set; } = DateTime.UtcNow;
     }
 }

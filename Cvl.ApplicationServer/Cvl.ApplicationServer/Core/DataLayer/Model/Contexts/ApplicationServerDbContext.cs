@@ -2,7 +2,6 @@
 using Cvl.ApplicationServer.Core.Processes.Model;
 using Cvl.ApplicationServer.Core.Users.Model;
 using Microsoft.EntityFrameworkCore;
-using File = Cvl.ApplicationServer.Core.Files.Model.File;
 
 namespace Cvl.ApplicationServer.Core.Model.Contexts
 {
@@ -24,10 +23,6 @@ namespace Cvl.ApplicationServer.Core.Model.Contexts
 
         //core
         public DbSet<User> Users => Set<User>();
-
-        //documents
-        public DbSet<File> Files => Set<File>();
-        public DbSet<Files.Model.Directory> Directories => Set<Files.Model.Directory>();
 
         //processes
         public DbSet<ProcessInstanceContainer> ProcessInstances => Set<ProcessInstanceContainer>();

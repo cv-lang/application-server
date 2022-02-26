@@ -3,7 +3,7 @@ using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 
 namespace Cvl.ApplicationServer.Core.Processes.Commands
 {
-    public class ProcessCommands
+    internal class ProcessCommands
     {
         private readonly ProcessInstanceContainerCommands _processInstanceContainerCommands;
         private readonly ProcessStateDataCommands _processStateDataCommands;

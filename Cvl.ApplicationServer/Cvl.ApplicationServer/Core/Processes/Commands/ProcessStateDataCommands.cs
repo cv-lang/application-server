@@ -3,7 +3,7 @@ using Cvl.ApplicationServer.Core.Processes.Repositories;
 
 namespace Cvl.ApplicationServer.Core.Processes.Commands
 {
-    public class ProcessStateDataCommands
+    internal class ProcessStateDataCommands
     {
         private readonly ProcessStateDataRepository _processInstanceContainerRepository;
 

@@ -3,7 +3,7 @@ using Cvl.ApplicationServer.Core.Processes.Repositories;
 
 namespace Cvl.ApplicationServer.Core.Processes.Queries
 {
-    public class ProcessStepQueries
+    internal class ProcessStepQueries
     {
         private readonly ProcessStepHistoryRepository _processStepHistoryRepository;
 

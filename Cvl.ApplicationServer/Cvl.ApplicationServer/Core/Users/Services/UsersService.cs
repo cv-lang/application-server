@@ -8,7 +8,7 @@ using Cvl.ApplicationServer.Core.Users.Model;
 
 namespace Cvl.ApplicationServer.Core.Users.Services
 {
-    public class UsersService : IUsersService
+    internal class UsersService : IUsersService
     {
         private readonly UserCommands _userCommands;
 

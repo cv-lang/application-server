@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cvl.ApplicationServer.Core.Processes.Repositories
 {
-    public class ProcessStateDataRepository : Repository<ProcessStateData>
+    internal class ProcessStateDataRepository : Repository<ProcessStateData>
     {
         public ProcessStateDataRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {

@@ -11,8 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Core\Files\**" />
     <Compile Remove="Old\**" />
+    <EmbeddedResource Remove="Core\Files\**" />
     <EmbeddedResource Remove="Old\**" />
+    <None Remove="Core\Files\**" />
     <None Remove="Old\**" />
   </ItemGroup>
 
@@ -25,12 +28,12 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="6.0.0" />
     <PackageReference Include="Mono.Reflection" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.3" />
     <PackageReference Include="SharpSerializer" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Core\ApplicationServers\Interfaces\" />
-    <Folder Include="Core\Files\Commands\" />
     <Folder Include="Migrations\" />
     <Folder Include="Core\Processes\Nowy folder\" />
   </ItemGroup>

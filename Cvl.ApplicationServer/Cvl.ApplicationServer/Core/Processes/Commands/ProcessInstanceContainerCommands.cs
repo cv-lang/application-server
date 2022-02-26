@@ -1,10 +1,11 @@
 ﻿using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.Model;
 using Cvl.ApplicationServer.Core.Processes.Repositories;
+using Cvl.ApplicationServer.Core.Processes.Services;
 
 namespace Cvl.ApplicationServer.Core.Processes.Commands
 {
-    public class ProcessInstanceContainerCommands
+    internal class ProcessInstanceContainerCommands
     {
         private readonly ProcessInstanceContainerRepository _processInstanceContainerRepository;
         private readonly IProcessNumberGenerator _processNumberGenerator;

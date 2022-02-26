@@ -3,7 +3,7 @@ using Cvl.ApplicationServer.Core.Processes.Repositories;
 
 namespace Cvl.ApplicationServer.Core.Processes.Commands
 {
-    public class ProcessExternalDataCommands
+    internal class ProcessExternalDataCommands
     {
         private readonly ProcessExternalDataRepository _processExternalDataRepository;
 

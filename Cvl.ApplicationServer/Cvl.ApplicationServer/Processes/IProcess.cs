@@ -1,11 +1,12 @@
-﻿namespace Cvl.ApplicationServer.Core.Processes.Interfaces
+﻿using Cvl.ApplicationServer.Processes;
+
+namespace Cvl.ApplicationServer.Core.Processes.Interfaces
 {
-    public interface IProcess
+    public interface IProcess : IJob
     {
         ProcessData ProcessData { get; set; }
         object GetProcessState();
         void LoadProcessState(object? serializedState);
 
-        void JobEntry();
     }
 }

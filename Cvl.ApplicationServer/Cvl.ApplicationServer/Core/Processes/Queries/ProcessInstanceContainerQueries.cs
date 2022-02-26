@@ -5,7 +5,7 @@ using ThreadState = Cvl.ApplicationServer.Core.Processes.Threading.ThreadState;
 
 namespace Cvl.ApplicationServer.Core.Processes.Queries
 {
-    public class ProcessInstanceContainerQueries
+    internal class ProcessInstanceContainerQueries
     {
         private readonly ProcessInstanceContainerRepository _processInstanceContainerRepository;
 

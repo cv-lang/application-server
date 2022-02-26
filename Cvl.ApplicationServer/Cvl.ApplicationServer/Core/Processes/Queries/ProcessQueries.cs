@@ -5,7 +5,7 @@ using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 
 namespace Cvl.ApplicationServer.Core.Processes.Queries
 {
-    public class ProcessQueries
+    internal class ProcessQueries
     {
         private readonly ProcessInstanceContainerQueries _processInstanceContainerQueries;
         private readonly IServiceProvider _serviceProvider;
@@ -47,7 +47,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Queries
                 var vm = _fullSerializer.Deserialize<VirtualMachine.VirtualMachine>(processInstanceContainer.ProcessInstanceStateData.ProcessStateFullSerialization);
                 var process = (ILongRunningProcess)vm.Instance;
                 process.ProcessData = new ProcessData() { ProcessInstanceContainer = processInstanceContainer };
-                process.LongRunningProcessData = new LongRunningProcessData() { VirtualMachine = vm };
+                process.ProcessData.LongRunningProcessData = new LongRunningProcessData() { VirtualMachine = vm };
 
                 return (TProcesInterface)process;
             }

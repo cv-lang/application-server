@@ -1,50 +1,50 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿//using Microsoft.AspNetCore.Mvc;
 
-namespace WebApplication1.Controllers
-{  
+//namespace WebApplication1.Controllers
+//{  
 
-    [ApiController]
-    [Route("api/[controller]")]
-    public class TestController : ControllerBase
-    {        
-        public TestController()
-        {            
-        }
+//    [ApiController]
+//    [Route("api/[controller]")]
+//    public class TestController : ControllerBase
+//    {        
+//        public TestController()
+//        {            
+//        }
 
-        private static AsyncLocal<string> Secret = new AsyncLocal<string>();
+//        private static AsyncLocal<string> Secret = new AsyncLocal<string>();
 
-        [Route("Test1")]
-        public async Task<string> Test1(string request)
-        {
+//        [Route("Test1")]
+//        public async Task<string> Test1(string request)
+//        {
 
-            Secret.Value = DateTime.Now.Ticks.ToString();
-            log(Secret.Value);
+//            Secret.Value = DateTime.Now.Ticks.ToString();
+//            log(Secret.Value);
 
-            log("1");
-            await Task.Delay(500);
-            log("2");
-            await Task.Delay(500);
-            log("3");
+//            log("1");
+//            await Task.Delay(500);
+//            log("2");
+//            await Task.Delay(500);
+//            log("3");
 
-            await Test2();
+//            await Test2();
 
-            log(Secret.Value);
-            return request;
-        }
+//            log(Secret.Value);
+//            return request;
+//        }
 
-        private async Task Test2()
-        {
-            log("4");
-            log(Secret.Value);
-            Secret.Value = "Tee";
-            await Task.Delay(500);
-            log("4");
-            log(Secret.Value);
-        }
+//        private async Task Test2()
+//        {
+//            log("4");
+//            log(Secret.Value);
+//            Secret.Value = "Tee";
+//            await Task.Delay(500);
+//            log("4");
+//            log(Secret.Value);
+//        }
 
-        private void log(string message)
-        {
-            Console.WriteLine($"Thread:{Thread.CurrentThread.ManagedThreadId},{this.HttpContext.TraceIdentifier} - {message}");
-        }
-    }
-}
+//        private void log(string message)
+//        {
+//            Console.WriteLine($"Thread:{Thread.CurrentThread.ManagedThreadId},{this.HttpContext.TraceIdentifier} - {message}");
+//        }
+//    }
+//}

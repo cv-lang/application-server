@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cvl.ApplicationServer.Core.Processes.Repositories
 {
-    public class ProcessInstanceContainerRepository : Repository<ProcessInstanceContainer>
+    internal class ProcessInstanceContainerRepository : Repository<ProcessInstanceContainer>
     {
         public ProcessInstanceContainerRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {

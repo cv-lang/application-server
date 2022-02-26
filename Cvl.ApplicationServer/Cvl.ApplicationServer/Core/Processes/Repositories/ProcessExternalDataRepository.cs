@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cvl.ApplicationServer.Core.Processes.Repositories
 {
-    public class ProcessExternalDataRepository : Repository<ProcessExternalData>
+    internal class ProcessExternalDataRepository : Repository<ProcessExternalData>
     {
         public ProcessExternalDataRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {

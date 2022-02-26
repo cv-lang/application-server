@@ -15,7 +15,7 @@ using ThreadState = Cvl.ApplicationServer.Core.Processes.Threading.ThreadState;
 
 namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
 {
-    public class ApplicationServerProcesses : IApplicationServerProcesses
+    internal class ApplicationServerProcesses : IApplicationServerProcesses
     {
         private readonly ProcessCommands _processCommands;
         private readonly ProcessQueries _processQueries;
@@ -48,7 +48,7 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
 
         public IProcess LoadProcess(string processNumber)
         {
-            return (BaseProcess)_processQueries.LoadProcessAsync<BaseProcess>(processNumber).Result;
+            return _processQueries.LoadProcessAsync<IProcess>(processNumber).Result;
         }
 
         public T LoadProcess<T>(string processNumber) where T : IProcess
@@ -77,7 +77,7 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
                 .ProcessType = ProcessType.LongRunningProcess;
 
             var vm = new VirtualMachine.VirtualMachine();
-            process.LongRunningProcessData.VirtualMachine = vm;
+            process.ProcessData.LongRunningProcessData.VirtualMachine = vm;
 
             
             var result = vm.Start<object>("Start", process);
@@ -134,14 +134,14 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
         protected object BeforeRunProcess(ILongRunningProcess process)
         {
             //sprawdzam czy zahibenowany proces ma jakieś dane do pocesu
-            var vmParams = process.LongRunningProcessData.VirtualMachine.GetHibernateParams();
+            var vmParams = process.ProcessData.LongRunningProcessData.VirtualMachine.GetHibernateParams();
             var type = (ProcessHibernationType)vmParams[0];
             object externalData = null;
             if (type == ProcessHibernationType.WaitForExternalData
                 || type == ProcessHibernationType.WaitingForUserInterface)
             {
                 var xmlExternalData = process.ProcessData.ProcessInstanceContainer
-                    .ProcessExternalData.ExternalInputDataFullSerialization;
+                    .ProcessExternalData.ProcessExternalDataFullSerialization;
                 externalData = _fullSerializer.Deserialize<object>(xmlExternalData);
             }
 
@@ -152,11 +152,11 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
         {
             if (result.State == VirtualMachineState.Executed)
             {
-                process.ProcessData.ThreadStatus = ThreadState.Executed;
+                process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.Executed;
             }
             else if (result.State == VirtualMachineState.Hibernated)
             {
-                var vmParams = process.LongRunningProcessData.VirtualMachine.GetHibernateParams();
+                var vmParams = process.ProcessData.LongRunningProcessData.VirtualMachine.GetHibernateParams();
                 var type = (ProcessHibernationType)vmParams[0];
                 string xml = "";
 
@@ -166,65 +166,27 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
                         var nextExecutionDate = (DateTime)vmParams[1];
                         process.ProcessData.ProcessInstanceContainer.ThreadData.NextExecutionDate =
                             nextExecutionDate;
-                        process.ProcessData.ThreadStatus = ThreadState.WaitingForExecution;
+                        process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.WaitingForExecution;
                         break;
                     case ProcessHibernationType.WaitForExternalData:
-                        process.ProcessData.ThreadStatus = ThreadState.WaitForExternalData;
+                        process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.WaitForExternalData;
                         var externalOutputData = vmParams[1];
 
                         xml = _fullSerializer.Serialize(externalOutputData);
                         process.ProcessData.ProcessInstanceContainer
-                            .ProcessExternalData.ProcessOutputDataFullSerialization = xml;
+                            .ProcessExternalData.ProcessExternalDataFullSerialization = xml;
                         break;
                     case ProcessHibernationType.WaitingForUserInterface:
-                        process.ProcessData.ThreadStatus = ThreadState.WaitingForUserInterface;
+                        process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.WaitingForUserInterface;
                         xml = _fullSerializer.Serialize(vmParams[1]);
                         process.ProcessData.ProcessInstanceContainer
-                            .ProcessExternalData.ProcessOutputDataFullSerialization = xml;
+                            .ProcessExternalData.ProcessExternalDataFullSerialization = xml;
                         break;
                 }
             }
         }
 
-        public object GetExternalDataOutput(string processNumber)
-        {
-            var process = LoadProcess(processNumber);
-            var externalDataXml = process.ProcessData.ProcessInstanceContainer
-                .ProcessExternalData.ProcessOutputDataFullSerialization;
-            var externalData = _fullSerializer.Deserialize<object>(externalDataXml);
-
-            return externalData;
-        }
-
-        public object GetExternalDataInput(string processNumber)
-        {
-            var process = LoadProcess(processNumber);
-            var externalDataXml = process.ProcessData.ProcessInstanceContainer
-                .ProcessExternalData.ExternalInputDataFullSerialization;
-            var externalData = _fullSerializer.Deserialize<object>(externalDataXml);
-
-            return externalData;
-        }
-        public void SetExternalDataInput(string processNumber, object externalData)
-        {
-            var process = LoadProcess(processNumber);
-
-            var xml = _fullSerializer.Serialize(externalData);
-            process.ProcessData.ProcessInstanceContainer
-                .ProcessExternalData.ExternalInputDataFullSerialization = xml;
-            process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.WaitingForExecution;
-            SaveProcess(process);
-        }
-
-        public View GetViewData(string processNumber)
-        {
-            return (View)GetExternalDataOutput(processNumber);
-        }
-
-        public void SetViewResponse(string processNumbr, ViewResponse viewResponse)
-        {
-            SetExternalDataInput(processNumbr, viewResponse);
-        }
+        
 
         public IQueryable<ProcessInstanceContainer> GetAllProcesses()
         {
@@ -248,6 +210,11 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
         public IQueryable<ProcessStepHistory> GetProcessSteps(long processId)
         {
             return _processStepQueries.GetAll();
+        }
+
+        public T OpenProcessProxy<T>(string processNumber) where T : IProcess, IDisposable
+        {
+            throw new NotImplementedException();
         }
     }
 }

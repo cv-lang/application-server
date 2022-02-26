@@ -4,7 +4,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Dtos
 {
     public class ProcessStepHistoryDto
     {
-        public ProcessStepHistoryDto(ProcessStepHistory stepHistory)
+        internal ProcessStepHistoryDto(ProcessStepHistory stepHistory)
         {
             StepHistory = stepHistory;
             Id = stepHistory.Id;

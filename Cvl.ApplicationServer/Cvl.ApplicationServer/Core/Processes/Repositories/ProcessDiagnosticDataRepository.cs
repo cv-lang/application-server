@@ -4,7 +4,7 @@ using Cvl.ApplicationServer.Core.Repositories;
 
 namespace Cvl.ApplicationServer.Core.Processes.Repositories
 {
-    public class ProcessDiagnosticDataRepository : Repository<ProcessDiagnosticData>
+    internal class ProcessDiagnosticDataRepository : Repository<ProcessDiagnosticData>
     {
         public ProcessDiagnosticDataRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {

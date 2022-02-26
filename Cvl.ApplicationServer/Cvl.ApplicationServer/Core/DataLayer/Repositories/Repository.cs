@@ -9,7 +9,7 @@ using Cvl.ApplicationServer.Core.Model.Contexts;
 
 namespace Cvl.ApplicationServer.Core.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    internal class Repository<T> : IRepository<T> where T : BaseEntity
     {
         #region property  
         private readonly ApplicationServerDbContext _applicationDbContext;

@@ -8,7 +8,7 @@ using Cvl.ApplicationServer.Core.Model.Contexts;
 
 namespace Cvl.ApplicationServer.Core.Repositories
 {
-    public class LogElementRepository : Repository<LogElement>
+    internal class LogElementRepository : Repository<LogElement>
     {
         public LogElementRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {

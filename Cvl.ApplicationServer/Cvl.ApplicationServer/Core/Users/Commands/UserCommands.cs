@@ -8,7 +8,7 @@ using Cvl.ApplicationServer.Core.Users.Model;
 
 namespace Cvl.ApplicationServer.Core.Users.Commands
 {
-    public class UserCommands
+    internal class UserCommands
     {
         private readonly Repository<User> _repository;
 

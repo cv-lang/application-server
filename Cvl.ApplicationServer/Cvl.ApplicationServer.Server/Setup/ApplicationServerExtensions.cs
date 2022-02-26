@@ -5,13 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.Extensions;
+using Cvl.ApplicationServer.Core.Model.Contexts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Cvl.ApplicationServer.Server.Setup
 {    
 
     public static class ApplicationServerExtensions
     {
-        public static IServiceCollection UseApplicationServer(this IServiceCollection services)            
+        public static IServiceCollection UseApplicationServer(this IServiceCollection services,
+            string applicationServerContext)            
         {
             services.UseRegisterApplicationServer();
             services.AddControllers()

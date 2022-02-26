@@ -29,7 +29,7 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Pages.Processes
                 throw new Exception($"There is no process with processId={processNumber}");
             }
 
-            ProcessInstanceContainer = _serializer.Serialize(process.ProcessData.ProcessInstanceContainer);
+            //ProcessInstanceContainer = _serializer.Serialize(process.ProcessData.ProcessInstanceContainer);
             ProcessId = process.ProcessData.ProcessId;
 
 

@@ -8,7 +8,7 @@ using Cvl.ApplicationServer.Core.Model.Contexts;
 
 namespace Cvl.ApplicationServer.Core.Repositories
 {
-    public class LogPropertiesRepository : Repository<LogProperties>
+    internal class LogPropertiesRepository : Repository<LogProperties>
     {
         public LogPropertiesRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {

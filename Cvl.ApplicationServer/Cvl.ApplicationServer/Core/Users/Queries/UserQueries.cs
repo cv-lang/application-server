@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cvl.ApplicationServer.Core.Users.Queries
 {
-    public class UserQueries
+    internal class UserQueries
     {
         private readonly Repository<User> _repository;
 

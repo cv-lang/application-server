@@ -17,13 +17,8 @@ namespace Cvl.ApplicationServer.Core.Processes.Model
         public virtual ProcessInstanceContainer ProcessInstance { get; set; } = null!;
 
         /// <summary>
-        /// Data from process (to external source)
+        /// External data
         /// </summary>
-        public string? ProcessOutputDataFullSerialization { get; set; }
-
-        /// <summary>
-        /// Data from extrernal source (to process)
-        /// </summary>
-        public string? ExternalInputDataFullSerialization { get; set; }
+        public string? ProcessExternalDataFullSerialization { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Core.Repositories
 {
-    public interface IRepository<T> where T : BaseEntity
+    internal interface IRepository<T> where T : BaseEntity
     {
         IQueryable<T> GetAll();
         Task<T> GetSingleAsync(long Id);

@@ -16,17 +16,13 @@ namespace Cvl.ApplicationServer.Core.Processes
 
     public abstract class BaseLongRunningProcess : BaseProcess, ILongRunningProcess
     {
-        [JsonIgnore]
-        [XmlIgnore]
-        public LongRunningProcessData LongRunningProcessData { get; set; } = new LongRunningProcessData();
-        
 
         [Interpret]
-        public abstract object Start(object inputParam);
+        public abstract VirtualMachineResult<object> StartLongRunningProcess(object inputParam);
 
         public virtual VirtualMachineResult<object> ResumeLongRunningProcess(object inputData)
         {
-            var vmResult = LongRunningProcessData.VirtualMachine.Resume<object>(inputData);
+            var vmResult = ProcessData.LongRunningProcessData.VirtualMachine.Resume<object>(inputData);
             return vmResult;
         }
 
@@ -34,42 +30,17 @@ namespace Cvl.ApplicationServer.Core.Processes
 
         public override object GetProcessState()
         {
-            return LongRunningProcessData.VirtualMachine;
+            return ProcessData.LongRunningProcessData.VirtualMachine;
         }
 
         public override void LoadProcessState(object processState)
         {
-            LongRunningProcessData.VirtualMachine = (VirtualMachine.VirtualMachine)processState;
-            LongRunningProcessData.VirtualMachine.Instance = this;
+            ProcessData.LongRunningProcessData.VirtualMachine = (VirtualMachine.VirtualMachine)processState;
+            ProcessData.LongRunningProcessData.VirtualMachine.Instance = this;
         }
 
         #endregion
 
-        #region hibernation and UI
-
-        [Interpret]
-        public void Delay(DateTime delayUntil)
-        {
-            VirtualMachine.VirtualMachine.Hibernate(ProcessHibernationType.DelayOfProcessExecution, 
-                delayUntil);
-        }
-
-        [Interpret]
-        public object WaitForExternalData(object data = null)
-        {
-            var result = VirtualMachine.VirtualMachine.Hibernate(ProcessHibernationType.WaitForExternalData, data);
-
-            return result;
-        }
-
-        [Interpret]
-        public ViewResponse ShowView(View view)
-        {
-            var response = (ViewResponse)VirtualMachine.VirtualMachine.Hibernate(
-                ProcessHibernationType.WaitingForUserInterface, view)!;
-            return response;
-        }
-
-        #endregion
+        
     }
 }

@@ -5,11 +5,10 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json");
 
-var processesContextConnectionString = builder.Configuration.GetConnectionString("ApplicationServerContext");
+var applicationServerContext = builder.Configuration.GetConnectionString("ApplicationServerContext");
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationServerDbContext>(options => options.UseSqlServer(processesContextConnectionString));
-builder.Services.UseApplicationServer();
+builder.Services.UseApplicationServer(applicationServerContext);
 //builder.Logging.ClearProviders();
 //builder.Logging.AddHierarchicalLogger();
 

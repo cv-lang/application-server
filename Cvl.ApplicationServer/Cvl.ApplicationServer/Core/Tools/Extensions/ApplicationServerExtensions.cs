@@ -1,5 +1,6 @@
 ﻿using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
 using Cvl.ApplicationServer.Core.ExternalServices.Emails;
+using Cvl.ApplicationServer.Core.Model.Contexts;
 using Cvl.ApplicationServer.Core.Processes.Commands;
 using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.Queries;
@@ -13,19 +14,19 @@ using Cvl.ApplicationServer.Core.Users.Model;
 using Cvl.ApplicationServer.Core.Users.Queries;
 using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.ApplicationServer.Processes;
-using Cvl.ApplicationServer.Test;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cvl.ApplicationServer.Core.Extensions
-{    
+{
 
     public static class ApplicationServerExtensions
     {
         public static IServiceCollection UseRegisterApplicationServer(this IServiceCollection services)
         {
-            services.AddTransient<IFullSerializer, XmlFullSerializer>()
-                .AddTransient<IJsonSerializer, JsonSerializer>()
 
+            //proceses
+            services
                 .AddTransient<ProcessActivityDataRepository, ProcessActivityDataRepository>()
                 .AddTransient<ProcessActivityRepository, ProcessActivityRepository>()
                 .AddTransient<ProcessInstanceContainerRepository, ProcessInstanceContainerRepository>()
@@ -43,26 +44,34 @@ namespace Cvl.ApplicationServer.Core.Extensions
                 .AddTransient<ProcessExternalDataCommands, ProcessExternalDataCommands>()
                 .AddTransient<ProcessStepQueries, ProcessStepQueries>()
                 .AddTransient<ProcessActivityQueries>()
+                
+                .AddTransient<IProcessManager, ProcessManager>()
+                .AddTransient<ILongRunningProcessManager, LongRunningProcessManager>();
 
-                .AddTransient<IApplicationServer, ApplicationServers.ApplicationServer>()
-                .AddTransient<IApplicationServerProcesses,
-                    ApplicationServerProcesses>()
-
+            //users
+            services
                 .AddTransient<Repository<User>, Repository<User>>()
                 .AddTransient<UserCommands, UserCommands>()
                 .AddTransient<UserQueries, UserQueries>()
-                .AddTransient<IUsersService, UsersService>()
+                .AddTransient<IUsersService, UsersService>();
 
 
+            //extrenal sevices
+            services
                 .AddTransient<IEmailSender, EmailSender>()
                 //.AddScoped<RequestLoggerScope, RequestLoggerScope>()
 
                 .AddTransient<LogElementRepository, LogElementRepository>()
-                .AddTransient<LogPropertiesRepository, LogPropertiesRepository>()
+                .AddTransient<LogPropertiesRepository, LogPropertiesRepository>();
 
-                .AddTransient<SimpleLongRunningTestProcess, SimpleLongRunningTestProcess>()
-                .AddTransient<SimpleStepBaseTestProcess, SimpleStepBaseTestProcess>();
+            services
+                .AddTransient<IApplicationServer, ApplicationServers.ApplicationServer>()
+                .AddTransient<IApplicationServerProcesses, ApplicationServerProcesses>();
 
+
+            //tools
+            services.AddTransient<IFullSerializer, XmlFullSerializer>()
+                .AddTransient<IJsonSerializer, JsonSerializer>();
 
             return services;
         }

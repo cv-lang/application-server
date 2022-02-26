@@ -48,11 +48,10 @@ hostBuilder.ConfigureAppConfiguration((hostingContext, configuration) =>
 //serwisy
 hostBuilder.ConfigureServices(services =>
 {
-    var _optionsBuilder = new DbContextOptionsBuilder<ApplicationServerDbContext>();
-    _optionsBuilder.UseSqlServer(ApplicationServerContextConnectionString);
-    services.AddDbContext<ApplicationServerDbContext>(options => options.UseSqlServer(ApplicationServerContextConnectionString));
+    services.AddDbContext<ApplicationServerDbContext>(options =>
+        options.UseNpgsql(ApplicationServerContextConnectionString));
     services.UseRegisterApplicationServer();
-    
+    services.AddTransient<SimpleStepBaseTestProcess>();
 
 });
 
@@ -68,12 +67,8 @@ hostBuilder.ConfigureServices(services =>
 
 
 var app = hostBuilder.Build();
-using var requestScope = app.Services.CreateScope();
-var serviceProvider = requestScope.ServiceProvider;// app.Services;
 
-var userCommand = serviceProvider.GetService<IUsersService>();
-await userCommand.AddRootUserAsync();
-
+var serviceProvider = app.Services;
 
 
 var appServer = serviceProvider.GetService<IApplicationServer>();
@@ -85,42 +80,42 @@ appServer.Processes.SaveProcess(t2);
 
 
 
-appServer.Processes.SetExternalDataInput(t2.ProcessData.ProcessNumber, "Jakieś testowe dane");
+//appServer.Processes.SetExternalDataInput(t2.ProcessData.ProcessNumber, "Jakieś testowe dane");
 
-appServer.Processes.RunProcesses();
+//appServer.Processes.RunProcesses();
 
-t2.Step1FromApi();
-appServer.Processes.SaveProcess(t2);
-
-
+//t2.Step1FromApi();
+//appServer.Processes.SaveProcess(t2);
 
 
 
 
 
-var t1 = appServer.Processes.StartLongRunningProcess<SimpleLongRunningTestProcess>(4);
 
-var numberOfExecutedProcesses = 0;
-numberOfExecutedProcesses = appServer.Processes.RunProcesses();
 
-await Task.Delay(1001);
-numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+//var t1 = appServer.Processes.StartLongRunningProcess<SimpleLongRunningTestProcess>(4);
 
-var e1 = appServer.Processes.GetExternalDataOutput(t1.ProcessNumber);
-numberOfExecutedProcesses = appServer.Processes.RunProcesses();
-appServer.Processes.SetExternalDataInput(t1.ProcessNumber, "Testowe dane wejścowe dla procesu");
-numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+//var numberOfExecutedProcesses = 0;
+//numberOfExecutedProcesses = appServer.Processes.RunProcesses();
 
-var e2 = appServer.Processes.GetExternalDataOutput(t1.ProcessNumber);
-appServer.Processes.SetExternalDataInput(t1.ProcessNumber);
-numberOfExecutedProcesses = appServer.Processes.RunProcesses();
-numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+//await Task.Delay(1001);
+//numberOfExecutedProcesses = appServer.Processes.RunProcesses();
 
-var viewData= appServer.Processes.GetViewData(t1.ProcessNumber);
-appServer.Processes.SetViewResponse(t1.ProcessNumber,new ViewResponse(){SelectedAction = "test"});
-numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+//var e1 = appServer.Processes.GetExternalDataOutput(t1.ProcessNumber);
+//numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+//appServer.Processes.SetExternalDataInput(t1.ProcessNumber, "Testowe dane wejścowe dla procesu");
+//numberOfExecutedProcesses = appServer.Processes.RunProcesses();
 
-Console.WriteLine("sdf");
+//var e2 = appServer.Processes.GetExternalDataOutput(t1.ProcessNumber);
+//appServer.Processes.SetExternalDataInput(t1.ProcessNumber);
+//numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+//numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+
+//var viewData= appServer.Processes.GetViewData(t1.ProcessNumber);
+//appServer.Processes.SetViewResponse(t1.ProcessNumber,new ViewResponse(){SelectedAction = "test"});
+//numberOfExecutedProcesses = appServer.Processes.RunProcesses();
+
+//Console.WriteLine("sdf");
 
 //var testProcess = appServer.Processes.CreateProcess<SimpleTestProcess>();
 

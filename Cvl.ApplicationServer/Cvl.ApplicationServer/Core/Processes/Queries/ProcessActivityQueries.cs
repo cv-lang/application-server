@@ -3,7 +3,7 @@ using Cvl.ApplicationServer.Core.Processes.Repositories;
 
 namespace Cvl.ApplicationServer.Core.Processes.Queries
 {
-    public class ProcessActivityQueries
+    internal class ProcessActivityQueries
     {
         private readonly ProcessActivityRepository _processActivityRepository;
 

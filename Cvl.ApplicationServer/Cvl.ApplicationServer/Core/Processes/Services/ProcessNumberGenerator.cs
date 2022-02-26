@@ -2,7 +2,11 @@
 
 namespace Cvl.ApplicationServer.Core.Processes.Services
 {
-    public class ProcessNumberGenerator : IProcessNumberGenerator
+    internal interface IProcessNumberGenerator
+    { string GenerateProcessNumber(long processId);
+    }
+
+    internal class ProcessNumberGenerator : IProcessNumberGenerator
     {
         public string GenerateProcessNumber(long processId)
         {

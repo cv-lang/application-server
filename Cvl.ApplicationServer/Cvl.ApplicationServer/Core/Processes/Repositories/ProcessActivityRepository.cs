@@ -4,7 +4,7 @@ using Cvl.ApplicationServer.Core.Repositories;
 
 namespace Cvl.ApplicationServer.Core.Processes.Repositories
 {
-    public class ProcessActivityRepository : Repository<ProcessActivity>
+    internal class ProcessActivityRepository : Repository<ProcessActivity>
     {
         public ProcessActivityRepository(ApplicationServerDbContext applicationDbContext) : base(applicationDbContext)
         {

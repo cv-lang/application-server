@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.Processes;
+using Cvl.ApplicationServer.Processes;
 using ThreadState = Cvl.ApplicationServer.Core.Processes.Threading.ThreadState;
 
 namespace Cvl.ApplicationServer.Test
@@ -26,18 +27,21 @@ namespace Cvl.ApplicationServer.Test
         {
             get
             {
-                return (SimpleStepBaseTestProcessStep)ProcessData.ProcessInstanceContainer.Step.Step;
+                return (SimpleStepBaseTestProcessStep)ProcessData.Step;
             }
             set
             {
-                ProcessData.ProcessInstanceContainer.Step.Step = (int)value;
+                ProcessData.Step = (int)value;
             }
         }
 
+        private readonly IProcessManager _processManager;
         private readonly IApplicationServer _applicationServer;
 
-        public SimpleStepBaseTestProcess(IApplicationServer applicationServer)
+        public SimpleStepBaseTestProcess(IProcessManager processManager,IApplicationServer applicationServer)
         {
+            _processManager = processManager;
+            _processManager.Process = this;
             _applicationServer = applicationServer;
             State = new SimpleStepBaseTestProcessState();
             State.StepName = "Start procesu";
@@ -47,19 +51,20 @@ namespace Cvl.ApplicationServer.Test
 
         public void Step1FromApi()
         {
-            ProcessData.SetStep("step2", "step 2", SimpleStepBaseTestProcessStep.Step2);
-            ProcessData.SetToJobThread();
+            _processManager.SetStep("step2", "step 2", SimpleStepBaseTestProcessStep.Step2);
+            _processManager.SetToJobThread();
         }
 
 
         public void Step2FromJob()
         {
-            ProcessData.SetStep("Processing extrenral data", "Processing extrenral data", SimpleStepBaseTestProcessStep.Step3);
+            _processManager.SetStep("Processing extrenral data", "Processing extrenral data", SimpleStepBaseTestProcessStep.Step3);
 
-            var externalData = _applicationServer.Processes.GetExternalDataInput(this.ProcessData.ProcessNumber);
+            var externalData = _processManager.GetExternalData(this.ProcessData.ProcessNumber);
            
-            ProcessData.SetStep($"externalData: {externalData}", "Processing extrenral data", SimpleStepBaseTestProcessStep.Step3);
+            //ProcessData.SetStep($"externalData: {externalData}", "Processing extrenral data", SimpleStepBaseTestProcessStep.Step3);
 
+            _processManager.SetToApiThread();
         }
 
         public override void JobEntry()
