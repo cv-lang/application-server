@@ -20,6 +20,7 @@ namespace Cvl.ApplicationServer.Core.Processes
         [Interpret]
         public abstract VirtualMachineResult<object> StartLongRunningProcess(object inputParam);
 
+        [Interpret]
         public virtual VirtualMachineResult<object> ResumeLongRunningProcess(object inputData)
         {
             var vmResult = ProcessData.LongRunningProcessData.VirtualMachine.Resume<object>(inputData);
@@ -30,7 +31,7 @@ namespace Cvl.ApplicationServer.Core.Processes
 
         public override object GetProcessState()
         {
-            return ProcessData.LongRunningProcessData.VirtualMachine;
+            return ProcessData?.LongRunningProcessData?.VirtualMachine;
         }
 
         public override void LoadProcessState(object processState)

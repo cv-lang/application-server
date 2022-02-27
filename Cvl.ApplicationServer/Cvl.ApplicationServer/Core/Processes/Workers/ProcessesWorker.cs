@@ -77,7 +77,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Workers
             process.ProcessData.LongRunningProcessData.VirtualMachine = vm;
 
 
-            var result = vm.Start<object>("Start", process);
+            var result = vm.Start<object>("StartLongRunningProcess", process);
             AfterRunProcess(process, result);
             SaveProcess(process);
 

@@ -13,5 +13,6 @@ namespace Cvl.ApplicationServer.Processes
         IProcess LoadProcess(string processNumber);
         T LoadProcess<T>(string processNumber) where T : IProcess;
         T OpenProcessProxy<T>(string processNumber) where T : IProcess, IDisposable;
+        ProcessStatus StartLongRunningProcess<T>(object inputParameter) where T : ILongRunningProcess;
     }
 }

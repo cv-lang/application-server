@@ -31,9 +31,17 @@ namespace Cvl.ApplicationServer.Core.Processes.Services
             var process = LoadProcess(processNumber);
             var externalDataXml = process.ProcessData.ProcessInstanceContainer
                 .ProcessExternalData.ProcessExternalDataFullSerialization;
-            var externalData = _fullSerializer.Deserialize<object>(externalDataXml);
+            if (externalDataXml == null)
+            {
+                return null;
+            }
+            else
+            {
+                var externalData = _fullSerializer.Deserialize<object>(externalDataXml);
 
-            return externalData;
+                return externalData;
+            }
+            
         }
 
         public void SetExternalData(string processNumber, object externalData)

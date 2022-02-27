@@ -8,6 +8,7 @@ using Cvl.ApplicationServer.Core.Processes.Queries;
 using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 using Cvl.ApplicationServer.Processes;
+using Cvl.ApplicationServer.Processes.Workers;
 using Cvl.VirtualMachine;
 using Cvl.VirtualMachine.Core;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
 {
     internal class ApplicationServerProcesses : IApplicationServerProcesses
     {
+        private readonly IProcessesWorker _worker;
         private readonly ProcessCommands _processCommands;
         private readonly ProcessQueries _processQueries;
         private readonly IFullSerializer _fullSerializer;
@@ -28,9 +30,10 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
             IFullSerializer fullSerializer,
             ProcessExternalDataCommands processExternalDataCommands,
             ProcessActivityQueries processActivityQueries,
-            ProcessStepQueries processStepQueries
-            )
+            ProcessStepQueries processStepQueries,
+            IProcessesWorker worker)
         {
+            _worker = worker;
             _processCommands = processCommands;
             _processQueries = processQueries;
             _fullSerializer = fullSerializer;
@@ -106,6 +109,11 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
         public T OpenProcessProxy<T>(string processNumber) where T : IProcess, IDisposable
         {
             throw new NotImplementedException();
+        }
+
+        public ProcessStatus StartLongRunningProcess<T>(object inputParameter) where T : ILongRunningProcess
+        {
+            return _worker.StartLongRunningProcess<T>(inputParameter);
         }
     }
 }

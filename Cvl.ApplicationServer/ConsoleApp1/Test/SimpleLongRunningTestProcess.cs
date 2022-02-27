@@ -55,7 +55,7 @@ namespace Cvl.ApplicationServer.Test
             _processManager.SetStep("start", "start", SimpleLongRunningTestProcessStep.Init);
 
             Step1(new Step1Registration() { Email = "test@test.com", Password = "sdf"});
-            _processManager.Delay(DateTime.Now.AddSeconds(1));
+            _processManager.Delay(DateTime.UtcNow.AddSeconds(1));
 
             _processManager.SetStep("Step 2", "Step 2 descrption", SimpleLongRunningTestProcessStep.Registration);
 

@@ -49,6 +49,7 @@ namespace Cvl.ApplicationServer.Core.Extensions
                 
                 .AddTransient<IProcessManager, ProcessManager>()
                 .AddTransient<ILongRunningProcessManager, LongRunningProcessManager>()
+                .AddTransient<LongRunningProcessManager, LongRunningProcessManager>() //wymgana dla VM
                 .AddTransient<IProcessesWorker, ProcessesWorker>();
 
             //users

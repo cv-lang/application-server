@@ -53,6 +53,7 @@ hostBuilder.ConfigureServices(services =>
         options.UseNpgsql(ApplicationServerContextConnectionString));
     services.UseRegisterApplicationServer();
     services.AddTransient<SimpleStepBaseTestProcess>();
+    services.AddTransient<SimpleLongRunningTestProcess>();
 
 });
 
@@ -75,12 +76,17 @@ var serviceProvider = app.Services;
 var appServer = serviceProvider.GetService<IApplicationServer>();
 var worker = serviceProvider.GetService<IProcessesWorker>();
 
-var t2 = appServer.Processes.CreateProcess<SimpleStepBaseTestProcess>();
-t2.Step1FromApi();
-appServer.Processes.SaveProcess(t2);
+var p1 = appServer.Processes.CreateProcess<SimpleStepBaseTestProcess>();
+p1.Step1FromApi();
+appServer.Processes.SaveProcess(p1);
 
 worker.RunProcesses();
 
+
+var p2 = appServer.Processes.StartLongRunningProcess<SimpleLongRunningTestProcess>(null);
+worker.RunProcesses();
+
+var p3 = appServer.Processes.LoadProcess(p2.ProcessNumber);
 
 //appServer.Processes.SetExternalDataInput(t2.ProcessData.ProcessNumber, "Jakieś testowe dane");
 
