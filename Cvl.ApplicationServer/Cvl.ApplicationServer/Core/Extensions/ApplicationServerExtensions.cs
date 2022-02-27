@@ -6,6 +6,7 @@ using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.Queries;
 using Cvl.ApplicationServer.Core.Processes.Repositories;
 using Cvl.ApplicationServer.Core.Processes.Services;
+using Cvl.ApplicationServer.Core.Processes.Workers;
 using Cvl.ApplicationServer.Core.Repositories;
 using Cvl.ApplicationServer.Core.Serializers;
 using Cvl.ApplicationServer.Core.Serializers.Interfaces;
@@ -14,6 +15,7 @@ using Cvl.ApplicationServer.Core.Users.Model;
 using Cvl.ApplicationServer.Core.Users.Queries;
 using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.ApplicationServer.Processes;
+using Cvl.ApplicationServer.Processes.Workers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -46,7 +48,8 @@ namespace Cvl.ApplicationServer.Core.Extensions
                 .AddTransient<ProcessActivityQueries>()
                 
                 .AddTransient<IProcessManager, ProcessManager>()
-                .AddTransient<ILongRunningProcessManager, LongRunningProcessManager>();
+                .AddTransient<ILongRunningProcessManager, LongRunningProcessManager>()
+                .AddTransient<IProcessesWorker, ProcessesWorker>();
 
             //users
             services

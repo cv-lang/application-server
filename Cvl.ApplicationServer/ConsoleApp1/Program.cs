@@ -18,6 +18,7 @@ using Cvl.ApplicationServer.Core.Extensions;
 using Cvl.ApplicationServer.Core.Model.Contexts;
 using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.ApplicationServer.Core.Users.Services;
+using Cvl.ApplicationServer.Processes.Workers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json;
 using Polenter.Serialization;
@@ -72,12 +73,13 @@ var serviceProvider = app.Services;
 
 
 var appServer = serviceProvider.GetService<IApplicationServer>();
-
+var worker = serviceProvider.GetService<IProcessesWorker>();
 
 var t2 = appServer.Processes.CreateProcess<SimpleStepBaseTestProcess>();
 t2.Step1FromApi();
 appServer.Processes.SaveProcess(t2);
 
+worker.RunProcesses();
 
 
 //appServer.Processes.SetExternalDataInput(t2.ProcessData.ProcessNumber, "Jakieś testowe dane");

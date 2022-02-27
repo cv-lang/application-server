@@ -22,7 +22,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Commands
             var processInstanceContainer = new ProcessInstanceContainer("",
                 "new");
 
-            processInstanceContainer.ProcessTypeData.ProcessTypeFullName = processType.FullName!;
+            processInstanceContainer.ProcessTypeData.ProcessTypeFullName = processType.AssemblyQualifiedName!;
             processInstanceContainer.ProcessInstanceStateData = new ProcessStateData(processState);
             processInstanceContainer.ProcessDiagnosticData = new ProcessDiagnosticData();
             processInstanceContainer.ProcessExternalData = new ProcessExternalData();

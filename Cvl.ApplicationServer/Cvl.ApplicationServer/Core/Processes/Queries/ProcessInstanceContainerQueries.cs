@@ -34,7 +34,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Queries
 
         internal async Task<List<string>> GetWaitingForExecutionProcessesNumbersAsync()
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             return await _processInstanceContainerRepository.GetAll()
                 .Where(x => x.ThreadData.MainThreadState == ThreadState.WaitingForExecution)
                 .Where(x => x.ThreadData.NextExecutionDate == null || (x.ThreadData.NextExecutionDate < now))
