@@ -1,3 +1,4 @@
+using Cvl.ApplicationServer.Core.Processes;
 using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -23,27 +24,28 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Pages.Processes
         public async Task OnGet(string processNumber)
         {
             ProcessNumber = processNumber;
-            var process = _applicationServer.Processes.LoadProcess(processNumber);
-            if (process == null)
+            using (var proxy = await _applicationServer.SimpleProcesses
+                       .OpenProcessProxyAsync<BaseProcess>(processNumber))
             {
-                throw new Exception($"There is no process with processId={processNumber}");
+                if (proxy == null)
+                {
+                    throw new Exception($"There is no process with processId={processNumber}");
+                }
+
+                //ProcessInstanceContainer = _serializer.Serialize(process.ProcessData.ProcessInstanceContainer);
+                ProcessId = proxy.Process.ProcessData.ProcessId;
+
+
+                //remove $type from full serialization
+                ProcessInstanceContainer = ProcessInstanceContainer
+                    .Replace("\\\"", "`").Replace("\r", "").Replace("\n", "")
+                    .Replace("\"{", "{").Replace("}\"", "}").Replace("\\", "");
+
+                ProcessState = _serializer.Serialize(proxy.Process);
+                ProcessState = ProcessState
+                    .Replace("\\\"", "`").Replace("\r", "").Replace("\n", "")
+                    .Replace("\"{", "{").Replace("}\"", "}").Replace("\\", "");
             }
-
-            //ProcessInstanceContainer = _serializer.Serialize(process.ProcessData.ProcessInstanceContainer);
-            ProcessId = process.ProcessData.ProcessId;
-
-
-            //remove $type from full serialization
-            ProcessInstanceContainer = ProcessInstanceContainer
-                .Replace("\\\"","`").Replace("\r","").Replace("\n","")
-                .Replace("\"{", "{").Replace("}\"","}").Replace("\\","");
-                
-            ProcessState = _serializer.Serialize(process);
-           ProcessState = ProcessState
-               .Replace("\\\"", "`").Replace("\r", "").Replace("\n", "")
-               .Replace("\"{", "{").Replace("}\"", "}").Replace("\\", "");
-
-
         }
     }
 }

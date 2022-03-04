@@ -4,6 +4,6 @@ namespace Cvl.ApplicationServer
 {
     public interface IApplicationServer
     {
-        IApplicationServerProcesses Processes { get; }
+        IApplicationServerSimpleProcesses SimpleProcesses { get; }
     }
 }

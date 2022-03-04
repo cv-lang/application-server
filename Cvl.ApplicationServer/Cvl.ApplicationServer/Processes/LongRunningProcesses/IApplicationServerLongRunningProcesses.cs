@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
 using Cvl.ApplicationServer.Core.Processes.Interfaces;
+using Cvl.ApplicationServer.Core.Processes.LongRunningProcesses;
 
-namespace Cvl.ApplicationServer.Processes.Workers
+namespace Cvl.ApplicationServer.Processes.LongRunningProcesses
 {
-    public interface IProcessesWorker : IWorker
+    public interface IApplicationServerLongRunningProcesses
     {
-        Task<int> RunProcessesAsync();
         Task<LongRunningProcessStatus> StartLongRunningProcessAsync<T>(object inputParameter) where T : ILongRunningProcess;
+        Task<LongRunningProcessProxy<T>> OpenProcessProxyAsync<T>(string processNumber) where T : IProcess;
     }
 }

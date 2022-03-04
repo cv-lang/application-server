@@ -4,11 +4,11 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers
 {
     public class ApplicationServer : IApplicationServer
     {
-        public ApplicationServer(IApplicationServerProcesses processes)
+        public ApplicationServer(IApplicationServerSimpleProcesses simpleProcesses)
         {
-            Processes = processes;
+            SimpleProcesses = simpleProcesses;
         }
 
-        public IApplicationServerProcesses Processes { get; set; }
+        public IApplicationServerSimpleProcesses SimpleProcesses { get; set; }
     }
 }

@@ -15,9 +15,9 @@ namespace Cvl.ApplicationServer.Server.Setup
     public static class ApplicationServerExtensions
     {
         public static IServiceCollection UseApplicationServer(this IServiceCollection services,
-            string applicationServerContext)            
+            string applicationServerContextConnectionString)            
         {
-            services.UseRegisterApplicationServer();
+            services.UseRegisterApplicationServer(applicationServerContextConnectionString);
             services.AddControllers()
                 .AddJsonOptions(options =>
                 options.JsonSerializerOptions.PropertyNamingPolicy = null); //needed for telerik datasource (property need to start from Uppercase)

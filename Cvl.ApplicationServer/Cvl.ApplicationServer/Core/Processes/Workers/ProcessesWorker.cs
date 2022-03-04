@@ -31,22 +31,13 @@ namespace Cvl.ApplicationServer.Core.Processes.Workers
             _fullSerializer = fullSerializer;
         }
 
-        private IProcess LoadProcess(string processNumber)
+        public async Task<int> RunProcessesAsync()
         {
-            return _processQueries.LoadProcessAsync<IProcess>(processNumber).Result;
-        }
-        private void SaveProcess(IProcess process)
-        {
-            _processCommands.SaveProcessStateAsync(process).Wait();
-        }
-
-        public int RunProcesses()
-        {
-            var processesNumbers = _processQueries.GetWaitingForExecutionProcessesNumbersAsync().Result;
+            var processesNumbers = await _processQueries.GetWaitingForExecutionProcessesNumbersAsync();
 
             foreach (var processNumber in processesNumbers)
             {
-                var process = LoadProcess(processNumber);
+                var process = await _processQueries.LoadProcessAsync<IProcess>(processNumber);
 
                 if (process is ILongRunningProcess processLongRunningProcess)
                 {
@@ -60,13 +51,13 @@ namespace Cvl.ApplicationServer.Core.Processes.Workers
                 }
 
                 //zapisuje stan procesu
-                SaveProcess(process);
+                await _processCommands.SaveProcessStateAsync(process);
             }
 
             return processesNumbers.Count;
         }
 
-        public ProcessStatus StartLongRunningProcess<T>(object inputParameter) where T : ILongRunningProcess
+        public async Task<LongRunningProcessStatus> StartLongRunningProcessAsync<T>(object inputParameter) where T : ILongRunningProcess
         {
             var process = _processCommands.CreateProcessAsync<T>().Result;
 
@@ -79,14 +70,12 @@ namespace Cvl.ApplicationServer.Core.Processes.Workers
 
             var result = vm.Start<object>("StartLongRunningProcess", process);
             AfterRunProcess(process, result);
-            SaveProcess(process);
+            await _processCommands.SaveProcessStateAsync(process);
 
             if (vm.Thread.Status == VirtualMachineState.Hibernated)
             {
-                var processStatus = new ProcessStatus();
-                processStatus.Status = ProcessExecutionStaus.Pending;
-                processStatus.ProcessId = process.ProcessData.ProcessId;
-                processStatus.ProcessNumber = process.ProcessData.ProcessNumber;
+                var processStatus = new LongRunningProcessStatus(ProcessExecutionStaus.Pending,
+                    process.ProcessData.ProcessId,process.ProcessData.ProcessNumber);
 
                 return processStatus;
             }

@@ -3,6 +3,7 @@ using Cvl.ApplicationServer.Core.ExternalServices.Emails;
 using Cvl.ApplicationServer.Core.Model.Contexts;
 using Cvl.ApplicationServer.Core.Processes.Commands;
 using Cvl.ApplicationServer.Core.Processes.Interfaces;
+using Cvl.ApplicationServer.Core.Processes.LongRunningProcesses;
 using Cvl.ApplicationServer.Core.Processes.Queries;
 using Cvl.ApplicationServer.Core.Processes.Repositories;
 using Cvl.ApplicationServer.Core.Processes.Services;
@@ -15,6 +16,7 @@ using Cvl.ApplicationServer.Core.Users.Model;
 using Cvl.ApplicationServer.Core.Users.Queries;
 using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.ApplicationServer.Processes;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses;
 using Cvl.ApplicationServer.Processes.Workers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,8 +26,13 @@ namespace Cvl.ApplicationServer.Core.Extensions
 
     public static class ApplicationServerExtensions
     {
-        public static IServiceCollection UseRegisterApplicationServer(this IServiceCollection services)
+        public static IServiceCollection UseRegisterApplicationServer(this IServiceCollection services,
+            string applicationServerContextConnectionString)
         {
+            //db context
+            services.AddDbContext<ApplicationServerDbContext>(options =>
+                options.UseNpgsql(applicationServerContextConnectionString));
+
 
             //proceses
             services
@@ -70,7 +77,8 @@ namespace Cvl.ApplicationServer.Core.Extensions
 
             services
                 .AddTransient<IApplicationServer, ApplicationServers.ApplicationServer>()
-                .AddTransient<IApplicationServerProcesses, ApplicationServerProcesses>();
+                .AddTransient<IApplicationServerSimpleProcesses, ApplicationServerSimpleProcesses>()
+                .AddTransient<IApplicationServerLongRunningProcesses, ApplicationServerLongRunningProcesses>();
 
 
             //tools

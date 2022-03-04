@@ -18,6 +18,8 @@ using Cvl.ApplicationServer.Core.Extensions;
 using Cvl.ApplicationServer.Core.Model.Contexts;
 using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.ApplicationServer.Core.Users.Services;
+using Cvl.ApplicationServer.Processes;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses;
 using Cvl.ApplicationServer.Processes.Workers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json;
@@ -49,9 +51,7 @@ hostBuilder.ConfigureAppConfiguration((hostingContext, configuration) =>
 //serwisy
 hostBuilder.ConfigureServices(services =>
 {
-    services.AddDbContext<ApplicationServerDbContext>(options =>
-        options.UseNpgsql(ApplicationServerContextConnectionString));
-    services.UseRegisterApplicationServer();
+    services.UseRegisterApplicationServer(ApplicationServerContextConnectionString);
     services.AddTransient<SimpleStepBaseTestProcess>();
     services.AddTransient<SimpleLongRunningTestProcess>();
 
@@ -73,20 +73,33 @@ var app = hostBuilder.Build();
 var serviceProvider = app.Services;
 
 
-var appServer = serviceProvider.GetService<IApplicationServer>();
+
 var worker = serviceProvider.GetService<IProcessesWorker>();
+var appServerSimpleProcesses = serviceProvider.GetRequiredService<IApplicationServerSimpleProcesses>();
 
-var p1 = appServer.Processes.CreateProcess<SimpleStepBaseTestProcess>();
-p1.Step1FromApi();
-appServer.Processes.SaveProcess(p1);
+var p1status = await appServerSimpleProcesses.StartProcessAsync<SimpleStepBaseTestProcess>();
+using (var p1 = await appServerSimpleProcesses
+           .OpenProcessProxyAsync<SimpleStepBaseTestProcess>(p1status.ProcessNumber))
+{
+    p1.Process.Step1FromApi();
+}
 
-worker.RunProcesses();
+await worker.RunProcessesAsync();
 
 
-var p2 = appServer.Processes.StartLongRunningProcess<SimpleLongRunningTestProcess>(null);
-worker.RunProcesses();
 
-var p3 = appServer.Processes.LoadProcess(p2.ProcessNumber);
+var appServerLongRunningProcesses = serviceProvider.GetRequiredService<IApplicationServerLongRunningProcesses>();
+var p2 = await appServerLongRunningProcesses.StartLongRunningProcessAsync<SimpleLongRunningTestProcess>(null);
+
+await worker.RunProcessesAsync();
+
+using (var p3 = await appServerLongRunningProcesses
+           .OpenProcessProxyAsync<SimpleLongRunningTestProcess>(p2.ProcessNumber))
+{
+
+    
+
+}
 
 //appServer.Processes.SetExternalDataInput(t2.ProcessData.ProcessNumber, "Jakieś testowe dane");
 

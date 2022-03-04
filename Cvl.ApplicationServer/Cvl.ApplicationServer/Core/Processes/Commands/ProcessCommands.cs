@@ -35,7 +35,6 @@ namespace Cvl.ApplicationServer.Core.Processes.Commands
             var processInstanceContainer = await _processInstanceContainerCommands
                 .CreateProcessInstanceContainer(process.GetType(), stringState);
 
-            process.ProcessData = new ProcessData();
             process.ProcessData.ProcessInstanceContainer = processInstanceContainer;
 
             return process;

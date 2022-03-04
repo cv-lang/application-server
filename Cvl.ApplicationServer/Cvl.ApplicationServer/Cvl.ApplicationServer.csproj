@@ -33,9 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\ApplicationServers\Interfaces\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Core\Processes\Nowy folder\" />
   </ItemGroup>
 
   <ItemGroup>
