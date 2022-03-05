@@ -1,6 +1,5 @@
 ﻿using Cvl.ApplicationServer.Core.Processes;
 using Cvl.ApplicationServer.Core.Processes.Commands;
-using Cvl.ApplicationServer.Core.Processes.Dtos;
 using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.Model;
 using Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses;

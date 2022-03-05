@@ -1,52 +1,47 @@
-﻿//using Kendo.Mvc.Extensions;
-//using Kendo.Mvc.UI;
-//using Microsoft.AspNetCore.Mvc;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Cvl.ApplicationServer.Core.Processes.Dtos;
+using Cvl.ApplicationServer.Core.Processes.Model;
+using Cvl.ApplicationServer.Core.Processes.Services;
 
-//namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Controllers
-//{
-//    [ApiController]
-//    [Route("api/applicationserver/[controller]")]
-//    public class ProcessesController : ControllerBase
-//    {
-//        private readonly IApplicationServer _applicationServer;
+namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Controllers
+{
+    [ApiController]
+    [Route("api/applicationserver/[controller]")]
+    public class ProcessesController : ControllerBase
+    {
+        private readonly IProcessesControllerService _processesControllerService;
 
-//        public ProcessesController(IApplicationServer applicationServer)
-//        {
-//            this._applicationServer = applicationServer;
-//        }
+        public ProcessesController(IProcessesControllerService processesControllerService)
+        {
+            _processesControllerService = processesControllerService;
+        }
 
-//        [Route("Processes_Read")]
-//        public DataSourceResult Processes_Read([DataSourceRequest] DataSourceRequest request)
-//        {
-//            var objects = _applicationServer.Processes.GetAllProcessesDto();
-//            return objects.ToDataSourceResult(request);
-//        }
+        [Route("Processes_Read")]
+        public DataSourceResult Processes_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var objects = _processesControllerService.GetAllProcesses();
+            return objects.ToDataSourceResult(request, x => new ProcessListItemDto(x));
+        }
 
-//        [Route("ProcessActivities_Read")]
-//        public DataSourceResult ProcessActivities_Read([DataSourceRequest] DataSourceRequest request, long processId)
-//        {
-//            var objects = _applicationServer.Processes.GetProcessActivities(processId);
-//            return objects.ToDataSourceResult(request);
-//        }
+        [Route("ProcessActivities_Read")]
+        public DataSourceResult ProcessActivities_Read([DataSourceRequest] DataSourceRequest request, long processId)
+        {
+            var objects = _processesControllerService.GetProcessActivities(processId);
+            return objects.ToDataSourceResult(request, x=> new ProcessActivityDto(x));
+        }
 
-//        [Route("ProcessSteps_Read")]
-//        public DataSourceResult ProcessSteps_Read([DataSourceRequest] DataSourceRequest request, long processId)
-//        {
-//            var objects = _applicationServer.Processes.GetProcessSteps(processId);
-//            return objects.ToDataSourceResult(request);
-//        }
-
-//        //TODO: do usuniecia
-//        //public async Task<ProcessInstanceContainer> GetProcessInstanceContainer(long processId)
-//        //{
-//        //    return await _applicationServer.Processes.GetProcessInstanceContainerAsync(processId);
-//        //}
-
-
-//    }
-//}
+        [Route("ProcessSteps_Read")]
+        public DataSourceResult ProcessSteps_Read([DataSourceRequest] DataSourceRequest request, long processId)
+        {
+            var objects = _processesControllerService.GetProcessSteps(processId);
+            return objects.ToDataSourceResult(request, x=> new ProcessStepHistoryDto(x));
+        }
+    }
+}

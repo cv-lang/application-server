@@ -11,18 +11,31 @@
     .Columns(columns =>
     {
         columns.Bound(p => p.Id).Width(12)
-            .ClientTemplate("<span title='processNumber:#=Id#'><a href='processes/preview?processNumber=#=ProcessNumber#'>#=ProcessNumber#</a></span>");
-        columns.Bound(p => p.Type).Title("Type").Width(66)
+            .ClientTemplate("<span title='Id:#=Id#'><a href='processes/preview?processNumber=#=ProcessNumber#'>#=ProcessNumber#</a></span>");
+
+        columns.Bound(p => p.CreatedDate).Title("Created").Width(3)
+            .ClientTemplate("<span title='#=CreatedDateTime#'>#=CreatedDate#</span>");
+
+        columns.Bound(p => p.ModifiedDate).Title("Modified").Width(3)
+            .ClientTemplate("<span title='#=ModifiedDateTime#'>#=ModifiedDate#</span>");
+
+        columns.Bound(p => p.Type).Title("Type").Width(50)
             .ClientTemplate("<span title='#=Type#'>#=TypeShortName#</span>");
+
         columns.Bound(p => p.StatusName).Title("Status").Width(99);
+
         columns.Bound(p => p.StepName).Title("Step").Width(66)
             .ClientTemplate("<span title='#=StepDescription#'>#=StepName#</span>");
+
         columns.Bound(p => p.NumberOfActivities).Title("Diag").Width(66)
             .ClientTemplate("<span title='Activities:#=NumberOfActivities# LastRequest:#=LastRequestPreview# LastResponse:#=LastResponsePreview# '>A:#=NumberOfActivities#</span> <span title='Steps:#=NumberOfSteps#'>S:#=NumberOfSteps#</span> <span title='Errors:#=NumberOfSteps#, LastError:#=LastErrorPreview#'>E:#=NumberOfErrors#</span>");
+        
         columns.Bound(p => p.ExternalIds.ExternalId1).Title("Extrnal ids").Width(99)
             .ClientTemplate("<span title='#=StepDescription#'>#=ExternalIds.ExternalId1# #=ExternalIds.ExternalId2# #=ExternalIds.ExternalId3# #=ExternalIds.ExternalId4#</span>");
+        
         columns.Bound(p => p.BusinessData.Email).Title("Business data").Width(99)
             .ClientTemplate("<span title='#=StepDescription#'>#=BusinessData.VendorName# #=BusinessData.ClientName# #=BusinessData.Phone# #=BusinessData.Email#</span>");
+        
         columns.Bound(p => p.ProcessSpecificData.ProcessSpecificData1).Title("Business data").Width(99)
             .ClientTemplate("<span title='#=StepDescription#'>#=ProcessSpecificData.ProcessSpecificData1# #=ProcessSpecificData.ProcessSpecificData2#</span>");
     })

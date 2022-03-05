@@ -23,7 +23,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Queries
             where TProcesInterface : IProcess
         {
             var processInstanceContainer = await _processInstanceContainerQueries
-                .GetProcessInstanceContainerByProcessNumber(processNumber);
+                .GetProcessInstanceContainerByProcessNumberAsync(processNumber);
 
             if (processInstanceContainer.ProcessTypeData.ProcessType == ProcessType.StepBaseProcess)
             {

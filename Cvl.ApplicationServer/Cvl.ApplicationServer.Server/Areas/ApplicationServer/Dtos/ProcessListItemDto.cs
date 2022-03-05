@@ -13,7 +13,9 @@ namespace Cvl.ApplicationServer.Core.Processes.Dtos
         {
             Id = processInstance.Id;
             ProcessNumber = processInstance.ProcessNumber;
-            TypeShortName = processInstance.ProcessTypeData.ProcessTypeFullName.Split('.').LastOrDefault() ?? processInstance.ProcessTypeData.ProcessTypeFullName;
+            TypeShortName = processInstance.ProcessTypeData.ProcessTypeFullName
+                .Split(',').First()
+                .Split('.').LastOrDefault() ?? processInstance.ProcessTypeData.ProcessTypeFullName;
             Type = processInstance.ProcessTypeData.ProcessTypeFullName;
             StatusName = processInstance.StatusName;
             StepName = processInstance.Step.StepName;
@@ -28,8 +30,11 @@ namespace Cvl.ApplicationServer.Core.Processes.Dtos
             LastRequestPreview = processInstance.ProcessDiagnosticData.LastRequestPreview;
             LastResponsePreview = processInstance.ProcessDiagnosticData.LastResponsePreview;
             ProcessSpecificData = processInstance.ProcessSpecificData;
+            CreatedDate = processInstance.CreatedDate.ToShortDateString();
+            CreatedDateTime = processInstance.CreatedDate.ToString();
+            ModifiedDate = processInstance.ModifiedDate.ToShortDateString();
+            ModifiedDateTime = processInstance.ModifiedDate.ToString();
         }
-        
         public long Id { get; set; }
         public string ProcessNumber { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
@@ -51,6 +56,9 @@ namespace Cvl.ApplicationServer.Core.Processes.Dtos
         public string? LastErrorPreview { get; set; }
         public string? LastRequestPreview { get; set; }
         public string? LastResponsePreview { get; set; }
-        
-    }  
+        public string CreatedDate { get; set; }
+        public string CreatedDateTime { get; set; }
+        public string ModifiedDate { get; set; }
+        public string ModifiedDateTime { get; set; }
+    }
 }

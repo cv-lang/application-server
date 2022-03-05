@@ -23,7 +23,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Queries
                 .SingleAsync(x => x.Id == processId);
         }
 
-        public async Task<ProcessInstanceContainer> GetProcessInstanceContainerByProcessNumber(string processNumber)
+        public async Task<ProcessInstanceContainer> GetProcessInstanceContainerByProcessNumberAsync(string processNumber)
         {
             return await _processInstanceContainerRepository.GetAll()
                 .Include(x => x.ProcessDiagnosticData)
@@ -45,6 +45,14 @@ namespace Cvl.ApplicationServer.Core.Processes.Queries
         public IQueryable<ProcessInstanceContainer> GetAll()
         {
             return _processInstanceContainerRepository.GetAll();
+        }
+
+        public IQueryable<ProcessInstanceContainer> GetAllWithDiagnosticeAndExternal()
+        {
+            return _processInstanceContainerRepository.GetAll()
+                    .Include(x => x.ProcessDiagnosticData)
+                    .Include(x => x.ProcessExternalData)
+                ;
         }
     }
 }

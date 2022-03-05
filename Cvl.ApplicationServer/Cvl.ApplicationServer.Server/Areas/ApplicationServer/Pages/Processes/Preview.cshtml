@@ -21,18 +21,12 @@
             tabstrip.Add().Text("Process state")
             .Selected(true)
             .Content(@<text>
-                    <div class="processState">
-                        <div id="processStateJsonWrapper">
-                        </div>
-                    </div>
+                    <textarea wrap="off" rows="30" class="w-100">@Model.ProcessState</textarea>
                 </text>);
 
-            tabstrip.Add().Text("Process container")            
+            tabstrip.Add().Text("Process container")
             .Content(@<text>
-                    <div class="processContainer">
-                        <div id="processJsonWrapper">
-                        </div>
-                    </div>
+                    <textarea wrap="off" rows="30" class="w-100">@Model.ProcessInstanceContainer</textarea>
                 </text>);
 
             }))
@@ -123,23 +117,5 @@
 
 
 <script type="text/javascript">
-
-    function jsonViewer(divId, jsonString)
-    {
-        // Get DOM-element for inserting json-tree
-        var wrapper = document.getElementById(divId);
-
-        // or from a string by JSON.parse(str) method
-        var dataStr = jsonString;
-        var data = JSON.parse(dataStr);
-        // Create json-tree
-        var tree = jsonTree.create(data, wrapper);
-
-        // Expand all (or selected) child nodes of root (optional)
-        tree.expand();   
-    }
-    
-    jsonViewer("processJsonWrapper", '@Html.Raw(Model.ProcessInstanceContainer)');
-    jsonViewer("processStateJsonWrapper", '@Html.Raw(Model.ProcessState)');
 
 </script>
