@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Cvl.ApplicationServer.Core.Model;
-using Newtonsoft.Json;
 
 namespace Cvl.ApplicationServer.Core.Processes.Model
 {

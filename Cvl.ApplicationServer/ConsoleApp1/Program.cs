@@ -22,7 +22,6 @@ using Cvl.ApplicationServer.Processes;
 using Cvl.ApplicationServer.Processes.LongRunningProcesses;
 using Cvl.ApplicationServer.Processes.Workers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Newtonsoft.Json;
 using Polenter.Serialization;
 using Polenter.Serialization.Core;
 using TestNS;

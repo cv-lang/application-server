@@ -7,7 +7,7 @@ namespace Cvl.ApplicationServer.Core.Model.Contexts
 {
     public class ApplicationServerDbContext : DbContext
     {
-        public ApplicationServerDbContext(DbContextOptions options) : base(options)
+        public ApplicationServerDbContext(DbContextOptions<ApplicationServerDbContext> options) : base(options)
         {
         }
 

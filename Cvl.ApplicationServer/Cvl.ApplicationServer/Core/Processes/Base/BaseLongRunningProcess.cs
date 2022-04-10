@@ -3,7 +3,6 @@ using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.VirtualMachine;
 using Cvl.VirtualMachine.Core.Attributes;
-using Newtonsoft.Json;
 
 namespace Cvl.ApplicationServer.Core.Processes
 {

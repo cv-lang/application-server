@@ -1,7 +1,6 @@
 ﻿using System.Xml.Serialization;
 using Cvl.ApplicationServer.Core.Processes.Model;
 using Cvl.ApplicationServer.Processes;
-using Newtonsoft.Json;
 using ThreadState = Cvl.ApplicationServer.Core.Processes.Threading.ThreadState;
 
 namespace Cvl.ApplicationServer.Core.Processes.Interfaces

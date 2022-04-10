@@ -1,6 +1,6 @@
-﻿using System.Xml.Serialization;
+﻿using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Newtonsoft.Json;
 
 namespace Cvl.ApplicationServer.Core.Processes
 {

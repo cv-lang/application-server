@@ -1,5 +1,4 @@
 ﻿using Cvl.ApplicationServer.Core.Serializers.Interfaces;
-using Newtonsoft.Json;
 
 namespace Cvl.ApplicationServer.Core.Serializers
 {
@@ -10,19 +9,12 @@ namespace Cvl.ApplicationServer.Core.Serializers
     {
         public virtual string Serialize(object obj)
         {
-            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-            var text = JsonConvert.SerializeObject(obj, settings);
-            return text;
+            return System.Text.Json.JsonSerializer.Serialize(obj);
         }
 
         public virtual T? Deserialize<T>(string json)
         {
-            var settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All,
-                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
-            };
-            return JsonConvert.DeserializeObject<T>(json, settings);
+            return System.Text.Json.JsonSerializer.Deserialize<T>(json);
         }
     }
 }
