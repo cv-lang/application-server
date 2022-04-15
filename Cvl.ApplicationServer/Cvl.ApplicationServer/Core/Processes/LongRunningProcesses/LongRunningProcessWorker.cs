@@ -1,29 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
-using Cvl.ApplicationServer.Core.Processes.Commands;
+﻿using Cvl.ApplicationServer.Core.Processes.Commands;
 using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses;
 using Cvl.ApplicationServer.Core.Processes.Queries;
 using Cvl.ApplicationServer.Core.Serializers.Interfaces;
-using Cvl.ApplicationServer.Processes;
-using Cvl.ApplicationServer.Processes.Workers;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses;
 using Cvl.VirtualMachine;
 using Cvl.VirtualMachine.Core;
-using ThreadState = Cvl.ApplicationServer.Core.Processes.Threading.ThreadState;
 
-namespace Cvl.ApplicationServer.Core.Processes.Workers
+namespace Cvl.ApplicationServer.Core.Processes.LongRunningProcesses
 {
-    internal class ProcessesWorker : IProcessesWorker
+    internal class LongRunningProcessWorker : ILongRunningProcessWorker
     {
         private readonly ProcessCommands _processCommands;
         private readonly ProcessQueries _processQueries;
         private readonly IFullSerializer _fullSerializer;
 
-        public ProcessesWorker(ProcessCommands processCommands, ProcessQueries processQueries,
+        public LongRunningProcessWorker(ProcessCommands processCommands, ProcessQueries processQueries,
             IFullSerializer fullSerializer)
         {
             _processCommands = processCommands;
@@ -42,56 +34,44 @@ namespace Cvl.ApplicationServer.Core.Processes.Workers
                 if (process is ILongRunningProcess processLongRunningProcess)
                 {
                     var externalData = BeforeRunProcess(processLongRunningProcess);
-                    var result = processLongRunningProcess.ResumeLongRunningProcess(externalData);
+                    var result = processLongRunningProcess
+                        .LongRunningProcessData.VirtualMachine.Resume<object>(externalData);
                     AfterRunProcess(processLongRunningProcess, result);
-                }
-                else
-                {
-                    process.JobEntry();
-                }
+                }               
 
                 //zapisuje stan procesu
                 await _processCommands.SaveProcessStateAsync(process);
             }
 
             return processesNumbers.Count;
-        }
+        }       
 
-        public async Task<LongRunningProcessStatus> StartLongRunningProcessAsync<T>(object inputParameter) where T : ILongRunningProcess
+        public async Task<LongRunningProcessResult> StartLongRunningProcessAsync<TProcess>(object inputParameter) 
+            where TProcess : ILongRunningProcess
         {
-            var process = _processCommands.CreateProcessAsync<T>().Result;
+            var process = _processCommands.CreateProcessAsync<TProcess>().Result;
 
             process.ProcessData.ProcessInstanceContainer.ProcessTypeData
                 .ProcessType = ProcessType.LongRunningProcess;
 
             var vm = new VirtualMachine.VirtualMachine();
-            process.ProcessData.LongRunningProcessData.VirtualMachine = vm;
+            process.LongRunningProcessData.VirtualMachine = vm;
 
 
-            var result = vm.Start<object>("StartLongRunningProcess", process);
-            AfterRunProcess(process, result);
+            var virtualMachineResult = vm.Start<object>("StartLongRunningProcess", process);
+            var processStatus = AfterRunProcess(process, virtualMachineResult);
             await _processCommands.SaveProcessStateAsync(process);
 
-            if (vm.Thread.Status == VirtualMachineState.Hibernated)
-            {
-                var processStatus = new LongRunningProcessStatus(ProcessExecutionStaus.Pending,
-                    process.ProcessData.ProcessId,process.ProcessData.ProcessNumber);
-
-                return processStatus;
-            }
-            else
-            {
-                throw new Exception("Process end immediately. It should use hibernation for long running process");
-            }
+            return processStatus;
         }
 
         protected object BeforeRunProcess(ILongRunningProcess process)
         {
             //sprawdzam czy zahibenowany proces ma jakieś dane do pocesu
-            var vmParams = process.ProcessData.LongRunningProcessData.VirtualMachine.GetHibernateParams();
+            var vmParams = process.LongRunningProcessData.VirtualMachine.GetHibernateParams();
             var type = (ProcessHibernationType)vmParams[0];
             object externalData = null;
-            if (type == ProcessHibernationType.WaitForExternalData
+            if (type == ProcessHibernationType.WaitingForExternalData
                 || type == ProcessHibernationType.WaitingForUserInterface)
             {
                 var xmlExternalData = process.ProcessData.ProcessInstanceContainer
@@ -102,15 +82,24 @@ namespace Cvl.ApplicationServer.Core.Processes.Workers
             return externalData;
         }
 
-        protected void AfterRunProcess(ILongRunningProcess process, VirtualMachineResult<object> result)
+        protected LongRunningProcessResult AfterRunProcess(ILongRunningProcess process, VirtualMachineResult<object> virtualMachineResult)
         {
-            if (result.State == VirtualMachineState.Executed)
+            var ret = new LongRunningProcessResult()
+            {
+                ProcessId = process.ProcessData.ProcessId,
+                ProcessNumber = process.ProcessData.ProcessNumber,
+                State = LongRunningProcessState.Pending
+            };
+
+            if (virtualMachineResult.State == VirtualMachineState.Executed)
             {
                 process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.Executed;
+                ret.State = LongRunningProcessState.Executed;
+                return ret;
             }
-            else if (result.State == VirtualMachineState.Hibernated)
+            else if (virtualMachineResult.State == VirtualMachineState.Hibernated)
             {
-                var vmParams = process.ProcessData.LongRunningProcessData.VirtualMachine.GetHibernateParams();
+                var vmParams = process.LongRunningProcessData.VirtualMachine.GetHibernateParams();
                 var type = (ProcessHibernationType)vmParams[0];
                 string xml = "";
 
@@ -121,23 +110,32 @@ namespace Cvl.ApplicationServer.Core.Processes.Workers
                         process.ProcessData.ProcessInstanceContainer.ThreadData.NextExecutionDate =
                             nextExecutionDate;
                         process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.WaitingForExecution;
-                        break;
-                    case ProcessHibernationType.WaitForExternalData:
-                        process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.WaitForExternalData;
+                        
+                        ret.State= LongRunningProcessState.Pending;
+                        return ret;
+                    case ProcessHibernationType.WaitingForExternalData:
+                        process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.WaitingForExternalData;
                         var externalOutputData = vmParams[1];
 
                         xml = _fullSerializer.Serialize(externalOutputData);
                         process.ProcessData.ProcessInstanceContainer
                             .ProcessExternalData.ProcessExternalDataFullSerialization = xml;
-                        break;
+
+                        ret.State = LongRunningProcessState.WaitingForExternalData;
+                        ret.Result = externalOutputData;
+                        return ret;
                     case ProcessHibernationType.WaitingForUserInterface:
-                        process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.WaitingForUserInterface;
+                        process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.WaitingForUserInterface;
                         xml = _fullSerializer.Serialize(vmParams[1]);
                         process.ProcessData.ProcessInstanceContainer
                             .ProcessExternalData.ProcessExternalDataFullSerialization = xml;
-                        break;
+                        ret.State = LongRunningProcessState.WaitingForUserInterface;
+                        ret.Result = vmParams[1];
+                        return ret;
                 }
             }
+
+            return ret;
         }
     }
 }

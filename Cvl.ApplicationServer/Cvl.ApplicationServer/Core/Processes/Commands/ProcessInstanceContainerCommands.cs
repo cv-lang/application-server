@@ -1,7 +1,9 @@
 ﻿using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.Model;
+using Cvl.ApplicationServer.Core.Processes.Queries;
 using Cvl.ApplicationServer.Core.Processes.Repositories;
 using Cvl.ApplicationServer.Core.Processes.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cvl.ApplicationServer.Core.Processes.Commands
 {
@@ -36,6 +38,16 @@ namespace Cvl.ApplicationServer.Core.Processes.Commands
             await _processInstanceContainerRepository.SaveChangesAsync();
 
             return processInstanceContainer;
+        }
+
+        internal async Task SetExternalDataAsync(string processNumber, string xml)
+        {
+            var processContainer = await _processInstanceContainerRepository.GetAll()
+                .Include(x=> x.ProcessExternalData)
+                .SingleAsync(x=> x.ProcessNumber == processNumber);
+
+            processContainer.ProcessExternalData.ProcessExternalDataFullSerialization = xml;
+            await _processInstanceContainerRepository.SaveChangesAsync();
         }
     }
 }

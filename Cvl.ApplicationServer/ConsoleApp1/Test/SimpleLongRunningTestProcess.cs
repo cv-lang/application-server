@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.ExternalServices.Emails;
 using Cvl.ApplicationServer.Core.Processes;
+using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.ApplicationServer.Processes;
@@ -50,7 +51,7 @@ namespace Cvl.ApplicationServer.Test
 
 
         [Interpret]
-        public override VirtualMachineResult<object> StartLongRunningProcess(object inputParam)
+        public override LongRunningProcessResult StartLongRunningProcess(object inputParam)
         {
             _processManager.SetStep("start", "start", SimpleLongRunningTestProcessStep.Init);
 
@@ -71,7 +72,7 @@ namespace Cvl.ApplicationServer.Test
 
             var response = _processManager.ShowView(new View("registration"));
             CheckResult(response);
-            return new VirtualMachineResult<object>() { Result = 1};
+            return new LongRunningProcessResult() { Result = default};
         }
 
         private void CheckResult(object o)

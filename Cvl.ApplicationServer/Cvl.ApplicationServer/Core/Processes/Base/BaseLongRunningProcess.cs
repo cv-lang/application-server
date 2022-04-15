@@ -9,34 +9,28 @@ namespace Cvl.ApplicationServer.Core.Processes
     public enum ProcessHibernationType
     {
         DelayOfProcessExecution,
-        WaitForExternalData,
+        WaitingForExternalData,
         WaitingForUserInterface
     }
 
     public abstract class BaseLongRunningProcess : BaseProcess, ILongRunningProcess
     {
+        public LongRunningProcessData LongRunningProcessData { get; set; } = new LongRunningProcessData();
 
         [Interpret]
-        public abstract VirtualMachineResult<object> StartLongRunningProcess(object inputParam);
-
-        [Interpret]
-        public virtual VirtualMachineResult<object> ResumeLongRunningProcess(object inputData)
-        {
-            var vmResult = ProcessData.LongRunningProcessData.VirtualMachine.Resume<object>(inputData);
-            return vmResult;
-        }
+        public abstract LongRunningProcessResult StartLongRunningProcess(object inputParam);
 
         #region Process state serialization/deserializaton
 
         public override object GetProcessState()
         {
-            return ProcessData?.LongRunningProcessData?.VirtualMachine;
+            return LongRunningProcessData?.VirtualMachine;
         }
 
         public override void LoadProcessState(object processState)
         {
-            ProcessData.LongRunningProcessData.VirtualMachine = (VirtualMachine.VirtualMachine)processState;
-            ProcessData.LongRunningProcessData.VirtualMachine.Instance = this;
+            LongRunningProcessData.VirtualMachine = (VirtualMachine.VirtualMachine)processState;
+            LongRunningProcessData.VirtualMachine.Instance = this;
         }
 
         #endregion

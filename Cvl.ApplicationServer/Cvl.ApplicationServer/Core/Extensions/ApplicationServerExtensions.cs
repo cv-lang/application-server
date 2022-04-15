@@ -7,7 +7,6 @@ using Cvl.ApplicationServer.Core.Processes.LongRunningProcesses;
 using Cvl.ApplicationServer.Core.Processes.Queries;
 using Cvl.ApplicationServer.Core.Processes.Repositories;
 using Cvl.ApplicationServer.Core.Processes.Services;
-using Cvl.ApplicationServer.Core.Processes.Workers;
 using Cvl.ApplicationServer.Core.Repositories;
 using Cvl.ApplicationServer.Core.Serializers;
 using Cvl.ApplicationServer.Core.Serializers.Interfaces;
@@ -17,7 +16,6 @@ using Cvl.ApplicationServer.Core.Users.Queries;
 using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.ApplicationServer.Processes;
 using Cvl.ApplicationServer.Processes.LongRunningProcesses;
-using Cvl.ApplicationServer.Processes.Workers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -57,7 +55,7 @@ namespace Cvl.ApplicationServer.Core.Extensions
                 .AddTransient<IProcessManager, ProcessManager>()
                 .AddTransient<ILongRunningProcessManager, LongRunningProcessManager>()
                 .AddTransient<LongRunningProcessManager, LongRunningProcessManager>() //wymgana dla VM
-                .AddTransient<IProcessesWorker, ProcessesWorker>();
+                .AddTransient<ILongRunningProcessWorker, LongRunningProcessWorker>();
 
             //users
             services
@@ -78,7 +76,7 @@ namespace Cvl.ApplicationServer.Core.Extensions
             services
                 .AddTransient<IApplicationServer, ApplicationServers.ApplicationServer>()
                 .AddTransient<IApplicationServerSimpleProcesses, ApplicationServerSimpleProcesses>()
-                .AddTransient<IApplicationServerLongRunningProcesses, ApplicationServerLongRunningProcesses>()
+                .AddTransient<ILongRunningProcessesService, LongRunningProcessesService>()
                 .AddTransient<IProcessesControllerService, ProcessesControllerService>();
 
 

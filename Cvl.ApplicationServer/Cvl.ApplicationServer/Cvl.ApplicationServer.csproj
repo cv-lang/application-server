@@ -33,7 +33,9 @@
 
   <ItemGroup>
     <Folder Include="Core\Processes\Interfaces\" />
+    <Folder Include="Core\Processes\Workers\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Api\Processes\Workers\" />
   </ItemGroup>
 
   <ItemGroup>

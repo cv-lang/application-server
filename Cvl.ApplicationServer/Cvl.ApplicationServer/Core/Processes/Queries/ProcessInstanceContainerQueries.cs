@@ -23,14 +23,21 @@ namespace Cvl.ApplicationServer.Core.Processes.Queries
                 .SingleAsync(x => x.Id == processId);
         }
 
-        public async Task<ProcessInstanceContainer> GetProcessInstanceContainerByProcessNumberAsync(string processNumber)
+        public async Task<ProcessInstanceContainer> GetProcessInstanceContainerWithNestedObjectByProcessNumber(string processNumber)
         {
             return await _processInstanceContainerRepository.GetAll()
                 .Include(x => x.ProcessDiagnosticData)
                 .Include(x => x.ProcessInstanceStateData)
-                .Include(x=> x.ProcessExternalData)
+                .Include(x => x.ProcessExternalData)
                 .SingleAsync(x => x.ProcessNumber == processNumber);
         }
+
+        public async Task<ProcessInstanceContainer> GetProcessInstanceContainerByProcessNumberAsync(string processNumber)
+        {
+            return await _processInstanceContainerRepository.GetAll()
+                .SingleAsync(x => x.ProcessNumber == processNumber);
+        }
+        
 
         internal async Task<List<string>> GetWaitingForExecutionProcessesNumbersAsync()
         {

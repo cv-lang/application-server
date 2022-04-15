@@ -53,7 +53,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Services
         public async Task<ProcessInstanceContainer> GetProcessContainerAsync(string processNumber)
         {
             return await _processInstanceContainerQueries
-                .GetProcessInstanceContainerByProcessNumberAsync(processNumber);
+                .GetProcessInstanceContainerWithNestedObjectByProcessNumber(processNumber);
         }
     }
 }

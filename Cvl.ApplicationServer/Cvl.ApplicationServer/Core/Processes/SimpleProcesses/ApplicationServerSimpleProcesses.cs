@@ -8,7 +8,7 @@ using Cvl.ApplicationServer.Core.Processes.SimpleProcesses;
 using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 using Cvl.ApplicationServer.Processes;
-using Cvl.ApplicationServer.Processes.Workers;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses;
 using Cvl.VirtualMachine;
 using Cvl.VirtualMachine.Core;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +37,7 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
 
     internal class ApplicationServerSimpleProcesses : IApplicationServerSimpleProcesses
     {
-        private readonly IProcessesWorker _worker;
+        private readonly ILongRunningProcessWorker _worker;
         private readonly ProcessCommands _processCommands;
         private readonly ProcessQueries _processQueries;
         private readonly IFullSerializer _fullSerializer;
@@ -50,7 +50,7 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
             ProcessExternalDataCommands processExternalDataCommands,
             ProcessActivityQueries processActivityQueries,
             ProcessStepQueries processStepQueries,
-            IProcessesWorker worker)
+            ILongRunningProcessWorker worker)
         {
             _worker = worker;
             _processCommands = processCommands;

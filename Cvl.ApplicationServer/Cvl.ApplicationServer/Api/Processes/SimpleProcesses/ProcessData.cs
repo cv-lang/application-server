@@ -7,8 +7,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Interfaces
 {
     public class ProcessData
     {
-        internal ProcessInstanceContainer ProcessInstanceContainer { get; set; } = null!;
-        internal LongRunningProcessData LongRunningProcessData = new LongRunningProcessData();
+        internal ProcessInstanceContainer ProcessInstanceContainer { get; set; } = null!;        
         public long ProcessId => ProcessInstanceContainer.Id;
         public string ProcessNumber => ProcessInstanceContainer.ProcessNumber;
 

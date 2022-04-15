@@ -77,7 +77,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Services
             Process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.Idle;
         }
 
-        public LongRunningProcessStatus StartLongRunningProcess<T>(object inputParameter) where T : ILongRunningProcess
+        public LongRunningProcessResult StartLongRunningProcess<T>(object inputParameter) where T : ILongRunningProcess
         {
             throw new NotImplementedException();
         }

@@ -47,7 +47,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Queries
                 var vm = _fullSerializer.Deserialize<VirtualMachine.VirtualMachine>(processInstanceContainer.ProcessInstanceStateData.ProcessStateFullSerialization);
                 var process = (ILongRunningProcess)vm.Instance;
                 process.ProcessData = new ProcessData() { ProcessInstanceContainer = processInstanceContainer };
-                process.ProcessData.LongRunningProcessData = new LongRunningProcessData() { VirtualMachine = vm };
+                process.LongRunningProcessData = new LongRunningProcessData() { VirtualMachine = vm };
 
                 return (TProcesInterface)process;
             }

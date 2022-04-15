@@ -4,7 +4,7 @@
     {
         Idle = 0,
         WaitingForExecution,
-        WaitForExternalData,
+        WaitingForExternalData,
         WaitingForUserInterface,
         Error,
         Executed
