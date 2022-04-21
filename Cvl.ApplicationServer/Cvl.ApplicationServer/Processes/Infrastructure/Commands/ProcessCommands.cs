@@ -1,5 +1,6 @@
-﻿using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Serializers.Interfaces;
+﻿using Cvl.ApplicationServer.Core.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Base;
+using Cvl.ApplicationServer.Processes.Interfaces;
 
 namespace Cvl.ApplicationServer.Core.Processes.Commands
 {
@@ -21,7 +22,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Commands
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<T> CreateProcessAsync<T>() where T : IProcess
+        public async Task<T> CreateProcessAsync<T>(ProcessData processData) where T : IProcess
         {
             var process = (T?)_serviceProvider.GetService(typeof(T));
             if (process == null)
@@ -35,6 +36,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Commands
             var processInstanceContainer = await _processInstanceContainerCommands
                 .CreateProcessInstanceContainer(process.GetType(), stringState);
 
+            process.ProcessData = processData;
             process.ProcessData.ProcessInstanceContainer = processInstanceContainer;
 
             return process;

@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.Model;
 using Cvl.ApplicationServer.Core.Processes.SimpleProcesses;
 using Cvl.ApplicationServer.Core.Processes.UI;
+using Cvl.ApplicationServer.Processes.Interfaces;
 
 namespace Cvl.ApplicationServer.Processes
 {

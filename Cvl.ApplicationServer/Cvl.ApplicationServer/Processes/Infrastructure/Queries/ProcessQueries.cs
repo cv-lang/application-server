@@ -2,6 +2,7 @@
 using Cvl.ApplicationServer.Core.Processes.Model;
 using Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses;
 using Cvl.ApplicationServer.Core.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Interfaces;
 
 namespace Cvl.ApplicationServer.Core.Processes.Queries
 {
@@ -35,7 +36,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Queries
                     throw new ArgumentException($"Could not create a process '{typeof(TProcesInterface)}'");
                 }
 
-                process.ProcessData = new ProcessData() { ProcessInstanceContainer = processInstanceContainer };
+                process.ProcessData.ProcessInstanceContainer = processInstanceContainer;
 
                 var state = _fullSerializer.Deserialize<object>(processInstanceContainer.ProcessInstanceStateData.ProcessStateFullSerialization);
                 process.LoadProcessState(state);
@@ -46,8 +47,9 @@ namespace Cvl.ApplicationServer.Core.Processes.Queries
             {
                 var vm = _fullSerializer.Deserialize<VirtualMachine.VirtualMachine>(processInstanceContainer.ProcessInstanceStateData.ProcessStateFullSerialization);
                 var process = (ILongRunningProcess)vm.Instance;
-                process.ProcessData = new ProcessData() { ProcessInstanceContainer = processInstanceContainer };
-                process.LongRunningProcessData = new LongRunningProcessData() { VirtualMachine = vm };
+                var processData = (LongRunningProcessData)process.ProcessData;
+                processData.ProcessInstanceContainer = processInstanceContainer;
+                processData.VirtualMachine = vm;
 
                 return (TProcesInterface)process;
             }

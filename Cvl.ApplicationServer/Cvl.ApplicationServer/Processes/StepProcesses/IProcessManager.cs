@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.UI;
+using Cvl.ApplicationServer.Processes.Interfaces;
 
 namespace Cvl.ApplicationServer.Processes
 {

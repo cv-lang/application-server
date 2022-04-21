@@ -17,7 +17,7 @@ namespace Cvl.ApplicationServer.Processes
         [Interpret]
         void Delay(DateTime delayUntil);
         [Interpret]
-        object WaitForExternalData(object data = null);
+        object? WaitForExternalData(object? data = null);
         [Interpret]
         ViewResponse ShowView(View view);
     }

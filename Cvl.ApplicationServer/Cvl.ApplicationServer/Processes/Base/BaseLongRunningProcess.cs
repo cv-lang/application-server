@@ -14,23 +14,22 @@ namespace Cvl.ApplicationServer.Core.Processes
     }
 
     public abstract class BaseLongRunningProcess : BaseProcess, ILongRunningProcess
-    {
-        public LongRunningProcessData LongRunningProcessData { get; set; } = new LongRunningProcessData();
-
+    {        
         [Interpret]
-        public abstract LongRunningProcessResult StartLongRunningProcess(object inputParam);
+        public abstract LongRunningProcessResult StartProcess(object inputParam);
 
         #region Process state serialization/deserializaton
 
-        public override object GetProcessState()
+        public override object? GetProcessState()
         {
-            return LongRunningProcessData?.VirtualMachine;
+            return ((LongRunningProcessData?)ProcessData)?.VirtualMachine;
         }
 
-        public override void LoadProcessState(object processState)
+        public override void LoadProcessState(object? processState)
         {
-            LongRunningProcessData.VirtualMachine = (VirtualMachine.VirtualMachine)processState;
-            LongRunningProcessData.VirtualMachine.Instance = this;
+            var processData = ((LongRunningProcessData?)ProcessData);
+            processData.VirtualMachine = (VirtualMachine.VirtualMachine)processState;
+            processData.VirtualMachine.Instance = this;
         }
 
         #endregion

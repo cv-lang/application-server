@@ -1,12 +1,13 @@
 ﻿using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
+using Cvl.ApplicationServer.Processes.Base;
+using Cvl.ApplicationServer.Processes.Interfaces;
 
 namespace Cvl.ApplicationServer.Core.Processes
 {
     public abstract class BaseProcess : IProcess
-    {
-        [JsonIgnore] [XmlIgnore] public ProcessData ProcessData { get; set; } = new ProcessData();
+    {        
+        public ProcessData? ProcessData { get; set; }
 
         public abstract void LoadProcessState(object? processState);
 

@@ -74,7 +74,6 @@ namespace Cvl.ApplicationServer.Core.Extensions
                 .AddTransient<LogPropertiesRepository, LogPropertiesRepository>();
 
             services
-                .AddTransient<IApplicationServer, ApplicationServers.ApplicationServer>()
                 .AddTransient<IApplicationServerSimpleProcesses, ApplicationServerSimpleProcesses>()
                 .AddTransient<ILongRunningProcessesService, LongRunningProcessesService>()
                 .AddTransient<IProcessesControllerService, ProcessesControllerService>();

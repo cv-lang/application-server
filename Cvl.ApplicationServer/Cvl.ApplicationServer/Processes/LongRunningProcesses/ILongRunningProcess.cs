@@ -1,7 +1,16 @@
-﻿using Cvl.VirtualMachine;
+﻿using Cvl.ApplicationServer.Processes.Interfaces;
+using Cvl.VirtualMachine;
 
 namespace Cvl.ApplicationServer.Core.Processes.Interfaces
 {
+    /// <summary>
+    /// Long running process
+    /// </summary>
+    public interface ILongRunningProcess : IProcess
+    { 
+        LongRunningProcessResult StartProcess(object inputParam);
+    }
+
     public class LongRunningProcessResult
     {
         public LongRunningProcessState State { get; set; } = LongRunningProcessState.Executed;
@@ -22,12 +31,5 @@ namespace Cvl.ApplicationServer.Core.Processes.Interfaces
         Error        
     }
 
-    /// <summary>
-    /// Long running process
-    /// </summary>
-    public interface ILongRunningProcess : IProcess
-    {
-        LongRunningProcessData LongRunningProcessData { get; set; }
-        LongRunningProcessResult StartLongRunningProcess(object inputParam);
-    }
+    
 }

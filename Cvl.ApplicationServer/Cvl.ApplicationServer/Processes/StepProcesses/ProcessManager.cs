@@ -5,6 +5,7 @@ using Cvl.ApplicationServer.Core.Processes.Queries;
 using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 using Cvl.ApplicationServer.Processes;
+using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.VirtualMachine.Core.Attributes;
 
 namespace Cvl.ApplicationServer.Core.Processes.Services
@@ -75,16 +76,6 @@ namespace Cvl.ApplicationServer.Core.Processes.Services
         public void SetToApiThread()
         {
             Process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.Idle;
-        }
-
-        public LongRunningProcessResult StartLongRunningProcess<T>(object inputParameter) where T : ILongRunningProcess
-        {
-            throw new NotImplementedException();
-        }
-
-        public int RunProcesses()
-        {
-            throw new NotImplementedException();
-        }
+        }        
     }
 }

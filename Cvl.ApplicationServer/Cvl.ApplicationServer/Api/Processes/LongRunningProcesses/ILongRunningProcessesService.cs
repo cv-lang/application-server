@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
 using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.LongRunningProcesses;
+using Cvl.ApplicationServer.Processes.Interfaces;
 
 namespace Cvl.ApplicationServer.Processes.LongRunningProcesses
 {

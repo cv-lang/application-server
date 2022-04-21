@@ -1,6 +1,5 @@
 ﻿using Cvl.ApplicationServer.Core.Processes;
 using Cvl.ApplicationServer.Core.Processes.Commands;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.Model;
 using Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses;
 using Cvl.ApplicationServer.Core.Processes.Queries;
@@ -8,6 +7,8 @@ using Cvl.ApplicationServer.Core.Processes.SimpleProcesses;
 using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 using Cvl.ApplicationServer.Processes;
+using Cvl.ApplicationServer.Processes.Base;
+using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.LongRunningProcesses;
 using Cvl.VirtualMachine;
 using Cvl.VirtualMachine.Core;
@@ -64,7 +65,7 @@ namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
         
         public async Task<SimpleProcessStatus> StartProcessAsync<T>() where T : IProcess
         {
-            var process = await _processCommands.CreateProcessAsync<T>();
+            var process = await _processCommands.CreateProcessAsync<T>(new ProcessData());
             return new SimpleProcessStatus(process.ProcessData.ProcessNumber);
         }
 

@@ -27,7 +27,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Services
         }
 
         [Interpret]
-        public object WaitForExternalData(object data = null)
+        public object? WaitForExternalData(object? data = null)
         {
             var result = VirtualMachine.VirtualMachine.Hibernate(ProcessHibernationType.WaitingForExternalData, data);
 

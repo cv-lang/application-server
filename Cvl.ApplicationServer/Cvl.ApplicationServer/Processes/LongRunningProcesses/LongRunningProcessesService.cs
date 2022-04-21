@@ -9,6 +9,7 @@ using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.Queries;
 using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 using Cvl.ApplicationServer.Processes;
+using Cvl.ApplicationServer.Processes.Interfaces;
 using Cvl.ApplicationServer.Processes.LongRunningProcesses;
 using Microsoft.EntityFrameworkCore;
 

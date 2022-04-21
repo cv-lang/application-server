@@ -51,7 +51,7 @@ namespace Cvl.ApplicationServer.Test
 
 
         [Interpret]
-        public override LongRunningProcessResult StartLongRunningProcess(object inputParam)
+        public override LongRunningProcessResult StartProcess(object inputParam)
         {
             _processManager.SetStep("start", "start", SimpleLongRunningTestProcessStep.Init);
 

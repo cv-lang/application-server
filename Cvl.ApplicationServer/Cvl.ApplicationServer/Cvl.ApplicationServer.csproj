@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <AssemblyVersion>6.0.0</AssemblyVersion>
     <FileVersion>6.0.0</FileVersion>
-    <Version>6.0.2</Version>
+    <Version>6.2.0</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
@@ -32,8 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Processes\Interfaces\" />
-    <Folder Include="Core\Processes\Workers\" />
+    <Folder Include="Processes\Infrastructure\Interfaces\" />
+    <Folder Include="Processes\Infrastructure\Workers\" />
     <Folder Include="Migrations\" />
     <Folder Include="Api\Processes\Workers\" />
   </ItemGroup>
