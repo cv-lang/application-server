@@ -83,6 +83,9 @@ await worker.RunProcessesAsync();
 var st1 = await appServerLongRunningProcesses.GetProcessStatusAsync(p2.ProcessNumber);
 
 var data1 = await appServerLongRunningProcesses.GetProcessExternalDataAsync(p2.ProcessNumber);
+await appServerLongRunningProcesses.SetProcessExternalDataAsync(p2.ProcessNumber, new ViewResponse() { SelectedAction = "sdffsd" });
+await worker.RunProcessesAsync();
+
 using (var p3 = await appServerLongRunningProcesses
            .OpenProcessProxyAsync<SimpleLongRunningTestProcess>(p2.ProcessNumber))
 {

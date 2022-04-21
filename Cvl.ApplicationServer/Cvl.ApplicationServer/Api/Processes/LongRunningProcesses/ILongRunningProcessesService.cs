@@ -22,6 +22,7 @@ namespace Cvl.ApplicationServer.Processes.LongRunningProcesses
         Task<LongRunningProcessResult> GetProcessStatusAsync(string processNumber);
 
         Task<object?> GetProcessExternalDataAsync(string processNumber);
+        Task SetProcessExternalDataAsync(string processNumber, object? externalData);
 
         /// <summary>
         /// Otwarcie procesu - raczej nie powinno się używać, w normalny przypadku powinie proces przchodzić przez eventy zewnętrzne

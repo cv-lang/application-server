@@ -112,7 +112,7 @@ namespace Cvl.ApplicationServer.Core.Processes.LongRunningProcesses
             return _fullSerializer.Deserialize<object>(processContainer.ProcessExternalData.ProcessExternalDataFullSerialization);
         }
 
-        public async Task SetPRocessExternalDataAsync(string processNumber, object? externalData)
+        public async Task SetProcessExternalDataAsync(string processNumber, object? externalData)
         {
             var xml = _fullSerializer.Serialize(externalData);
             await _processInstanceContainerCommands.SetExternalDataAsync(processNumber, xml);                

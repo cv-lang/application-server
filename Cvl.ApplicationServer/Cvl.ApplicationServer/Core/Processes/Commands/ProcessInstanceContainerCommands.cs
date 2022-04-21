@@ -47,6 +47,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Commands
                 .SingleAsync(x=> x.ProcessNumber == processNumber);
 
             processContainer.ProcessExternalData.ProcessExternalDataFullSerialization = xml;
+            processContainer.ThreadData.MainThreadState = Threading.ThreadState.WaitingForExecution;
             await _processInstanceContainerRepository.SaveChangesAsync();
         }
     }
