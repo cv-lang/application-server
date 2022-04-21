@@ -1,4 +1,5 @@
-﻿using Cvl.ApplicationServer.Core.Serializers.Interfaces;
+﻿using Cvl.ApplicationServer.Core.Processes.Interfaces;
+using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 using Cvl.ApplicationServer.Processes.Base;
 using Cvl.ApplicationServer.Processes.Interfaces;
 
@@ -30,8 +31,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Commands
                 throw new ArgumentException($"Could not create a process '{typeof(T)}'");
             }
 
-            var state = process.GetProcessState();
-            var stringState = _fullSerializer.Serialize(state);
+            var stringState = _fullSerializer.Serialize(null);
 
             var processInstanceContainer = await _processInstanceContainerCommands
                 .CreateProcessInstanceContainer(process.GetType(), stringState);
@@ -44,7 +44,22 @@ namespace Cvl.ApplicationServer.Core.Processes.Commands
 
         internal async Task SaveProcessStateAsync(IProcess process)
         {
-            var state = process.GetProcessState();
+            object? state = null;
+
+            if(process is IStateProcess stateProcess)
+            {
+                state = stateProcess.GetProcessState();
+            } 
+            else if( process is ILongRunningProcess runningProcess)
+            {
+                state = ((LongRunningProcessData?)runningProcess.ProcessData)?.VirtualMachine;
+            } 
+            else
+            {
+                throw new Exception($"Unknow process state for process:{process.GetType()}");
+            }
+
+             
             var stringState = _fullSerializer.Serialize(state);
             process.ProcessData.ProcessInstanceContainer.ProcessInstanceStateData.ProcessStateFullSerialization = stringState;
             await _processStateDataCommands.UpdateAsync(process.ProcessData.ProcessInstanceContainer.ProcessInstanceStateData);

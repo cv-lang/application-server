@@ -1,6 +1,7 @@
 ﻿using System.Xml.Serialization;
 using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.UI;
+using Cvl.ApplicationServer.Processes.Base;
 using Cvl.VirtualMachine;
 using Cvl.VirtualMachine.Core.Attributes;
 
@@ -13,27 +14,12 @@ namespace Cvl.ApplicationServer.Core.Processes
         WaitingForUserInterface
     }
 
-    public abstract class BaseLongRunningProcess : BaseProcess, ILongRunningProcess
-    {        
+    public abstract class BaseLongRunningProcess : ILongRunningProcess
+    {
+        public ProcessData? ProcessData { get; set; }
+
         [Interpret]
-        public abstract LongRunningProcessResult StartProcess(object inputParam);
-
-        #region Process state serialization/deserializaton
-
-        public override object? GetProcessState()
-        {
-            return ((LongRunningProcessData?)ProcessData)?.VirtualMachine;
-        }
-
-        public override void LoadProcessState(object? processState)
-        {
-            var processData = ((LongRunningProcessData?)ProcessData);
-            processData.VirtualMachine = (VirtualMachine.VirtualMachine)processState;
-            processData.VirtualMachine.Instance = this;
-        }
-
-        #endregion
-
+        public abstract LongRunningProcessResult StartProcess(object inputParam);   
         
     }
 }

@@ -39,7 +39,7 @@ namespace Cvl.ApplicationServer.Core.Processes.Queries
                 process.ProcessData.ProcessInstanceContainer = processInstanceContainer;
 
                 var state = _fullSerializer.Deserialize<object>(processInstanceContainer.ProcessInstanceStateData.ProcessStateFullSerialization);
-                process.LoadProcessState(state);
+                ((IStateProcess)process).LoadProcessState(state);
 
                 return process;
             }

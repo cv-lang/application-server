@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Processes.SimpleProcesses
 {
-    public interface IStepProcess : IProcess
+    public interface IStepProcess : IProcess, IStateProcess
     {
         
     }

@@ -6,9 +6,12 @@ using System.Xml.Serialization;
 namespace Cvl.ApplicationServer.Processes.Interfaces
 {
     public interface IProcess
+    {        
+        ProcessData? ProcessData { get; set; }       
+    }
+
+    public interface IStateProcess
     {
-        [XmlIgnore] [JsonIgnore]
-        ProcessData? ProcessData { get; set; }
         object? GetProcessState();
         void LoadProcessState(object? serializedState);
     }
