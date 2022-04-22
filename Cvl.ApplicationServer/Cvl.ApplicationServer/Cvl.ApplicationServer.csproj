@@ -8,7 +8,8 @@
     <FileVersion>6.0.0</FileVersion>
     <Version>6.2.0</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIcon>cvlogo.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/cv-lang/application-server</PackageProjectUrl>
+    <PackageIcon>Icons\cvlogo.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +19,7 @@
     <EmbeddedResource Remove="Old\**" />
     <None Remove="Core\Files\**" />
     <None Remove="Old\**" />
-  </ItemGroup>
+  </ItemGroup>  
 
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.1" />
