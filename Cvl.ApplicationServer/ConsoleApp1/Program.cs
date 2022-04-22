@@ -20,6 +20,7 @@ using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.ApplicationServer.Processes;
 using Cvl.ApplicationServer.Processes.LongRunningProcesses;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Polenter.Serialization;
 using Polenter.Serialization.Core;
@@ -74,19 +75,20 @@ var serviceProvider = app.Services;
 
 var worker = serviceProvider.GetService<ILongRunningProcessWorker>();
 
-var appServerLongRunningProcesses = serviceProvider.GetRequiredService<ILongRunningProcessesService>();
-var p2 = await appServerLongRunningProcesses.StartLongRunningProcessAsync<LongRunningTestProcess>(null);
+var processProxyService = serviceProvider.GetRequiredService<IProcessProxyService>();
+var longRunningProcesses = serviceProvider.GetRequiredService<ILongRunningProcessesService>();
+var p2 = await longRunningProcesses.StartLongRunningProcessAsync<LongRunningTestProcess>(null);
 
 await worker.RunProcessesAsync();
 await worker.RunProcessesAsync();
 
-var st1 = await appServerLongRunningProcesses.GetProcessStatusAsync(p2.ProcessNumber);
+var st1 = await longRunningProcesses.GetProcessStatusAsync(p2.ProcessNumber);
 
-var data1 = await appServerLongRunningProcesses.GetProcessExternalDataAsync(p2.ProcessNumber);
-await appServerLongRunningProcesses.SetProcessExternalDataAsync(p2.ProcessNumber, new ViewResponse() { SelectedAction = "sdffsd" });
+var data1 = await longRunningProcesses.GetProcessExternalDataAsync(p2.ProcessNumber);
+await longRunningProcesses.SetProcessExternalDataAsync(p2.ProcessNumber, new ViewResponse() { SelectedAction = "sdffsd" });
 await worker.RunProcessesAsync();
 
-using (var p3 = await appServerLongRunningProcesses
+using (var p3 = await processProxyService
            .OpenProcessProxyAsync<LongRunningTestProcess>(p2.ProcessNumber))
 {
     

@@ -14,26 +14,7 @@ using Cvl.ApplicationServer.Processes.LongRunningProcesses;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cvl.ApplicationServer.Core.Processes.LongRunningProcesses
-{
-    public class LongRunningProcessProxy<T> : IDisposable
-        where T : IProcess
-    {
-        private readonly LongRunningProcessesService _applicationServerProcesses;
-
-        internal LongRunningProcessProxy(T process, LongRunningProcessesService applicationServerProcesses)
-        {
-            _applicationServerProcesses = applicationServerProcesses;
-            Process = process;
-        }
-
-        public T Process { get; private set; }
-
-        public void Dispose()
-        {
-            _applicationServerProcesses.SaveProcessAsync(Process)
-                .Wait();
-        }
-    }
+{   
 
     internal class LongRunningProcessesService : ILongRunningProcessesService
     {
@@ -55,14 +36,7 @@ namespace Cvl.ApplicationServer.Core.Processes.LongRunningProcesses
             _processCommands = processCommands;
             _processInstanceContainerCommands = processInstanceContainerCommands;
             _fullSerializer = fullSerializer;
-        }
-
-        public async Task<LongRunningProcessProxy<T>> OpenProcessProxyAsync<T>(string processNumber) where T : IProcess
-        {
-            var process = await _processQueries.LoadProcessAsync<T>(processNumber);
-            var proxy = new LongRunningProcessProxy<T>(process, this);
-            return proxy;
-        }
+        }        
 
         public async Task<LongRunningProcessResult> StartLongRunningProcessAsync<TProcess>(object inputParameter) 
             where TProcess : ILongRunningProcess

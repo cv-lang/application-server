@@ -16,18 +16,7 @@ namespace Cvl.ApplicationServer.Test
     public class StepBaseTestProcess : IStepBaseProcess
     {
         public ProcessData? ProcessData {get;set;}
-
-        protected SimpleStepBaseTestProcessStep Step
-        {
-            get
-            {
-                return (SimpleStepBaseTestProcessStep)ProcessData.Step;
-            }
-            set
-            {
-                ProcessData.Step = (int)value;
-            }
-        }
+        public SimpleStepBaseTestProcessState State { get; set; }
 
         private readonly IProcessManager _processManager;
         
@@ -38,8 +27,6 @@ namespace Cvl.ApplicationServer.Test
             State.StepName = "Start procesu";
         }
 
-        public SimpleStepBaseTestProcessState State { get; set; }
-        
         public void Step1FromApi()
         {
             _processManager.SetStep("step2", "step 2", SimpleStepBaseTestProcessStep.Step2);
@@ -80,6 +67,18 @@ namespace Cvl.ApplicationServer.Test
         public void LoadProcessState(object? processState)
         {
             State = (SimpleStepBaseTestProcessState)processState;
+        }
+
+        protected SimpleStepBaseTestProcessStep Step
+        {
+            get
+            {
+                return (SimpleStepBaseTestProcessStep)ProcessData.Step;
+            }
+            set
+            {
+                ProcessData.Step = (int)value;
+            }
         }
     }
 

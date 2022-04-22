@@ -24,28 +24,34 @@ namespace Cvl.ApplicationServer.Core.Processes.LongRunningProcesses
             _fullSerializer = fullSerializer;
         }
 
-        public async Task<int> RunProcessesAsync()
+        public async Task<TimeSpan> RunProcessesAsync()
         {
-            var processesNumbers = await _processQueries.GetWaitingForExecutionProcessesNumbersAsync();
+            var processesNumbers = await _processQueries.GetWaitingForExecutionProcessesNumbersAsync(ProcessType.LongRunningProcess);
 
             foreach (var processNumber in processesNumbers)
             {
-                var process = await _processQueries.LoadProcessAsync<IProcess>(processNumber);
-
-                if (process is ILongRunningProcess processLongRunningProcess)
-                {
-                    var externalData = BeforeRunProcess(processLongRunningProcess);
-                    var processData = (LongRunningProcessData)processLongRunningProcess.ProcessData;
-                    var result = processData.VirtualMachine.Resume<object>(externalData);
-                    AfterRunProcess(processLongRunningProcess, result);
-                }               
-
+                var processLongRunningProcess = await _processQueries.LoadProcessAsync<ILongRunningProcess>(processNumber);
+                
+                var externalData = BeforeRunProcess(processLongRunningProcess);
+                var processData = (LongRunningProcessData)processLongRunningProcess.ProcessData;
+                var result = processData.VirtualMachine.Resume<object>(externalData);
+                AfterRunProcess(processLongRunningProcess, result);
+                
                 //zapisuje stan procesu
-                await _processCommands.SaveProcessStateAsync(process);
+                await _processCommands.SaveProcessStateAsync(processLongRunningProcess);
             }
 
-            return processesNumbers.Count;
-        }       
+            return TimeSpan.FromSeconds(30);
+        }
+
+        public async Task RunLoopProcessesAsync()
+        {
+            while (true)
+            {
+                var delay = await RunProcessesAsync();
+                await Task.Delay(delay);
+            }
+        }
 
         public async Task<LongRunningProcessResult> StartLongRunningProcessAsync<TProcess>(object inputParameter) 
             where TProcess : ILongRunningProcess

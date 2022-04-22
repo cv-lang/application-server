@@ -8,6 +8,7 @@
     <FileVersion>6.0.0</FileVersion>
     <Version>6.2.0</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>cvlogo.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,9 +23,11 @@
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.1" />
     <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.0.0" />
+    <PackageReference Include="Cvl.VirtualMachine" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="6.0.0" />
     <PackageReference Include="Mono.Reflection" Version="2.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.3" />
@@ -32,18 +35,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Processes\Api\Processes\LongRunningProcesses\" />
     <Folder Include="Processes\Core\Interfaces\" />
     <Folder Include="Processes\Core\Workers\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Processes\Api\Processes\Workers\" />
-    <Folder Include="Processes\StepProcesses\Api\" />
+    <Folder Include="Processes\StepBaseProcesses\Core\" />
+    <Folder Include="Processes\StepBaseProcesses\Services\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Cvl.VirtualMachine">
-      <HintPath>..\..\..\virtual-machine\Cvl.VirtualMachine\Cvl.VirtualMachine\bin\Debug\net6.0\Cvl.VirtualMachine.dll</HintPath>
-    </Reference>
+    <None Update="Icons\cvlogo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

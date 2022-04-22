@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Cvl.VirtualMachine" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -26,12 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cvl.ApplicationServer\Cvl.ApplicationServer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Cvl.VirtualMachine">
-      <HintPath>..\..\..\virtual-machine\Cvl.VirtualMachine\Cvl.VirtualMachine\bin\Debug\net6.0\Cvl.VirtualMachine.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>

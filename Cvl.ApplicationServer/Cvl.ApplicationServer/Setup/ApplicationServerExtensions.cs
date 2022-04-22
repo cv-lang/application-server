@@ -17,6 +17,7 @@ using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.ApplicationServer.Processes;
 using Cvl.ApplicationServer.Processes.LongRunningProcesses;
 using Cvl.ApplicationServer.Processes.LongRunningProcesses.Core;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Services;
 using Cvl.ApplicationServer.Processes.StepProcesses;
 using Cvl.ApplicationServer.Processes.StepProcesses.Core;
 using Microsoft.EntityFrameworkCore;
@@ -81,7 +82,9 @@ namespace Cvl.ApplicationServer.Core.Extensions
                 .AddTransient<ILongRunningProcessesService, LongRunningProcessesService>()
                 .AddTransient<IProcessesControllerService, ProcessesControllerService>()
                 .AddTransient<IProcessManagerFactory, ProcessManagerFactory>()
-                .AddTransient<ILongRunningProcessManagerFactory, LongRunningProcessManagerFactory>();
+                .AddTransient<ILongRunningProcessManagerFactory, LongRunningProcessManagerFactory>()
+                .AddTransient<ILongRunningProcessesService, LongRunningProcessesService>()
+                .AddTransient<IProcessProxyService, ProcessProxyService>();
 
 
             //tools

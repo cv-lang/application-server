@@ -58,9 +58,9 @@ namespace Cvl.ApplicationServer.Core.Processes.Queries
                 $"Process type not suported: {processInstanceContainer.ProcessTypeData.ProcessType}");
         }
 
-        internal async Task<List<string>> GetWaitingForExecutionProcessesNumbersAsync()
+        internal async Task<List<string>> GetWaitingForExecutionProcessesNumbersAsync(ProcessType processType)
         {
-            return await _processInstanceContainerQueries.GetWaitingForExecutionProcessesNumbersAsync();
+            return await _processInstanceContainerQueries.GetWaitingForExecutionProcessesNumbersAsync(processType);
         }
 
         internal IQueryable<ProcessInstanceContainer> GetAllProcessInstanceContainers()
