@@ -4,7 +4,7 @@ using Cvl.VirtualMachine;
 namespace Cvl.ApplicationServer.Core.Processes.Interfaces
 {
     /// <summary>
-    /// Long running process
+    /// main interface for long running process
     /// </summary>
     public interface ILongRunningProcess : IProcess
     { 
@@ -21,11 +21,11 @@ namespace Cvl.ApplicationServer.Core.Processes.Interfaces
 
     public enum LongRunningProcessState
     {
-        //czeka na wykonanie lub jest wykonywany
+        //waiting for execution or is executing
         Pending,
-        //czeka na dane lub event z zewnątrz
+        //waiting for external data or event
         WaitingForExternalData,
-        //czekam na dane z interfejsu
+        //waiting for user interface data or event
         WaitingForUserInterface,
         Executed,
         Error        

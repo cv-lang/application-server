@@ -5,7 +5,7 @@ using Cvl.ApplicationServer.Processes.Interfaces;
 
 namespace Cvl.ApplicationServer.Core.Processes
 {
-    public abstract class BaseProcess : IProcess
+    public abstract class BaseProcess : IProcess, IStateProcess
     {        
         public ProcessData? ProcessData { get; set; }
 

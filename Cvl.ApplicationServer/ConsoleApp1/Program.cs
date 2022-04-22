@@ -50,8 +50,8 @@ hostBuilder.ConfigureAppConfiguration((hostingContext, configuration) =>
 hostBuilder.ConfigureServices(services =>
 {
     services.UseRegisterApplicationServer(ApplicationServerContextConnectionString);
-    services.AddTransient<SimpleStepBaseTestProcess>();
-    services.AddTransient<SimpleLongRunningTestProcess>();
+    services.AddTransient<StepBaseTestProcess>();
+    services.AddTransient<LongRunningTestProcess>();
 
 });
 
@@ -75,7 +75,7 @@ var serviceProvider = app.Services;
 var worker = serviceProvider.GetService<ILongRunningProcessWorker>();
 
 var appServerLongRunningProcesses = serviceProvider.GetRequiredService<ILongRunningProcessesService>();
-var p2 = await appServerLongRunningProcesses.StartLongRunningProcessAsync<SimpleLongRunningTestProcess>(null);
+var p2 = await appServerLongRunningProcesses.StartLongRunningProcessAsync<LongRunningTestProcess>(null);
 
 await worker.RunProcessesAsync();
 await worker.RunProcessesAsync();
@@ -87,7 +87,7 @@ await appServerLongRunningProcesses.SetProcessExternalDataAsync(p2.ProcessNumber
 await worker.RunProcessesAsync();
 
 using (var p3 = await appServerLongRunningProcesses
-           .OpenProcessProxyAsync<SimpleLongRunningTestProcess>(p2.ProcessNumber))
+           .OpenProcessProxyAsync<LongRunningTestProcess>(p2.ProcessNumber))
 {
     
     

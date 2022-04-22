@@ -10,7 +10,7 @@ using Cvl.VirtualMachine.Core.Attributes;
 namespace Cvl.ApplicationServer.Processes
 {
     /// <summary>
-    /// menadzer przekazywany do procesu, pozwala robić delay, wyświetlać formatki, hibernować itp
+    /// In process, process state,step, external comunication.. manager
     /// </summary>
     public interface ILongRunningProcessManager : IProcessManager
     {

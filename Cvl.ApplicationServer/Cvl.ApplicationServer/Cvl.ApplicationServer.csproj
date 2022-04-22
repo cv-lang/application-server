@@ -32,10 +32,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Processes\Infrastructure\Interfaces\" />
-    <Folder Include="Processes\Infrastructure\Workers\" />
+    <Folder Include="Processes\Api\Processes\LongRunningProcesses\" />
+    <Folder Include="Processes\Core\Interfaces\" />
+    <Folder Include="Processes\Core\Workers\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Api\Processes\Workers\" />
+    <Folder Include="Processes\Api\Processes\Workers\" />
+    <Folder Include="Processes\StepProcesses\Api\" />
   </ItemGroup>
 
   <ItemGroup>

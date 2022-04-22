@@ -16,6 +16,9 @@ using Cvl.ApplicationServer.Core.Users.Queries;
 using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.ApplicationServer.Processes;
 using Cvl.ApplicationServer.Processes.LongRunningProcesses;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Core;
+using Cvl.ApplicationServer.Processes.StepProcesses;
+using Cvl.ApplicationServer.Processes.StepProcesses.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -76,7 +79,9 @@ namespace Cvl.ApplicationServer.Core.Extensions
             services
                 .AddTransient<IApplicationServerSimpleProcesses, ApplicationServerSimpleProcesses>()
                 .AddTransient<ILongRunningProcessesService, LongRunningProcessesService>()
-                .AddTransient<IProcessesControllerService, ProcessesControllerService>();
+                .AddTransient<IProcessesControllerService, ProcessesControllerService>()
+                .AddTransient<IProcessManagerFactory, ProcessManagerFactory>()
+                .AddTransient<ILongRunningProcessManagerFactory, LongRunningProcessManagerFactory>();
 
 
             //tools

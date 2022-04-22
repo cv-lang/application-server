@@ -6,12 +6,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Pages.Processes
 {
     public class IndexModel : PageModel
-    {        
-        private readonly IApplicationServer _applicationServer;
-
-        public IndexModel(IApplicationServer applicationServer)
+    {                
+        public IndexModel()
         {
-            this._applicationServer = applicationServer;
         }
 
         public void OnGet()

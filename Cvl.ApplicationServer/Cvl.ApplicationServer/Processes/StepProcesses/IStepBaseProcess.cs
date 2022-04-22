@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Cvl.ApplicationServer.Processes.SimpleProcesses
 {
-    public interface IStepProcess : IProcess, IStateProcess
+    public interface IStepBaseProcess : IProcess, IStateProcess
     {
-        
+        void JobEntry();
     }
 }

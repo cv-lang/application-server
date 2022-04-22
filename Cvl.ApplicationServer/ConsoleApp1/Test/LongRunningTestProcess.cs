@@ -9,6 +9,8 @@ using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.ApplicationServer.Processes;
+using Cvl.ApplicationServer.Processes.Base;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses;
 using Cvl.VirtualMachine;
 using Cvl.VirtualMachine.Core.Attributes;
 
@@ -33,17 +35,19 @@ namespace Cvl.ApplicationServer.Test
         public string? Password { get; set; }
     }
 
-    public class SimpleLongRunningTestProcess : BaseLongRunningProcess
+    public class LongRunningTestProcess : ILongRunningProcess
     {
+        public ProcessData? ProcessData { get; set; }
+
         private readonly ILongRunningProcessManager _processManager;
         private readonly IUsersService _usersService;
         private readonly IEmailSender _emailSender;
         public AddNewUserProcessState State { get; set; }
         
-        public SimpleLongRunningTestProcess(ILongRunningProcessManager processManager, IUsersService usersService, IEmailSender emailSender)
+
+        public LongRunningTestProcess(ILongRunningProcessManagerFactory processManagerFactory, IUsersService usersService, IEmailSender emailSender)
         {
-            _processManager = processManager;
-            _processManager.Process = this;
+            _processManager = processManagerFactory.CreateProcessManager(this);
             _usersService = usersService;
             _emailSender = emailSender;
             State = new AddNewUserProcessState();
@@ -51,7 +55,7 @@ namespace Cvl.ApplicationServer.Test
 
 
         [Interpret]
-        public override LongRunningProcessResult StartProcess(object inputParam)
+        public LongRunningProcessResult StartProcess(object inputParam)
         {
             _processManager.SetStep("start", "start", SimpleLongRunningTestProcessStep.Init);
 
