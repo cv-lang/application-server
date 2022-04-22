@@ -1,12 +1,8 @@
-﻿using Cvl.ApplicationServer.Processes.Interfaces;
+﻿using Cvl.ApplicationServer.Processes.Core.Base;
+using Cvl.ApplicationServer.Processes.StepBaseProcesses.Managers;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Cvl.ApplicationServer.Processes.StepProcesses.Core
+namespace Cvl.ApplicationServer.Processes.StepBaseProcesses.Factories
 {
     internal class ProcessManagerFactory : IProcessManagerFactory
     {

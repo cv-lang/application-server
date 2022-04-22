@@ -1,12 +1,7 @@
-﻿using Cvl.ApplicationServer.Core.Processes.Interfaces;
+﻿using Cvl.ApplicationServer.Processes.LongRunningProcesses.Managers;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Core
+namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Factories
 {
     internal class LongRunningProcessManagerFactory : ILongRunningProcessManagerFactory
     {

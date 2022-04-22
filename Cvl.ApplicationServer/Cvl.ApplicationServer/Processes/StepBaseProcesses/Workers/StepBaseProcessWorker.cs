@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Processes.Commands;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses;
-using Cvl.ApplicationServer.Core.Processes.Queries;
-using Cvl.ApplicationServer.Core.Serializers.Interfaces;
-using Cvl.ApplicationServer.Processes.Interfaces;
-using Cvl.ApplicationServer.Processes.SimpleProcesses;
-using Cvl.ApplicationServer.Processes.StepBaseProcesses.Worker;
+using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Core.Commands;
+using Cvl.ApplicationServer.Processes.Core.Model.OwnedClasses;
+using Cvl.ApplicationServer.Processes.Core.Queries;
 
 namespace Cvl.ApplicationServer.Processes.StepBaseProcesses.Workers
 {

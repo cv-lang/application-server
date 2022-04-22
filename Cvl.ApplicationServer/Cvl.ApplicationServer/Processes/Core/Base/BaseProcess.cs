@@ -1,9 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using System.Xml.Serialization;
-using Cvl.ApplicationServer.Processes.Base;
-using Cvl.ApplicationServer.Processes.Interfaces;
-
-namespace Cvl.ApplicationServer.Core.Processes
+﻿namespace Cvl.ApplicationServer.Processes.Core.Base
 {
     public abstract class BaseProcess : IProcess, IStateProcess
     {        

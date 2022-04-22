@@ -1,4 +1,4 @@
-﻿using Cvl.ApplicationServer.Core.Model.Contexts;
+﻿using Cvl.ApplicationServer.Core.DataLayer.Model.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -1,4 +1,4 @@
-﻿namespace Cvl.ApplicationServer.Core.Processes.UI
+﻿namespace Cvl.ApplicationServer.Processes.Core.UI
 {
     public class ViewResponse
     {

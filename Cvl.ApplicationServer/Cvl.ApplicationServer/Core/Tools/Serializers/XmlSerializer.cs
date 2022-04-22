@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using System.Xml.Serialization;
-using Cvl.ApplicationServer.Core.Serializers.Interfaces;
+using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Polenter.Serialization;
 
-namespace Cvl.ApplicationServer.Core.Serializers
+namespace Cvl.ApplicationServer.Core.Tools.Serializers
 {
     internal class XmlSerializer : IFullSerializer
     {

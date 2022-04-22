@@ -1,10 +1,11 @@
-﻿using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Processes.Model;
-using Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses;
-using Cvl.ApplicationServer.Core.Serializers.Interfaces;
-using Cvl.ApplicationServer.Processes.Interfaces;
+﻿using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Core.Base;
+using Cvl.ApplicationServer.Processes.Core.Model;
+using Cvl.ApplicationServer.Processes.Core.Model.OwnedClasses;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Core;
 
-namespace Cvl.ApplicationServer.Core.Processes.Queries
+namespace Cvl.ApplicationServer.Processes.Core.Queries
 {
     internal class ProcessQueries
     {

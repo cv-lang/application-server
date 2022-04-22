@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.ExternalServices.Emails;
-using Cvl.ApplicationServer.Core.Processes;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.ApplicationServer.Processes;
-using Cvl.ApplicationServer.Processes.Base;
+using Cvl.ApplicationServer.Processes.Core.Base;
+using Cvl.ApplicationServer.Processes.Core.UI;
 using Cvl.ApplicationServer.Processes.LongRunningProcesses;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Factories;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Managers;
 using Cvl.VirtualMachine;
 using Cvl.VirtualMachine.Core.Attributes;
 

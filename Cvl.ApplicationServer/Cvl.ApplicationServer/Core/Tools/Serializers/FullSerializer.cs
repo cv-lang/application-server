@@ -1,6 +1,6 @@
-﻿using Cvl.ApplicationServer.Core.Serializers.Interfaces;
+﻿using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 
-namespace Cvl.ApplicationServer.Core.Serializers
+namespace Cvl.ApplicationServer.Core.Tools.Serializers
 {
     /// <summary>
     /// Serialize full object wiht type

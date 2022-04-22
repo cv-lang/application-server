@@ -1,9 +1,9 @@
-﻿using Cvl.ApplicationServer.Core.Model.Contexts;
-using Cvl.ApplicationServer.Core.Processes.Model;
-using Cvl.ApplicationServer.Core.Repositories;
+﻿using Cvl.ApplicationServer.Core.DataLayer.Model.Contexts;
+using Cvl.ApplicationServer.Core.DataLayer.Repositories;
+using Cvl.ApplicationServer.Processes.Core.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cvl.ApplicationServer.Core.Processes.Repositories
+namespace Cvl.ApplicationServer.Processes.Core.Repositories
 {
     internal class ProcessExternalDataRepository : Repository<ProcessExternalData>
     {

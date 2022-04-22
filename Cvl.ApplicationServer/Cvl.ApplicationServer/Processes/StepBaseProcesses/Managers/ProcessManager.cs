@@ -1,14 +1,10 @@
-﻿using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Processes.Model;
-using Cvl.ApplicationServer.Core.Processes.Queries;
-using Cvl.ApplicationServer.Core.Processes.UI;
-using Cvl.ApplicationServer.Core.Serializers.Interfaces;
-using Cvl.ApplicationServer.Processes;
-using Cvl.ApplicationServer.Processes.Interfaces;
-using Cvl.VirtualMachine.Core.Attributes;
+﻿using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Core.Base;
+using Cvl.ApplicationServer.Processes.Core.Model;
+using Cvl.ApplicationServer.Processes.Core.Queries;
+using ThreadState = Cvl.ApplicationServer.Processes.Core.Threading.ThreadState;
 
-namespace Cvl.ApplicationServer.Core.Processes.Services
+namespace Cvl.ApplicationServer.Processes.StepBaseProcesses.Managers
 {
     internal class ProcessManager : IProcessManager
     {
@@ -70,12 +66,12 @@ namespace Cvl.ApplicationServer.Core.Processes.Services
 
         public void SetToJobThread()
         {
-            Process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.WaitingForExecution;
+            Process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.WaitingForExecution;
         }
 
         public void SetToApiThread()
         {
-            Process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.Idle;
+            Process.ProcessData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.Idle;
         }        
     }
 }

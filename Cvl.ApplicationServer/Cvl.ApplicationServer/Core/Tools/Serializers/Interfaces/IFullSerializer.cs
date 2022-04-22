@@ -1,4 +1,4 @@
-﻿namespace Cvl.ApplicationServer.Core.Serializers.Interfaces
+﻿namespace Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces
 {
     /// <summary>
     /// Serialize full object

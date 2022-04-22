@@ -1,6 +1,6 @@
-﻿using Cvl.ApplicationServer.Processes.Base;
+﻿using Cvl.ApplicationServer.Processes.Core.Base;
 
-namespace Cvl.ApplicationServer.Core.Processes.Interfaces
+namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Core
 {
     public class LongRunningProcessData : ProcessData
     {

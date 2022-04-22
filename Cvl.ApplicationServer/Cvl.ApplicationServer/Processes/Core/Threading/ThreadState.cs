@@ -1,4 +1,4 @@
-﻿namespace Cvl.ApplicationServer.Core.Processes.Threading
+﻿namespace Cvl.ApplicationServer.Processes.Core.Threading
 {
     public enum ThreadState
     {

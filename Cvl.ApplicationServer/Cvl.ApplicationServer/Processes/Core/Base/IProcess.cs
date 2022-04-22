@@ -1,9 +1,4 @@
-﻿using Cvl.ApplicationServer.Processes;
-using Cvl.ApplicationServer.Processes.Base;
-using System.Text.Json.Serialization;
-using System.Xml.Serialization;
-
-namespace Cvl.ApplicationServer.Processes.Interfaces
+﻿namespace Cvl.ApplicationServer.Processes.Core.Base
 {
     public interface IProcess
     {        

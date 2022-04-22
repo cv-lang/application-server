@@ -1,9 +1,9 @@
-﻿using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Serializers.Interfaces;
-using Cvl.ApplicationServer.Processes.Base;
-using Cvl.ApplicationServer.Processes.Interfaces;
+﻿using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Core.Base;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Core;
 
-namespace Cvl.ApplicationServer.Core.Processes.Commands
+namespace Cvl.ApplicationServer.Processes.Core.Commands
 {
     internal class ProcessCommands
     {

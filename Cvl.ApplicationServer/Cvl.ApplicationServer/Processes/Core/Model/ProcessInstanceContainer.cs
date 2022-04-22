@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Cvl.ApplicationServer.Core.Model;
-using Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses;
+using Cvl.ApplicationServer.Core.DataLayer.Model;
+using Cvl.ApplicationServer.Processes.Core.Model.OwnedClasses;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cvl.ApplicationServer.Core.Processes.Model
+namespace Cvl.ApplicationServer.Processes.Core.Model
 {
 
     /// <summary>

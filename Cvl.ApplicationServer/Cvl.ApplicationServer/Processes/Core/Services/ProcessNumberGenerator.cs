@@ -1,6 +1,4 @@
-﻿using Cvl.ApplicationServer.Core.Processes.Interfaces;
-
-namespace Cvl.ApplicationServer.Core.Processes.Services
+﻿namespace Cvl.ApplicationServer.Processes.Core.Services
 {
     internal interface IProcessNumberGenerator
     { string GenerateProcessNumber(long processId);

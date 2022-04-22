@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Cvl.ApplicationServer.Core.Model;
+using Cvl.ApplicationServer.Core.DataLayer.Model;
 
-namespace Cvl.ApplicationServer.Core.Processes.Model
+namespace Cvl.ApplicationServer.Processes.Core.Model
 {
     /// <summary>
     /// Activity data - request and respons data

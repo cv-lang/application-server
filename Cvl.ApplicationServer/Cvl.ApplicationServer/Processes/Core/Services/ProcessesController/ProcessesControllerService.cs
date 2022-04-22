@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Processes.Model;
-using Cvl.ApplicationServer.Core.Processes.Queries;
-using Microsoft.EntityFrameworkCore;
+﻿using Cvl.ApplicationServer.Processes.Core.Model;
+using Cvl.ApplicationServer.Processes.Core.Queries;
 
-namespace Cvl.ApplicationServer.Core.Processes.Services
+namespace Cvl.ApplicationServer.Processes.Core.Services.ProcessesController
 {
     public interface IProcessesControllerService
     {

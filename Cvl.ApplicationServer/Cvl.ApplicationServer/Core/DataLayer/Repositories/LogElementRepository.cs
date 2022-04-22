@@ -1,12 +1,7 @@
-﻿using Cvl.ApplicationServer.Core.Model.Temporary;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Model.Contexts;
+﻿using Cvl.ApplicationServer.Core.DataLayer.Model.Contexts;
+using Cvl.ApplicationServer.Core.DataLayer.Model.Temporary;
 
-namespace Cvl.ApplicationServer.Core.Repositories
+namespace Cvl.ApplicationServer.Core.DataLayer.Repositories
 {
     internal class LogElementRepository : Repository<LogElement>
     {

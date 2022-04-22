@@ -1,12 +1,6 @@
-﻿using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Processes.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Cvl.ApplicationServer.Processes.Core.Base;
 
-namespace Cvl.ApplicationServer.Processes.SimpleProcesses
+namespace Cvl.ApplicationServer.Processes.StepBaseProcesses
 {
     public interface IStepBaseProcess : IProcess, IStateProcess
     {

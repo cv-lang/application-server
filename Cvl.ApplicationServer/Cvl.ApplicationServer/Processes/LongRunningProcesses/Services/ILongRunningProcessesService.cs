@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Processes.LongRunningProcesses;
-using Cvl.ApplicationServer.Core.Processes.UI;
-using Cvl.ApplicationServer.Processes.Interfaces;
+﻿using Cvl.ApplicationServer.Processes.Core.UI;
 
-namespace Cvl.ApplicationServer.Processes.LongRunningProcesses
+namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Services
 {
     /// <summary>
     /// Public service API for running processes and communcaton with process and external world

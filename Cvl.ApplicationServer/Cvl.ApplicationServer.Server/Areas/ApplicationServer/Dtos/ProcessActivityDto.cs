@@ -1,4 +1,4 @@
-﻿using Cvl.ApplicationServer.Core.Processes.Model;
+﻿using Cvl.ApplicationServer.Processes.Core.Model;
 
 namespace Cvl.ApplicationServer.Core.Processes.Dtos
 {

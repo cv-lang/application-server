@@ -1,9 +1,9 @@
-﻿using Cvl.ApplicationServer.Core.Model.Temporary;
-using Cvl.ApplicationServer.Core.Processes.Model;
+﻿using Cvl.ApplicationServer.Core.DataLayer.Model.Temporary;
 using Cvl.ApplicationServer.Core.Users.Model;
+using Cvl.ApplicationServer.Processes.Core.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cvl.ApplicationServer.Core.Model.Contexts
+namespace Cvl.ApplicationServer.Core.DataLayer.Model.Contexts
 {
     public class ApplicationServerDbContext : DbContext
     {

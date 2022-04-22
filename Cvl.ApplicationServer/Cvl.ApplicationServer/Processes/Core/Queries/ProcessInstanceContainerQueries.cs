@@ -1,10 +1,10 @@
-﻿using Cvl.ApplicationServer.Core.Processes.Model;
-using Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses;
-using Cvl.ApplicationServer.Core.Processes.Repositories;
+﻿using Cvl.ApplicationServer.Processes.Core.Model;
+using Cvl.ApplicationServer.Processes.Core.Model.OwnedClasses;
+using Cvl.ApplicationServer.Processes.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
-using ThreadState = Cvl.ApplicationServer.Core.Processes.Threading.ThreadState;
+using ThreadState = Cvl.ApplicationServer.Processes.Core.Threading.ThreadState;
 
-namespace Cvl.ApplicationServer.Core.Processes.Queries
+namespace Cvl.ApplicationServer.Processes.Core.Queries
 {
     internal class ProcessInstanceContainerQueries
     {

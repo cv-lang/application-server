@@ -1,13 +1,8 @@
-﻿using Cvl.ApplicationServer.Core.Model;
+﻿using Cvl.ApplicationServer.Core.DataLayer.Model;
+using Cvl.ApplicationServer.Core.DataLayer.Model.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Model.Contexts;
 
-namespace Cvl.ApplicationServer.Core.Repositories
+namespace Cvl.ApplicationServer.Core.DataLayer.Repositories
 {
     internal class Repository<T> : IRepository<T> where T : BaseEntity
     {

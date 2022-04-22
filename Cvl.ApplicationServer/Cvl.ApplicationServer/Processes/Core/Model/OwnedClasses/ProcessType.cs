@@ -1,4 +1,4 @@
-﻿namespace Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses
+﻿namespace Cvl.ApplicationServer.Processes.Core.Model.OwnedClasses
 {
     public enum ProcessType
     {

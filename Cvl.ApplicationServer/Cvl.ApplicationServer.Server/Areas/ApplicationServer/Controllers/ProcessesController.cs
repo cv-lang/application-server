@@ -7,8 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.Processes.Dtos;
-using Cvl.ApplicationServer.Core.Processes.Model;
-using Cvl.ApplicationServer.Core.Processes.Services;
+using Cvl.ApplicationServer.Processes.Core.Services.ProcessesController;
 
 namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Controllers
 {

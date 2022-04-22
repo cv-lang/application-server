@@ -1,11 +1,9 @@
-﻿using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Processes.Model;
-using Cvl.ApplicationServer.Core.Processes.Queries;
-using Cvl.ApplicationServer.Core.Processes.Repositories;
-using Cvl.ApplicationServer.Core.Processes.Services;
+﻿using Cvl.ApplicationServer.Processes.Core.Model;
+using Cvl.ApplicationServer.Processes.Core.Repositories;
+using Cvl.ApplicationServer.Processes.Core.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cvl.ApplicationServer.Core.Processes.Commands
+namespace Cvl.ApplicationServer.Processes.Core.Commands
 {
     internal class ProcessInstanceContainerCommands
     {

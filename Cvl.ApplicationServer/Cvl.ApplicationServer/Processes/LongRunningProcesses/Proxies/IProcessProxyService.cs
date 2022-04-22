@@ -1,7 +1,7 @@
-﻿using Cvl.ApplicationServer.Core.Processes.LongRunningProcesses;
-using Cvl.ApplicationServer.Processes.Interfaces;
+﻿using Cvl.ApplicationServer.Processes.Core.Base;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Services;
 
-namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Services
+namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Proxies
 {
     public interface IProcessProxyService
     {

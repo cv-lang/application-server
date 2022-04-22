@@ -1,10 +1,7 @@
-﻿using System.Text.Json.Serialization;
-using System.Xml.Serialization;
-using Cvl.ApplicationServer.Core.Processes.Model;
-using Cvl.ApplicationServer.Processes;
-using ThreadState = Cvl.ApplicationServer.Core.Processes.Threading.ThreadState;
+﻿using System.Xml.Serialization;
+using Cvl.ApplicationServer.Processes.Core.Model;
 
-namespace Cvl.ApplicationServer.Processes.Base
+namespace Cvl.ApplicationServer.Processes.Core.Base
 {    
     public class ProcessData
     {

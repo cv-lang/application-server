@@ -1,29 +1,29 @@
-﻿using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
+﻿using Cvl.ApplicationServer.Core.DataLayer.Model.Contexts;
+using Cvl.ApplicationServer.Core.DataLayer.Repositories;
 using Cvl.ApplicationServer.Core.ExternalServices.Emails;
-using Cvl.ApplicationServer.Core.Model.Contexts;
-using Cvl.ApplicationServer.Core.Processes.Commands;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Processes.LongRunningProcesses;
-using Cvl.ApplicationServer.Core.Processes.Queries;
-using Cvl.ApplicationServer.Core.Processes.Repositories;
-using Cvl.ApplicationServer.Core.Processes.Services;
-using Cvl.ApplicationServer.Core.Repositories;
-using Cvl.ApplicationServer.Core.Serializers;
-using Cvl.ApplicationServer.Core.Serializers.Interfaces;
+using Cvl.ApplicationServer.Core.Tools.Serializers;
+using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
 using Cvl.ApplicationServer.Core.Users.Commands;
 using Cvl.ApplicationServer.Core.Users.Model;
 using Cvl.ApplicationServer.Core.Users.Queries;
 using Cvl.ApplicationServer.Core.Users.Services;
-using Cvl.ApplicationServer.Processes;
-using Cvl.ApplicationServer.Processes.LongRunningProcesses;
-using Cvl.ApplicationServer.Processes.LongRunningProcesses.Core;
+using Cvl.ApplicationServer.Processes.Core.Commands;
+using Cvl.ApplicationServer.Processes.Core.Queries;
+using Cvl.ApplicationServer.Processes.Core.Repositories;
+using Cvl.ApplicationServer.Processes.Core.Services;
+using Cvl.ApplicationServer.Processes.Core.Services.ProcessesController;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Factories;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Managers;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Proxies;
 using Cvl.ApplicationServer.Processes.LongRunningProcesses.Services;
-using Cvl.ApplicationServer.Processes.StepProcesses;
-using Cvl.ApplicationServer.Processes.StepProcesses.Core;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Workers;
+using Cvl.ApplicationServer.Processes.StepBaseProcesses;
+using Cvl.ApplicationServer.Processes.StepBaseProcesses.Factories;
+using Cvl.ApplicationServer.Processes.StepBaseProcesses.Managers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Cvl.ApplicationServer.Core.Extensions
+namespace Cvl.ApplicationServer.Setup
 {
 
     public static class ApplicationServerExtensions

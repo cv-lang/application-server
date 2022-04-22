@@ -1,21 +1,10 @@
-﻿using Cvl.ApplicationServer.Core.Processes;
-using Cvl.ApplicationServer.Core.Processes.Commands;
-using Cvl.ApplicationServer.Core.Processes.Model;
-using Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses;
-using Cvl.ApplicationServer.Core.Processes.Queries;
-using Cvl.ApplicationServer.Core.Processes.SimpleProcesses;
-using Cvl.ApplicationServer.Core.Processes.UI;
-using Cvl.ApplicationServer.Core.Serializers.Interfaces;
-using Cvl.ApplicationServer.Processes;
-using Cvl.ApplicationServer.Processes.Base;
-using Cvl.ApplicationServer.Processes.Interfaces;
-using Cvl.ApplicationServer.Processes.LongRunningProcesses;
-using Cvl.VirtualMachine;
-using Cvl.VirtualMachine.Core;
-using Microsoft.EntityFrameworkCore;
-using ThreadState = Cvl.ApplicationServer.Core.Processes.Threading.ThreadState;
+﻿using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Core.Base;
+using Cvl.ApplicationServer.Processes.Core.Commands;
+using Cvl.ApplicationServer.Processes.Core.Queries;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Workers;
 
-namespace Cvl.ApplicationServer.Core.ApplicationServers.Internals
+namespace Cvl.ApplicationServer.Processes.StepBaseProcesses
 {
     public class SimpleProcessProxy<T> : IDisposable
         where T : IProcess

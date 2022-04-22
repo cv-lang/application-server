@@ -1,11 +1,6 @@
-﻿using System.Diagnostics;
-using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
-using Cvl.ApplicationServer.Core.Processes.Model;
-using Cvl.ApplicationServer.Core.Processes.SimpleProcesses;
-using Cvl.ApplicationServer.Core.Processes.UI;
-using Cvl.ApplicationServer.Processes.Interfaces;
+﻿using Cvl.ApplicationServer.Processes.Core.Base;
 
-namespace Cvl.ApplicationServer.Processes
+namespace Cvl.ApplicationServer.Processes.StepBaseProcesses
 {
     public interface IApplicationServerSimpleProcesses
     {

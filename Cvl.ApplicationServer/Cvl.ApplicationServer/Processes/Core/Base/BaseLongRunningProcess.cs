@@ -1,11 +1,7 @@
-﻿using System.Xml.Serialization;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Processes.UI;
-using Cvl.ApplicationServer.Processes.Base;
-using Cvl.VirtualMachine;
+﻿using Cvl.ApplicationServer.Processes.LongRunningProcesses;
 using Cvl.VirtualMachine.Core.Attributes;
 
-namespace Cvl.ApplicationServer.Core.Processes
+namespace Cvl.ApplicationServer.Processes.Core.Base
 {
     public enum ProcessHibernationType
     {

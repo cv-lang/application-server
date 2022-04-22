@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cvl.ApplicationServer.Core.Processes.SimpleProcesses
+﻿namespace Cvl.ApplicationServer.Processes.StepBaseProcesses
 {
     public class SimpleProcessStatus
     {

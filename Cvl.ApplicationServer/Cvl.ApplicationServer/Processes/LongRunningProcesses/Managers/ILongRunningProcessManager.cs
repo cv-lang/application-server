@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Processes.UI;
+﻿using Cvl.ApplicationServer.Processes.Core.UI;
+using Cvl.ApplicationServer.Processes.StepBaseProcesses.Managers;
 using Cvl.VirtualMachine.Core.Attributes;
 
-namespace Cvl.ApplicationServer.Processes
+namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Managers
 {
     /// <summary>
     /// In process, process state,step, external comunication.. manager

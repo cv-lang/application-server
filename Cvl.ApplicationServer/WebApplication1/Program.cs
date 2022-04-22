@@ -1,4 +1,3 @@
-using Cvl.ApplicationServer.Core.Model.Contexts;
 using Cvl.ApplicationServer.Server.Setup;
 using Microsoft.EntityFrameworkCore;
 

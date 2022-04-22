@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
-using Cvl.ApplicationServer.Core.Processes.UI;
-using Cvl.ApplicationServer.Processes.Interfaces;
+﻿using Cvl.ApplicationServer.Processes.Core.Base;
 
-namespace Cvl.ApplicationServer.Processes
+namespace Cvl.ApplicationServer.Processes.StepBaseProcesses.Managers
 {
     public interface IProcessManager
     {

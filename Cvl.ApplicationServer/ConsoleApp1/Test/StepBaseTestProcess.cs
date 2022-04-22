@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Processes;
 using Cvl.ApplicationServer.Processes;
-using Cvl.ApplicationServer.Processes.Base;
-using Cvl.ApplicationServer.Processes.Interfaces;
-using Cvl.ApplicationServer.Processes.SimpleProcesses;
-using Cvl.ApplicationServer.Processes.StepProcesses;
-using ThreadState = Cvl.ApplicationServer.Core.Processes.Threading.ThreadState;
+using Cvl.ApplicationServer.Processes.Core.Base;
+using Cvl.ApplicationServer.Processes.StepBaseProcesses;
+using Cvl.ApplicationServer.Processes.StepBaseProcesses.Factories;
+using Cvl.ApplicationServer.Processes.StepBaseProcesses.Managers;
+using ThreadState = Cvl.ApplicationServer.Processes.Core.Threading.ThreadState;
 
 namespace Cvl.ApplicationServer.Test
 {

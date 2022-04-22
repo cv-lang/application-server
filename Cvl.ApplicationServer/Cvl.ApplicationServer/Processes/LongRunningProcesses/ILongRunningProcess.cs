@@ -1,7 +1,6 @@
-﻿using Cvl.ApplicationServer.Processes.Interfaces;
-using Cvl.VirtualMachine;
+﻿using Cvl.ApplicationServer.Processes.Core.Base;
 
-namespace Cvl.ApplicationServer.Core.Processes.Interfaces
+namespace Cvl.ApplicationServer.Processes.LongRunningProcesses
 {
     /// <summary>
     /// main interface for long running process

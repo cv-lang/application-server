@@ -1,4 +1,4 @@
-﻿using Cvl.ApplicationServer.Core.Model.Temporary;
+﻿using Cvl.ApplicationServer.Core.DataLayer.Model.Temporary;
 using Microsoft.Extensions.Logging;
 
 namespace Cvl.ApplicationServer.Core.Logging.Logger

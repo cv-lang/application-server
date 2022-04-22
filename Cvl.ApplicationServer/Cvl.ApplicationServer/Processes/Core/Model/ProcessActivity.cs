@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Cvl.ApplicationServer.Core.Model;
+using Cvl.ApplicationServer.Core.DataLayer.Model;
 
-namespace Cvl.ApplicationServer.Core.Processes.Model
+namespace Cvl.ApplicationServer.Processes.Core.Model
 {
     public enum ProcessActivityState
     {

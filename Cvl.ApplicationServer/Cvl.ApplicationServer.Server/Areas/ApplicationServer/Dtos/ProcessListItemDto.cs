@@ -1,5 +1,5 @@
-﻿using Cvl.ApplicationServer.Core.Processes.Model;
-using Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses;
+﻿using Cvl.ApplicationServer.Processes.Core.Model;
+using Cvl.ApplicationServer.Processes.Core.Model.OwnedClasses;
 
 namespace Cvl.ApplicationServer.Core.Processes.Dtos
 {

@@ -1,11 +1,6 @@
-﻿using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Cvl.ApplicationServer.Processes.LongRunningProcesses.Managers;
 
-namespace Cvl.ApplicationServer.Processes.LongRunningProcesses
+namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Factories
 {
     public interface ILongRunningProcessManagerFactory
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Model;
+using Cvl.ApplicationServer.Core.DataLayer.Model;
 
 namespace Cvl.ApplicationServer.Core.Users.Model
 {

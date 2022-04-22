@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
-using Cvl.ApplicationServer.Core.Processes.Commands;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Processes.Queries;
-using Cvl.ApplicationServer.Core.Processes.UI;
-using Cvl.ApplicationServer.Core.Serializers.Interfaces;
-using Cvl.ApplicationServer.Processes;
-using Cvl.ApplicationServer.Processes.Interfaces;
-using Cvl.ApplicationServer.Processes.LongRunningProcesses;
+﻿using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Core.Base;
+using Cvl.ApplicationServer.Processes.Core.Commands;
+using Cvl.ApplicationServer.Processes.Core.Queries;
+using Cvl.ApplicationServer.Processes.Core.UI;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Workers;
 using Microsoft.EntityFrameworkCore;
+using ThreadState = Cvl.ApplicationServer.Processes.Core.Threading.ThreadState;
 
-namespace Cvl.ApplicationServer.Core.Processes.LongRunningProcesses
+namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Services
 {   
 
     internal class LongRunningProcessesService : ILongRunningProcessesService
@@ -58,20 +51,20 @@ namespace Cvl.ApplicationServer.Core.Processes.LongRunningProcesses
 
             switch(processInstanceContainer.ThreadData.MainThreadState)
             {
-                case Threading.ThreadState.Idle:
-                case Threading.ThreadState.WaitingForExecution:
+                case ThreadState.Idle:
+                case ThreadState.WaitingForExecution:
                     result.State = LongRunningProcessState.Pending;
                     break;
-                case Threading.ThreadState.Executed:
+                case ThreadState.Executed:
                     result.State = LongRunningProcessState.Executed;
                     break;
-                case Threading.ThreadState.Error:
+                case ThreadState.Error:
                     result.State = LongRunningProcessState.Error;
                     break;
-                case Threading.ThreadState.WaitingForExternalData:
+                case ThreadState.WaitingForExternalData:
                     result.State = LongRunningProcessState.WaitingForExternalData;
                     break;
-                case Threading.ThreadState.WaitingForUserInterface:
+                case ThreadState.WaitingForUserInterface:
                     result.State = LongRunningProcessState.WaitingForUserInterface;
                     break;
             }

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Cvl.ApplicationServer.Core.Model;
-using Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses;
+using Cvl.ApplicationServer.Core.DataLayer.Model;
+using Cvl.ApplicationServer.Processes.Core.Model.OwnedClasses;
 
-namespace Cvl.ApplicationServer.Core.Processes.Model
+namespace Cvl.ApplicationServer.Processes.Core.Model
 {
     [Table("ProcessStepHistory", Schema = "Processes")]
     public class ProcessStepHistory : BaseEntity

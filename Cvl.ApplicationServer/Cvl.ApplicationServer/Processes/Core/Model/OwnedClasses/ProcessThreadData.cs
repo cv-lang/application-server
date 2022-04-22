@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ThreadState = Cvl.ApplicationServer.Core.Processes.Threading.ThreadState;
+using ThreadState = Cvl.ApplicationServer.Processes.Core.Threading.ThreadState;
 
-namespace Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses
+namespace Cvl.ApplicationServer.Processes.Core.Model.OwnedClasses
 {
     [Owned]
     public class ProcessThreadData

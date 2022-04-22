@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Cvl.ApplicationServer.Core.Model
+namespace Cvl.ApplicationServer.Core.DataLayer.Model
 {
     /// <summary>
     /// Base class for all db entites

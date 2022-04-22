@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.Extensions;
-using Cvl.ApplicationServer.Core.Model.Contexts;
+using Cvl.ApplicationServer.Setup;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 

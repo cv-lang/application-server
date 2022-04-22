@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Processes.Queries;
-using Cvl.ApplicationServer.Core.Processes.UI;
-using Cvl.ApplicationServer.Core.Serializers.Interfaces;
-using Cvl.ApplicationServer.Processes;
+﻿using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Core.Base;
+using Cvl.ApplicationServer.Processes.Core.Queries;
+using Cvl.ApplicationServer.Processes.Core.UI;
+using Cvl.ApplicationServer.Processes.StepBaseProcesses.Managers;
 using Cvl.VirtualMachine.Core.Attributes;
 
-namespace Cvl.ApplicationServer.Core.Processes.Services
+namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Managers
 {
     internal class LongRunningProcessManager: ProcessManager, ILongRunningProcessManager
     {

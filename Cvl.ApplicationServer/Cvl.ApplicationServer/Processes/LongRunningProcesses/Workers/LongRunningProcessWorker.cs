@@ -1,14 +1,14 @@
-﻿using Cvl.ApplicationServer.Core.Processes.Commands;
-using Cvl.ApplicationServer.Core.Processes.Interfaces;
-using Cvl.ApplicationServer.Core.Processes.Model.OwnedClasses;
-using Cvl.ApplicationServer.Core.Processes.Queries;
-using Cvl.ApplicationServer.Core.Serializers.Interfaces;
-using Cvl.ApplicationServer.Processes.Interfaces;
-using Cvl.ApplicationServer.Processes.LongRunningProcesses;
+﻿using Cvl.ApplicationServer.Core.Tools.Serializers.Interfaces;
+using Cvl.ApplicationServer.Processes.Core.Base;
+using Cvl.ApplicationServer.Processes.Core.Commands;
+using Cvl.ApplicationServer.Processes.Core.Model.OwnedClasses;
+using Cvl.ApplicationServer.Processes.Core.Queries;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Core;
 using Cvl.VirtualMachine;
 using Cvl.VirtualMachine.Core;
+using ThreadState = Cvl.ApplicationServer.Processes.Core.Threading.ThreadState;
 
-namespace Cvl.ApplicationServer.Core.Processes.LongRunningProcesses
+namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Workers
 {
     internal class LongRunningProcessWorker : ILongRunningProcessWorker
     {
@@ -104,7 +104,7 @@ namespace Cvl.ApplicationServer.Core.Processes.LongRunningProcesses
 
             if (virtualMachineResult.State == VirtualMachineState.Executed)
             {
-                processData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.Executed;
+                processData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.Executed;
                 ret.State = LongRunningProcessState.Executed;
                 return ret;
             }
@@ -120,12 +120,12 @@ namespace Cvl.ApplicationServer.Core.Processes.LongRunningProcesses
                         var nextExecutionDate = (DateTime)vmParams[1];
                         processData.ProcessInstanceContainer.ThreadData.NextExecutionDate =
                             nextExecutionDate;
-                        processData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.WaitingForExecution;
+                        processData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.WaitingForExecution;
                         
                         ret.State= LongRunningProcessState.Pending;
                         return ret;
                     case ProcessHibernationType.WaitingForExternalData:
-                        processData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.WaitingForExternalData;
+                        processData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.WaitingForExternalData;
                         var externalOutputData = vmParams[1];
 
                         xml = _fullSerializer.Serialize(externalOutputData);
@@ -136,7 +136,7 @@ namespace Cvl.ApplicationServer.Core.Processes.LongRunningProcesses
                         ret.Result = externalOutputData;
                         return ret;
                     case ProcessHibernationType.WaitingForUserInterface:
-                        processData.ProcessInstanceContainer.ThreadData.MainThreadState = Threading.ThreadState.WaitingForUserInterface;
+                        processData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.WaitingForUserInterface;
                         xml = _fullSerializer.Serialize(vmParams[1]);
                         processData.ProcessInstanceContainer
                             .ProcessExternalData.ProcessExternalDataFullSerialization = xml;

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using Cvl.ApplicationServer.Core.Model;
+using Cvl.ApplicationServer.Core.DataLayer.Model;
 
-namespace Cvl.ApplicationServer.Core.Processes.Model
+namespace Cvl.ApplicationServer.Processes.Core.Model
 {
     [Table("ProcessExternalData", Schema = "Processes")]
     public class ProcessExternalData : BaseEntity

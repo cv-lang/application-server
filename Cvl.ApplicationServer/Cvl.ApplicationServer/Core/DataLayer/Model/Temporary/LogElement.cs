@@ -1,12 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.Extensions.Logging;
 
-namespace Cvl.ApplicationServer.Core.Model.Temporary
+namespace Cvl.ApplicationServer.Core.DataLayer.Model.Temporary
 {
     [Table("LogElement", Schema = "Temporary")]
     public class LogElement : BaseEntity
