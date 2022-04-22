@@ -80,10 +80,10 @@ namespace Cvl.ApplicationServer.Core.Extensions
             services
                 .AddTransient<IApplicationServerSimpleProcesses, ApplicationServerSimpleProcesses>()
                 .AddTransient<ILongRunningProcessesService, LongRunningProcessesService>()
+                .AddTransient<LongRunningProcessesService>()
                 .AddTransient<IProcessesControllerService, ProcessesControllerService>()
                 .AddTransient<IProcessManagerFactory, ProcessManagerFactory>()
                 .AddTransient<ILongRunningProcessManagerFactory, LongRunningProcessManagerFactory>()
-                .AddTransient<ILongRunningProcessesService, LongRunningProcessesService>()
                 .AddTransient<IProcessProxyService, ProcessProxyService>();
 
 

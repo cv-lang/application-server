@@ -2,7 +2,7 @@
 {
     public class UIAction
     {
-        public string ActionName { get; set; }
-        public string ActionDescription { get; set; }
+        public string ActionName { get; set; } = default!;
+        public string? ActionDescription { get; set; }
     }
 }

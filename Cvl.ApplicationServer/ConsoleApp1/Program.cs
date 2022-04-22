@@ -21,6 +21,7 @@ using Cvl.ApplicationServer.Core.Users.Services;
 using Cvl.ApplicationServer.Processes;
 using Cvl.ApplicationServer.Processes.LongRunningProcesses;
 using Cvl.ApplicationServer.Processes.LongRunningProcesses.Services;
+using Cvl.ApplicationServer.Processes.LongRunningProcesses.Workers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Polenter.Serialization;
 using Polenter.Serialization.Core;
@@ -53,8 +54,9 @@ hostBuilder.ConfigureServices(services =>
     services.UseRegisterApplicationServer(ApplicationServerContextConnectionString);
     services.AddTransient<StepBaseTestProcess>();
     services.AddTransient<LongRunningTestProcess>();
-
+    services.AddHostedService<LongRunningProcessBackgroundWorker>();
 });
+
 
 
 //logging

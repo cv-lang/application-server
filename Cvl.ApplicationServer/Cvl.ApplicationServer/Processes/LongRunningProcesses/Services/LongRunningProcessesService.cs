@@ -7,6 +7,7 @@ using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
 using Cvl.ApplicationServer.Core.Processes.Commands;
 using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.Queries;
+using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.ApplicationServer.Core.Serializers.Interfaces;
 using Cvl.ApplicationServer.Processes;
 using Cvl.ApplicationServer.Processes.Interfaces;
@@ -91,6 +92,16 @@ namespace Cvl.ApplicationServer.Core.Processes.LongRunningProcesses
         {
             var xml = _fullSerializer.Serialize(externalData);
             await _processInstanceContainerCommands.SetExternalDataAsync(processNumber, xml);                
+        }
+
+        public async Task<View?> GetProcessViewAsync(string processNumber)
+        {
+            return (View?)await GetProcessExternalDataAsync(processNumber);
+        }
+
+        public async Task SetProcessViewDataAsync(string processNumber, ViewResponse? viewResponse)
+        {
+            await SetProcessExternalDataAsync(processNumber, viewResponse);
         }
 
         internal async Task SaveProcessAsync(IProcess process)

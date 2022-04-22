@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cvl.ApplicationServer.Core.ApplicationServers.Internals;
 using Cvl.ApplicationServer.Core.Processes.Interfaces;
 using Cvl.ApplicationServer.Core.Processes.LongRunningProcesses;
+using Cvl.ApplicationServer.Core.Processes.UI;
 using Cvl.ApplicationServer.Processes.Interfaces;
 
 namespace Cvl.ApplicationServer.Processes.LongRunningProcesses
@@ -35,7 +36,7 @@ namespace Cvl.ApplicationServer.Processes.LongRunningProcesses
         Task<LongRunningProcessResult> GetProcessStatusAsync(string processNumber);
 
         /// <summary>
-        /// Get external data. If process is in WaitingForExternalData or WaitingForUserInterface state, this method return data from process
+        /// Get external data. If process is in WaitingForExternalData state, this method return data from process
         /// (for external users/uses)
         /// </summary>
         /// <param name="processNumber"></param>
@@ -48,6 +49,18 @@ namespace Cvl.ApplicationServer.Processes.LongRunningProcesses
         /// <param name="processNumber"></param>
         /// <param name="externalData"></param>
         /// <returns></returns>
-        Task SetProcessExternalDataAsync(string processNumber, object? externalData);        
+        Task SetProcessExternalDataAsync(string processNumber, object? externalData);
+
+        /// <summary>
+        /// Get current process view. If process is in WaitingForUserInterface stte, return view data
+        /// </summary>
+        /// <param name="processNumber"></param>
+        /// <returns></returns>
+        Task<View?> GetProcessViewAsync(string processNumber);
+        /// <summary>
+        /// Set view response to process (send data from outsite)
+        /// </summary>
+        /// <returns></returns>
+        Task SetProcessViewDataAsync(string processNumber, ViewResponse? viewResponse);
     }
 }

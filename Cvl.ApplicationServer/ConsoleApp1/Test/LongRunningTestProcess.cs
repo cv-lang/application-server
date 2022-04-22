@@ -48,7 +48,7 @@ namespace Cvl.ApplicationServer.Test
             _processManager.SetStep("Step 2", "Step 2 descrption", LongRunningTestProcessStep.Registration);
 
             Step2("1234");
-            var dataFromOutside = _processManager.WaitForExternalData(new View("test"));
+            var dataFromOutside = _processManager.ShowView(new View("test"));
             CheckResult(dataFromOutside);
 
             _processManager.WaitForExternalData($"Test data from extrenalSource " +dataFromOutside);
