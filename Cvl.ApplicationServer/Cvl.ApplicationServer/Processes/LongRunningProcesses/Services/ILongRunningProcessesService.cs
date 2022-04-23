@@ -52,6 +52,6 @@ namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Services
         /// Set view response to process (send data from outsite)
         /// </summary>
         /// <returns></returns>
-        Task SetProcessViewDataAsync(string processNumber, ViewResponse? viewResponse);
+        Task SetProcessViewDataAsync(string processNumber, object? viewResponse);
     }
 }

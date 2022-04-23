@@ -92,7 +92,7 @@ namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Services
             return (View?)await GetProcessExternalDataAsync(processNumber);
         }
 
-        public async Task SetProcessViewDataAsync(string processNumber, ViewResponse? viewResponse)
+        public async Task SetProcessViewDataAsync(string processNumber, object? viewResponse)
         {
             await SetProcessExternalDataAsync(processNumber, viewResponse);
         }
