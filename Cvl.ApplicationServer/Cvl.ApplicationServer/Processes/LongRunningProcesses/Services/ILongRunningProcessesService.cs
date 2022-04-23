@@ -15,7 +15,7 @@ namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Services
         /// <typeparam name="T"></typeparam>
         /// <param name="inputParameter"></param>
         /// <returns></returns>
-        Task<LongRunningProcessResult> StartLongRunningProcessAsync<T>(object inputParameter) where T : ILongRunningProcess;
+        Task<LongRunningProcessResult> StartLongRunningProcessAsync<T>(object? inputParameter) where T : ILongRunningProcess;
 
         /// <summary>
         /// Get a information about process state

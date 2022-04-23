@@ -30,9 +30,9 @@ namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Managers
         }
 
         [Interpret]
-        public ViewResponse ShowView(View view)
+        public object ShowView(View view)
         {
-            var response = (ViewResponse)VirtualMachine.VirtualMachine.Hibernate(
+            var response = VirtualMachine.VirtualMachine.Hibernate(
                 ProcessHibernationType.WaitingForUserInterface, view)!;
             return response;
         }
