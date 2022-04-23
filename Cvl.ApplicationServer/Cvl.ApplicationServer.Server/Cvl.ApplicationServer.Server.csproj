@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageIcon>Icons\cvlogo.png</PackageIcon>
-    <Version>6.2.0</Version>
+    <Version>6.2.2</Version>
     <PackageProjectUrl>https://github.com/cv-lang/application-server</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>

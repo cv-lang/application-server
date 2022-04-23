@@ -22,6 +22,7 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Controllers
             _processesControllerService = processesControllerService;
         }
 
+        [HttpPost]
         [Route("Processes_Read")]
         public DataSourceResult Processes_Read([DataSourceRequest] DataSourceRequest request)
         {
@@ -29,6 +30,7 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Controllers
             return objects.ToDataSourceResult(request, x => new ProcessListItemDto(x));
         }
 
+        [HttpPost]
         [Route("ProcessActivities_Read")]
         public DataSourceResult ProcessActivities_Read([DataSourceRequest] DataSourceRequest request, long processId)
         {
@@ -36,6 +38,7 @@ namespace Cvl.ApplicationServer.Server.Areas.ApplicationServer.Controllers
             return objects.ToDataSourceResult(request, x=> new ProcessActivityDto(x));
         }
 
+        [HttpPost]
         [Route("ProcessSteps_Read")]
         public DataSourceResult ProcessSteps_Read([DataSourceRequest] DataSourceRequest request, long processId)
         {
