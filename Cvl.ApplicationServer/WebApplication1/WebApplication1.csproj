@@ -7,12 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Cvl.ApplicationServer.Server" Version="6.2.0" />
     <PackageReference Include="Telerik.UI.for.AspNet.Core" Version="2021.3.1109" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Cvl.ApplicationServer.Server\Cvl.ApplicationServer.Server.csproj" />
-    <ProjectReference Include="..\Cvl.ApplicationServer\Cvl.ApplicationServer.csproj" />
   </ItemGroup>
 
 </Project>
