@@ -43,7 +43,7 @@ hostBuilder.ConfigureAppConfiguration((hostingContext, configuration) =>
 
         IConfigurationRoot configurationRoot = configuration.Build();
 
-        ApplicationServerContextConnectionString = configurationRoot.GetConnectionString("ApplicationServerContext");
+        ApplicationServerContextConnectionString = configurationRoot.GetConnectionString("ApplicationServerDbContext");
 
     });
 

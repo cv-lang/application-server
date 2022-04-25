@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json");
 
-var applicationServerContext = builder.Configuration.GetConnectionString("ApplicationServerContext");
+var applicationServerContext = builder.Configuration.GetConnectionString("ApplicationServerDbContext");
 
 // Add services to the container.
 builder.Services.UseApplicationServer(applicationServerContext);
