@@ -3,6 +3,7 @@ using System;
 using Cvl.ApplicationServer.Core.DataLayer.Model.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Cvl.ApplicationServer.Migrations
 {
     [DbContext(typeof(ApplicationServerDbContext))]
-    partial class ApplicationServerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220426205809_processResult")]
+    partial class processResult
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

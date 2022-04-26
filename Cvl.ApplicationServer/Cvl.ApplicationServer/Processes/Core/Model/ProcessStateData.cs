@@ -22,5 +22,7 @@ namespace Cvl.ApplicationServer.Processes.Core.Model
         /// to deserialize an object of type 'object'
         /// </summary>
         public string ProcessStateFullSerialization { get; set; }
+
+        public string? ProcessResultFullSerialization { get; set; }
     }
 }

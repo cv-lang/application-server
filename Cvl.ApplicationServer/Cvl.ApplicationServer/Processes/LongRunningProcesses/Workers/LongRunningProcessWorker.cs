@@ -143,6 +143,17 @@ namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Workers
                         ret.State = LongRunningProcessState.WaitingForUserInterface;
                         ret.Result = vmParams[1];
                         return ret;
+                    case ProcessHibernationType.Executed:
+                        processData.ProcessInstanceContainer.ThreadData.MainThreadState = ThreadState.Executed;
+                        processData.ProcessInstanceContainer.StatusName = vmParams[1].ToString();
+                        xml = _fullSerializer.Serialize(vmParams[2]); //result
+                        processData.ProcessInstanceContainer
+                            .ProcessInstanceStateData.ProcessResultFullSerialization = xml;
+                        xml = _fullSerializer.Serialize(vmParams[3]);
+                        processData.ProcessInstanceContainer
+                            .ProcessExternalData.ProcessExternalDataFullSerialization = xml;//view
+                        ret.State = LongRunningProcessState.Executed;
+                        return ret;
                 }
             }
 

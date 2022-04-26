@@ -7,7 +7,9 @@ namespace Cvl.ApplicationServer.Processes.Core.Base
     {
         DelayOfProcessExecution,
         WaitingForExternalData,
-        WaitingForUserInterface
+        WaitingForUserInterface,
+        Error,
+        Executed
     }
 
     public abstract class BaseLongRunningProcess : ILongRunningProcess

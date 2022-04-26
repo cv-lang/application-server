@@ -15,5 +15,8 @@ namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Managers
         object? WaitForExternalData(object? data = null);
         [Interpret]
         object ShowView(View view);
+
+        [Interpret]
+        void EndProcess(string status, object? resultData = null, View? endView = null);
     }
 }

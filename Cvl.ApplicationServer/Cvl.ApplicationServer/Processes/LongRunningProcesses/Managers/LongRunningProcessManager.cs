@@ -36,5 +36,12 @@ namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Managers
                 ProcessHibernationType.WaitingForUserInterface, view)!;
             return response;
         }
+
+        [Interpret]
+        public void EndProcess(string status, object? resultData = null,  View? endView = null)
+        {
+            VirtualMachine.VirtualMachine
+                .Hibernate(ProcessHibernationType.Executed, status, resultData, endView);
+        }
     }
 }
