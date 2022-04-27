@@ -30,15 +30,22 @@ namespace Cvl.ApplicationServer.Processes.LongRunningProcesses.Workers
 
             foreach (var processNumber in processesNumbers)
             {
-                var processLongRunningProcess = await _processQueries.LoadProcessAsync<ILongRunningProcess>(processNumber);
-                
-                var externalData = BeforeRunProcess(processLongRunningProcess);
-                var processData = (LongRunningProcessData)processLongRunningProcess.ProcessData;
-                var result = processData.VirtualMachine.Resume<object>(externalData);
-                AfterRunProcess(processLongRunningProcess, result);
-                
-                //zapisuje stan procesu
-                await _processCommands.SaveProcessStateAsync(processLongRunningProcess);
+                try
+                {
+                    var processLongRunningProcess = await _processQueries.LoadProcessAsync<ILongRunningProcess>(processNumber);
+
+                    var externalData = BeforeRunProcess(processLongRunningProcess);
+                    var processData = (LongRunningProcessData)processLongRunningProcess.ProcessData;
+                    var result = processData.VirtualMachine.Resume<object>(externalData);
+                    AfterRunProcess(processLongRunningProcess, result);
+
+                    //zapisuje stan procesu
+                    await _processCommands.SaveProcessStateAsync(processLongRunningProcess);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
 
             return TimeSpan.FromSeconds(30);
