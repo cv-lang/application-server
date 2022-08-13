@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <AssemblyVersion>6.0.0</AssemblyVersion>
     <FileVersion>6.0.0</FileVersion>
-    <Version>6.0.2</Version>
+    <Version>6.3.0</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
@@ -26,13 +26,6 @@
     <PackageReference Include="Mono.Reflection" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="SharpSerializer" Version="3.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Core\ApplicationServers\Interfaces\" />
-    <Folder Include="Core\Files\Commands\" />
-    <Folder Include="Migrations\" />
-    <Folder Include="Core\Processes\Nowy folder\" />
   </ItemGroup>
 
   <ItemGroup>
